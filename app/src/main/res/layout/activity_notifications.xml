@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:shimmer="http://schemas.android.com/apk/res-auto"
+    tools:context=".Activities.NotificationsActivity">
+
+
+    <include
+        android:id="@+id/relative_internet"
+        layout="@layout/no_internet"/>
+
+    <LinearLayout
+        android:id="@+id/relative_ui"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:id="@+id/appbarlayout"
+            android:elevation="4dp"
+            android:background="@color/colorPrimary"
+            android:layout_width="match_parent"
+            android:minHeight="?attr/actionBarSize"
+            android:layout_height="wrap_content">
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                    <ImageView
+                        android:id="@+id/img_back"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_keyboard_arrow_left_black_24dp" />
+
+                    <TextView
+                        android:id="@+id/emp_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:gravity="center"
+                        style="@style/light_font"
+                        android:padding="5dp"
+                        android:text="@string/notifications"
+                        android:textColor="@color/white" />
+
+                </RelativeLayout>
+            </androidx.appcompat.widget.Toolbar>
+        </RelativeLayout>
+
+
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/shimmer_view_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            shimmer:duration="800">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <include layout="@layout/notifications_list_items_place_holder" />
+                <include layout="@layout/notifications_list_items_place_holder" />
+                <include layout="@layout/notifications_list_items_place_holder" />
+                <include layout="@layout/notifications_list_items_place_holder" />
+                <include layout="@layout/notifications_list_items_place_holder" />
+                <include layout="@layout/notifications_list_items_place_holder" />
+                <include layout="@layout/notifications_list_items_place_holder" />
+                <include layout="@layout/notifications_list_items_place_holder" />
+                <include layout="@layout/notifications_list_items_place_holder" />
+                <include layout="@layout/notifications_list_items_place_holder" /> <include layout="@layout/notifications_list_items_place_holder" />
+                <include layout="@layout/notifications_list_items_place_holder" />
+                <include layout="@layout/notifications_list_items_place_holder" />
+                <include layout="@layout/notifications_list_items_place_holder" /> <include layout="@layout/notifications_list_items_place_holder" />
+                <include layout="@layout/notifications_list_items_place_holder" />
+                <include layout="@layout/notifications_list_items_place_holder" />
+                <include layout="@layout/notifications_list_items_place_holder" />
+            </LinearLayout>
+        </com.facebook.shimmer.ShimmerFrameLayout>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+
+        <RelativeLayout
+            android:visibility="gone"
+            android:id="@+id/relative_no_data"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ImageView
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:src="@drawable/relax"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"/>
+        </RelativeLayout>
+    </LinearLayout>
+
+
+</RelativeLayout>

@@ -1,0 +1,6 @@
+<resources>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="bold_date">12sp</dimen>
+    <dimen name="time_text">9sp</dimen>
+    <dimen name="size_of_value_ten">10dp</dimen>
+</resources>

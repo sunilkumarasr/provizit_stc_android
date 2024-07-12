@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginRight="15dp"
+                    app:cardCornerRadius="5dp"
+                    app:cardElevation="10dp">
+                    <RelativeLayout
+                        android:id="@+id/relative_search"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp">
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/img_search"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_centerVertical="true"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginRight="15dp"
+                            android:src="@drawable/ic_baseline_search_24"/>
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edit_search"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_toStartOf="@+id/img_search"
+                            android:layout_marginStart="10dp"
+                            android:hint="Search...."
+                            android:textColor="@color/black"
+                            style="@style/medium_font"
+                            android:background="@null"/>
+                    </RelativeLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="15dp" />
+
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/txt_no_list"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No List"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="25sp"
+                    android:padding="25dp"
+                    android:layout_gravity="center"/>
+            </LinearLayout>
+
+        </ScrollView>
+    </RelativeLayout>
+
+</layout>

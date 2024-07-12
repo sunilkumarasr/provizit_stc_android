@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="5dp">
+    <TextView
+        android:id="@+id/label"
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="5dp"
+        android:drawablePadding="5dp"
+        style="@style/regular_font"
+        android:padding="5dp"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/edittext_size" />
+    <TextView
+        android:textColor="@color/colorPrimary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="5dp"
+        android:drawablePadding="5dp"
+        style="@style/regular_font"
+        android:padding="5dp"
+        android:text=":"
+        android:textSize="@dimen/edittext_size" />
+    <TextView
+        android:id="@+id/value"
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="5dp"
+        android:drawablePadding="5dp"
+        style="@style/regular_font"
+        android:padding="5dp"
+        android:textSize="@dimen/edittext_size" />
+
+
+</LinearLayout>

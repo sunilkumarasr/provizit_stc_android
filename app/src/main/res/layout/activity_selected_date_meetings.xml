@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="#ffffff"
+    android:layout_height="match_parent"
+    xmlns:shimmer="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/relative_internet"
+        layout="@layout/no_internet"/>
+
+    <RelativeLayout
+        android:id="@+id/relative_ui"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:id="@+id/appbarlayout"
+            android:elevation="4dp"
+            android:background="@color/colorPrimary"
+            android:layout_width="match_parent"
+            android:minHeight="?attr/actionBarSize"
+            android:layout_height="wrap_content">
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:titleTextColor="#ffffff">
+            </androidx.appcompat.widget.Toolbar>
+        </RelativeLayout>
+        <LinearLayout
+            android:layout_below="@+id/appbarlayout"
+            android:layout_width="match_parent"
+            android:padding="5dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/month"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    style="@style/regular_font"
+                    android:layout_margin="10dp"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+            <com.provizit.compactcalendarview.CompactCalendarView
+                android:id="@+id/compactcalendar_view"
+                android:layout_width="match_parent"
+                android:layout_height="210dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                app:compactCalendarBackgroundColor="#fff"
+                app:compactCalendarCurrentDayBackgroundColor="@color/colorPrimary"
+                app:compactCalendarCurrentDayIndicatorStyle="no_fill_large_indicator"
+                app:compactCalendarCurrentDayTextColor="@color/colorPrimary"
+                app:compactCalendarCurrentSelectedDayBackgroundColor="@color/colorPrimary"
+                app:compactCalendarCurrentSelectedDayIndicatorStyle="fill_large_indicator"
+                app:compactCalendarCurrentSelectedDayTextColor="#ffffff"
+                app:compactCalendarEventIndicatorStyle="small_indicator"
+                app:compactCalendarTargetHeight="240dp"
+                app:compactCalendarTextColor="#000000"
+                app:compactCalendarTextSize="15sp"
+                />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/empty"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:orientation="vertical">
+                    <ImageView
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        android:src="@drawable/relax"
+                        android:layout_gravity="center"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/no_meetings"
+                        style="@style/bold_font"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/text_size"/>
+                </LinearLayout>
+
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    android:id="@+id/shimmer_view_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    shimmer:duration="800">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <include layout="@layout/notifications_list_items_place_holder" />
+                        <include layout="@layout/notifications_list_items_place_holder" />
+                        <include layout="@layout/notifications_list_items_place_holder" />
+                        <include layout="@layout/notifications_list_items_place_holder" />
+                        <include layout="@layout/notifications_list_items_place_holder" />
+                        <include layout="@layout/notifications_list_items_place_holder" />
+                        <include layout="@layout/notifications_list_items_place_holder" />
+                        <include layout="@layout/notifications_list_items_place_holder" />
+                        <include layout="@layout/notifications_list_items_place_holder" />
+                        <include layout="@layout/notifications_list_items_place_holder" /> <include layout="@layout/notifications_list_items_place_holder" />
+                        <include layout="@layout/notifications_list_items_place_holder" />
+                        <include layout="@layout/notifications_list_items_place_holder" />
+                        <include layout="@layout/notifications_list_items_place_holder" /> <include layout="@layout/notifications_list_items_place_holder" />
+                        <include layout="@layout/notifications_list_items_place_holder" />
+                        <include layout="@layout/notifications_list_items_place_holder" />
+                        <include layout="@layout/notifications_list_items_place_holder" />
+                    </LinearLayout>
+                </com.facebook.shimmer.ShimmerFrameLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </RelativeLayout>
+
+
+
+
+        </LinearLayout>
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="16dp"
+            android:outlineAmbientShadowColor="@color/white"
+            app:borderWidth="5dp"
+            android:src="@drawable/ic_baseline_add_24"
+            android:tint="@color/white"
+            android:contentDescription="TODO" />
+    </RelativeLayout>
+
+
+
+</RelativeLayout>

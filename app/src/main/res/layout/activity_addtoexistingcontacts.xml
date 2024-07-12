@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".Activities.AddtoexistingcontactsActivity">
+
+        <include
+            android:id="@+id/relative_internet"
+            layout="@layout/no_internet"/>
+
+
+        <RelativeLayout
+            android:id="@+id/relative_ui"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <RelativeLayout
+                android:id="@+id/appbarlayout"
+                android:elevation="4dp"
+                android:background="@color/colorPrimary"
+                android:layout_width="match_parent"
+                android:minHeight="?attr/actionBarSize"
+                android:layout_height="wrap_content">
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" >
+
+
+                        <ImageView
+                            android:id="@+id/img_back"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/ic_keyboard_arrow_left_black_24dp" />
+
+                        <TextView
+                            android:id="@+id/emp_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_toEndOf="@+id/img_back"
+                            android:background="?attr/selectableItemBackground"
+                            style="@style/light_font"
+                            android:padding="5dp"
+                            android:text="@string/Add_to_existing_contacts"
+                            android:textColor="@color/white" />
+
+                    </RelativeLayout>
+                </androidx.appcompat.widget.Toolbar>
+            </RelativeLayout>
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/appbarlayout">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cardview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginRight="15dp"
+                        app:cardCornerRadius="5dp"
+                        app:cardElevation="10dp">
+                        <RelativeLayout
+                            android:id="@+id/relative_search"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp">
+                            <ImageView
+                                android:id="@+id/img_search"
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_centerVertical="true"
+                                android:layout_alignParentEnd="true"
+                                android:layout_marginLeft="15dp"
+                                android:layout_marginRight="15dp"
+                                android:src="@drawable/ic_baseline_search_24"/>
+                            <EditText
+                                android:id="@+id/edit_search"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_toStartOf="@+id/img_search"
+                                android:layout_marginStart="10dp"
+                                android:hint="Search...."
+                                android:textColor="@color/black"
+                                style="@style/medium_font"
+                                android:background="@null"/>
+                        </RelativeLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginBottom="10dp"/>
+                </LinearLayout>
+
+            </ScrollView>
+        </RelativeLayout>
+
+
+
+    </RelativeLayout>
+</layout>

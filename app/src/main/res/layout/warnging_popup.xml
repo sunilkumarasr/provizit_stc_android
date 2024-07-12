@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="300dp"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="20dp"
+    app:cardElevation="5dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="13dp"
+            android:layout_gravity="center"
+            android:text="@string/warning"
+            android:textColor="@color/colorPrimary"
+            android:textSize="15dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            style="@style/bold_font"/>
+
+
+        <TextView
+            android:id="@+id/title_note"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="13dp"
+            android:text="@string/add_at_least_one_invitee_to_proceed"
+            android:textColor="@color/colorPrimary"
+            android:textSize="12dp"
+            style="@style/medium_font"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/hash"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/txt_yes"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/Yes"
+                android:textColor="@color/m_color"
+                android:textSize="13dp"
+                style="@style/bold_font"
+                android:gravity="center"/>
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/hash"/>
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

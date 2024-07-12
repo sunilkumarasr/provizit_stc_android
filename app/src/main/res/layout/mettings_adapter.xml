@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="330dp"
+      android:gravity="center"
+    >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="10dp"
+            android:id="@+id/relative"
+            android:layout_height="wrap_content">
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                app:cardBackgroundColor="#fff"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="60dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="20dp"
+                android:layout_height="wrap_content">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="220dp">
+                    <ImageView
+                        android:id="@+id/cancel_stamp"
+                        android:visibility="gone"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_cancellation"
+                        android:alpha="0.4"
+                        android:padding="50dp"/>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="220dp">
+
+                        <View
+                            android:id="@+id/change_color"
+                            android:layout_width="2dp"
+                            android:layout_height="match_parent"
+                            android:background="#e08079" />
+
+                        <TextView
+                            android:id="@+id/visitor_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="65dp"
+                            android:text="Ramesh Bommala"
+                            android:textColor="#3F51B5"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+
+                            android:id="@+id/visitor_comapany"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/visitor_name"
+
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="10dp"
+
+                            android:drawablePadding="5dp"
+                            android:text="Sample Sample"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:id="@+id/visitor_email"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/visitor_comapany"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="10dp"
+
+
+                            android:drawablePadding="5dp"
+                            android:text="Sample Sample"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:id="@+id/subject"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/visitor_email"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="15dp"
+
+                            android:drawablePadding="5dp"
+                            android:text="Sample Sample"
+                            android:textSize="15sp" />
+
+                    </RelativeLayout>
+
+                </RelativeLayout>
+
+
+            </androidx.cardview.widget.CardView>
+
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:layout_marginTop="7dp"
+                android:layout_height="wrap_content">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+
+                    app:civ_border_color="#ffffff"
+                    app:civ_border_width="10dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Today 3:00 AM"
+android:id="@+id/s_time"
+                    android:textSize="14sp"
+                    android:layout_height="wrap_content"
+                    />
+
+
+            </LinearLayout>
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="100dp"
+                app:civ_border_width="5dp"
+                android:layout_weight="1"
+                android:id="@+id/pic"
+                app:civ_border_color="#F2F3F7"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/ic_user"
+                android:layout_height="100dp"/>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:layout_marginTop="7dp"
+                android:layout_height="wrap_content">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+
+                    app:civ_border_color="#ffffff"
+                    app:civ_border_width="10dp" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center"
+                    android:textAlignment="center"
+                    android:text="Today 3:00 AM"
+android:id="@+id/duration"
+                    android:textSize="14sp"
+                    android:layout_height="wrap_content"
+                    />
+
+
+            </LinearLayout>
+        </LinearLayout>
+
+     </RelativeLayout>
+
+
+</LinearLayout>

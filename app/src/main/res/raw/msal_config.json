@@ -1,0 +1,15 @@
+{
+  "client_id" : "3e4a6142-7057-4e08-a278-114688ab51ef",
+  "redirect_uri" : "msauth://com.provizit.ksa/UxP3IRhPTbETz7%2FC8mdQfs5RtS4%3D",
+  "broker_redirect_uri_registered": true,
+  "account_mode": "SINGLE",
+  "authorities" : [
+    {
+      "type": "AAD",
+      "audience": {
+        "type": "AzureADandPersonalMicrosoftAccount"
+      },
+      "default": true
+    }
+  ]
+}
