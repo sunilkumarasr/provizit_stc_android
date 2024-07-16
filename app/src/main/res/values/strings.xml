@@ -114,6 +114,7 @@
     <string name="are_you_sure_resend_this_meeting">Are you sure resend this meeting?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="outlook">Outlook</string>
 
     <!--    others-->
     <string name="Version">Version</string>
@@ -126,6 +127,7 @@
     <string name="days">days</string>
     <string name="Weeks">Weeks</string>
     <string name="Months">Months</string>
+
 
     <!--    decline-->
     <string name="are_you_sure_do_you_want_to_decline_the_request">Are you sure do you want to decline the request?</string>

@@ -116,6 +116,7 @@
     <string name="are_you_sure_resend_this_meeting">Are you sure resend this meeting?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="outlook">Outlook</string>
 
     <!--    others-->
     <string name="Version">Version</string>

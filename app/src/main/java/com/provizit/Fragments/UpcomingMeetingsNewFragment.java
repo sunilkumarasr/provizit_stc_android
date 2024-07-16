@@ -118,6 +118,7 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
     private ArrayList<String> calendar1 = new ArrayList<>();
     ArrayList<CompanyData> meetings;
     ArrayList<CompanyData> meetings1;
+    ArrayList<CompanyData> outlookmeetings;
     int defaultSelected;
     private SimpleDateFormat titledate = new SimpleDateFormat("EE, dd MMM yyyy");
     SimpleDateFormat simple1 = new SimpleDateFormat("dd MMM");
@@ -367,6 +368,7 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
         toDayMeetings = new ArrayList<>();
         meetings = new ArrayList<>();
         meetings1 = new ArrayList<>();
+        outlookmeetings = new ArrayList<>();
         today_count_text = view.findViewById(R.id.today_count_text);
         today_emptycard = view.findViewById(R.id.today_emptycard);
         recyclerview_today = view.findViewById(R.id.recyclerview_today);
@@ -901,12 +903,15 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
                         Log.e("ppointments_getItems3" , model.getItems()+"");
                     }
                 }
-                getmeetingapprovals(s_time, e_time);
+
                 String AdOnline = Preferences.loadStringValue(getActivity(), Preferences.AdOnline, "");
 
                 if (AdOnline.equalsIgnoreCase("true")){
                     getoutlookappointments(s_time, e_time);
+                }else {
+                    getmeetingapprovals(s_time, e_time);
                 }
+
 
             }
 
@@ -926,19 +931,21 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
             public void onResponse(Call<Model1> call, Response<Model1> response) {
                 Model1 model = response.body();
                 Log.e("meetings_model_",model+"");
+                Log.e("meetings_size_1",meetings.size()+"");
                 if (model != null) {
                     Integer statuscode = model.getResult();
                     Integer successcode = 200, failurecode = 401, not_verified = 404;
                     Log.e("meetings_statuscode_",statuscode+"");
-                    if (statuscode.equals(failurecode)) {
-                    } else if (statuscode.equals(not_verified)) {
-                    } else if (statuscode.equals(successcode)) {
+                    if (statuscode.equals(successcode)) {
                         meetings.addAll(model.getItems());
-                        Log.e("meetings_size_",meetings.size()+"");
+                        Log.e("meetings_size_2",meetings.size()+"");
+                        getmeetingapprovals(s_time, e_time);
+                    }else {
+                        getmeetingapprovals(s_time, e_time);
                     }
                 }
 
-                //getmeetingapprovals(s_time, e_time);
+
             }
             @Override
             public void onFailure(Call<Model1> call,  Throwable t) {
@@ -962,6 +969,8 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
                     if (statuscode.equals(failurecode)) {
                     } else if (statuscode.equals(not_verified)) {
                     } else if (statuscode.equals(successcode)) {
+
+                        Log.e("outlookmeetings_size_3",outlookmeetings.size()+"");
 
                         meetings1 = model.getItems();
 
@@ -1036,7 +1045,8 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
                         }
 
 
-                        Log.e("meetings1_size_",meetings1.size()+"");
+
+                        Log.e("outlookmeetings_size_2",meetings1.size()+"");
                         //upcoming
                         upComingMeetingAdapter = new UpComingMeetingAdapter(getActivity(), meetings1);
                         LinearLayoutManager manager = new LinearLayoutManager(getActivity());
@@ -1535,136 +1545,252 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
         public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
             ViewHolderUpcoming Holder = (ViewHolderUpcoming) holder;
 
-
             Log.e(TAG, "onBindViewHolder:getSupertype " + meetings1s.get(position).getName());
-
 
             if (meetings1s.get(position).getSupertype().equalsIgnoreCase("exchange")) {
                 Log.e(TAG, "onBindViewHolder:super_123: " + meetings1s.get(position).getSupertype());
-            }
+                Holder.cardOutlook.setVisibility(VISIBLE);
+                Holder.cardOther.setVisibility(GONE);
 
-            if (empData.getEmp_id().equalsIgnoreCase(meetings1s.get(position).getEmp_id())) {
-            } else {
-                for (int i = 0; i < meetings1s.get(position).getInvites().size(); i++) {
-                    if (!meetings1s.get(position).getInvites().get(i).getView_status()) {
-                        Holder.host.setTypeface(null, Typeface.BOLD);
-                        Holder.subject.setTypeface(null, Typeface.BOLD);
-                        Holder.viziter.setTypeface(null, Typeface.BOLD);
-                    } else {
-                    }
+//                if (empData.getEmp_id().equalsIgnoreCase(meetings1s.get(position).getEmp_id())) {
+//                } else {
+//                    for (int i = 0; i < meetings1s.get(position).getInvites().size(); i++) {
+//                        if (!meetings1s.get(position).getInvites().get(i).getView_status()) {
+//                            Holder.host.setTypeface(null, Typeface.BOLD);
+//                            Holder.subject.setTypeface(null, Typeface.BOLD);
+//                            Holder.viziter.setTypeface(null, Typeface.BOLD);
+//                        } else {
+//                        }
+//                    }
+//                }
+
+//                if (meetings1s.get(position).getRecurrence()) {
+//                    Holder.img_reccurence.setVisibility(VISIBLE);
+//                }
+
+                String s_time1 = Conversions.millitotime((meetings1s.get(position).getStart() + Conversions.timezone()) * 1000, false);
+                String e_time = Conversions.millitotime((meetings1s.get(position).getEnd() + 1 + Conversions.timezone()) * 1000, false);
+
+                DateFormat simple = new SimpleDateFormat("dd MMM yyyy");
+                if (sharedPreferences1.getString("language", "").equals("ar")) {
+                    Locale locale = new Locale("ar");
+                    simple = new SimpleDateFormat("dd MMM yyyy", locale);
                 }
-            }
 
-            if (meetings1s.get(position).getV_id() == null || meetings1s.get(position).getV_id().equalsIgnoreCase("")) {
-                Holder.title_type.setText(R.string.meeting);
-            } else {
-                Holder.title_type.setText(R.string.appointment_p);
-            }
+                Date result = new Date((meetings1s.get(position).getStart() + Conversions.timezone()) * 1000);
+                String time = simple.format(result) + "";
 
-            if (meetings1s.get(position).getRecurrence()) {
-                Holder.img_reccurence.setVisibility(VISIBLE);
-            }
+                //meeting time
+                Holder.outlookMeetingTime.setText(time + " " + s_time1 + " To " + e_time);
 
-            Holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(context, MeetingDescriptionNewActivity.class);
-                    intent.putExtra("m_id", meetings1s.get(position).get_id().get$oid());
-                    startActivityForResult(intent, REQUEST_CODE);
-                    getActivity().overridePendingTransition(R.anim.enter, R.anim.exit);
-                }
-            });
+                //create date and time
+                long longtime = (Long.parseLong(String.valueOf(Long.parseLong(meetings1s.get(position).getCreated_time().get$numberLong()) * 1000)));
+                Holder.outlookCreateTime.setText(ViewController.Create_date_month_year_hr_mm_am_pm(longtime) + "");
 
-            String s_time1 = Conversions.millitotime((meetings1s.get(position).getStart() + Conversions.timezone()) * 1000, false);
-            String e_time = Conversions.millitotime((meetings1s.get(position).getEnd() + 1 + Conversions.timezone()) * 1000, false);
-            Holder.s_time.setText(s_time1);
+                Holder.txtName.setText(meetings1s.get(position).getName());
 
-            DateFormat simple = new SimpleDateFormat("dd MMM yyyy");
-            if (sharedPreferences1.getString("language", "").equals("ar")) {
-                Locale locale = new Locale("ar");
-                simple = new SimpleDateFormat("dd MMM yyyy", locale);
-            }
+//                if (meetings1s.get(position).getEmployee().getPic() != null && meetings1s.get(position).getEmployee().getPic().size() != 0) {
+//                    Glide.with(getActivity()).load(DataManger.IMAGE_URL + "/uploads/" + sharedPreferences1.getString("company_id", null) + "/" + meetings1s.get(position).getEmployee().getPic().get(meetings1s.get(position).getEmployee().getPic().size() - 1))
+//                            .into(Holder.pic);
+//                }
 
-            Date result = new Date((meetings1s.get(position).getStart() + Conversions.timezone()) * 1000);
-            String time = simple.format(result) + "";
-            Holder.date.setText(time);
+                Holder.outlookSubject.setText(Conversions.Capitalize(meetings1s.get(position).getHost()));
+
+//                if (empData.getEmp_id().equals(meetings1s.get(position).getEmp_id())) {
+//                    Holder.host.setText(" Me");
+//                    if (meetings1s.get(position).getInvites().get(0).getPic().size() != 0) {
+//                        System.out.println(DataManger.IMAGE_URL + "/uploads/" + sharedPreferences1.getString("company_id", null) + "/" + meetings1s.get(position).getInvites().get(0).getPic().get(meetings1s.get(position).getInvites().get(0).getPic().size() - 1));
+//                        Glide.with(getActivity()).load(DataManger.IMAGE_URL + "/uploads/" + sharedPreferences1.getString("company_id", null) + "/" + meetings1s.get(position).getInvites().get(0).getPic().get(meetings1s.get(position).getInvites().get(0).getPic().size() - 1))
+//                                .into(Holder.pic);
+//                    }
+//                } else {
+//                    if (meetings1s.get(position).getEmployee().getPics().size() != 0) {
+//                        Glide.with(getActivity()).load(DataManger.IMAGE_URL + "/uploads/" + sharedPreferences1.getString("company_id", null) + "/" + meetings1s.get(position).getEmployee().getPics().get(meetings1s.get(position).getEmployee().getPics().size() - 1))
+//                                .into(Holder.pic);
+//                    }
+//                }
 
 
-            //meeting time
-            Holder.meeting_time.setText(time + " " + s_time1 + " To " + e_time);
+//                if (meetings1s.get(position).getStatus() == 1) {
+//                    // Cancel
+//                    Holder.mStatus.setVisibility(View.VISIBLE);
+//                    Holder.mStatusColor.setVisibility(View.VISIBLE);
+//                    Holder.mStatus.setText(R.string.Cancelled);
+//                    GradientDrawable drawable = (GradientDrawable) Holder.mStatusColor.getBackground();
+//                    drawable.setStroke(3, getResources().getColor(R.color.Cancel)); // set stroke width and stroke color
+//                    Holder.mStatus.setBackgroundColor(getResources().getColor(R.color.Cancel));
+//                } else {
+//                    for (int i = 0; i < meetings1s.get(position).getInvites().size(); i++) {
+//
+//                        GradientDrawable drawable = (GradientDrawable) Holder.mStatusColor.getBackground();
+//                        if (empData.getEmail().equals(meetings1s.get(position).getInvites().get(i).getEmail())) {
+//                            // Pending
+//                            Holder.mStatus.setVisibility(View.VISIBLE);
+//                            Holder.mStatusColor.setVisibility(View.VISIBLE);
+//                            Holder.mStatus.setBackgroundColor(getResources().getColor(R.color.Pending));
+//                            drawable.setStroke(3, getResources().getColor(R.color.Pending)); // set stroke width and stroke color
+//                            Holder.mStatus.setText(R.string.pending);
+//                            if (meetings1s.get(position).getInvites().get(i).getStatus() == 3) {
+//                                //Accepted
+//                                drawable.setStroke(3, getResources().getColor(R.color.Accept)); // set stroke width and stroke color
+//                                Holder.mStatus.setBackgroundColor(getResources().getColor(R.color.Accept));
+//                                Holder.mStatus.setText(R.string.accepted);
+//
+//                            } else if (meetings1s.get(position).getInvites().get(i).getStatus() == 1) {
+//                                //declined
+//                                drawable.setStroke(3, getResources().getColor(R.color.Decline)); // set stroke width and stroke color
+//                                Holder.mStatus.setBackgroundColor(getResources().getColor(R.color.Decline));
+//                                Holder.mStatus.setText(R.string.declined);
+//                            }
+//                            break;
+//                        } else {
+//                            Holder.mStatus.setVisibility(GONE);
+//                            Holder.mStatusColor.setVisibility(GONE);
+//                        }
+//                    }
+//                }
 
-            if (meetings1s.get(position).getInvites().get(0).getName() != null) {
-                Holder.viziter.setText(meetings1s.get(position).getInvites().get(0).getName() + "");
-            } else {
-                Holder.viziter.setText(meetings1s.get(position).getInvites().get(0).getEmail() + "");
-            }
 
-            //create date and time
-            long longtime = (Long.parseLong(String.valueOf(Long.parseLong(meetings1s.get(position).getCreated_time().get$numberLong()) * 1000)));
-            Holder.create_time.setText(ViewController.Create_date_month_year_hr_mm_am_pm(longtime) + "");
+//                Holder.itemView.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        Intent intent = new Intent(context, MeetingDescriptionNewActivity.class);
+//                        intent.putExtra("m_id", meetings1s.get(position).get_id().get$oid());
+//                        startActivityForResult(intent, REQUEST_CODE);
+//                        getActivity().overridePendingTransition(R.anim.enter, R.anim.exit);
+//                    }
+//                });
 
+            }else {
 
-            Holder.host_title.setText(getResources().getString(R.string.host));
-            if (meetings1s.get(position).getEmployee().getPic() != null && meetings1s.get(position).getEmployee().getPic().size() != 0) {
-                Glide.with(getActivity()).load(DataManger.IMAGE_URL + "/uploads/" + sharedPreferences1.getString("company_id", null) + "/" + meetings1s.get(position).getEmployee().getPic().get(meetings1s.get(position).getEmployee().getPic().size() - 1))
-                        .into(Holder.pic);
-            }
-            Holder.subject.setText(Conversions.Capitalize(meetings1s.get(position).getSubject()));
-            Holder.host.setText(" " + meetings1s.get(position).getEmployee().getName());
-            if (empData.getEmp_id().equals(meetings1s.get(position).getEmp_id())) {
-                Holder.host.setText(" Me");
-                if (meetings1s.get(position).getInvites().get(0).getPic().size() != 0) {
-                    System.out.println(DataManger.IMAGE_URL + "/uploads/" + sharedPreferences1.getString("company_id", null) + "/" + meetings1s.get(position).getInvites().get(0).getPic().get(meetings1s.get(position).getInvites().get(0).getPic().size() - 1));
-                    Glide.with(getActivity()).load(DataManger.IMAGE_URL + "/uploads/" + sharedPreferences1.getString("company_id", null) + "/" + meetings1s.get(position).getInvites().get(0).getPic().get(meetings1s.get(position).getInvites().get(0).getPic().size() - 1))
-                            .into(Holder.pic);
-                }
-            } else {
-                if (meetings1s.get(position).getEmployee().getPics().size() != 0) {
-                    Glide.with(getActivity()).load(DataManger.IMAGE_URL + "/uploads/" + sharedPreferences1.getString("company_id", null) + "/" + meetings1s.get(position).getEmployee().getPics().get(meetings1s.get(position).getEmployee().getPics().size() - 1))
-                            .into(Holder.pic);
-                }
-            }
-            if (meetings1s.get(position).getInvites().size() > 1) {
-                Holder.count.setVisibility(View.VISIBLE);
-                Holder.count.setText("+" + (meetings1s.get(position).getInvites().size() - 1));
-            }
-            if (meetings1s.get(position).getStatus() == 1) {
-                // Cancel
-                Holder.mStatus.setVisibility(View.VISIBLE);
-                Holder.mStatusColor.setVisibility(View.VISIBLE);
-                Holder.mStatus.setText(R.string.Cancelled);
-                GradientDrawable drawable = (GradientDrawable) Holder.mStatusColor.getBackground();
-                drawable.setStroke(3, getResources().getColor(R.color.Cancel)); // set stroke width and stroke color
-                Holder.mStatus.setBackgroundColor(getResources().getColor(R.color.Cancel));
-            } else {
-                for (int i = 0; i < meetings1s.get(position).getInvites().size(); i++) {
+                Holder.cardOther.setVisibility(VISIBLE);
+                Holder.cardOutlook.setVisibility(GONE);
 
-                    GradientDrawable drawable = (GradientDrawable) Holder.mStatusColor.getBackground();
-                    if (empData.getEmail().equals(meetings1s.get(position).getInvites().get(i).getEmail())) {
-                        // Pending
-                        Holder.mStatus.setVisibility(View.VISIBLE);
-                        Holder.mStatusColor.setVisibility(View.VISIBLE);
-                        Holder.mStatus.setBackgroundColor(getResources().getColor(R.color.Pending));
-                        drawable.setStroke(3, getResources().getColor(R.color.Pending)); // set stroke width and stroke color
-                        Holder.mStatus.setText(R.string.pending);
-                        if (meetings1s.get(position).getInvites().get(i).getStatus() == 3) {
-                            //Accepted
-                            drawable.setStroke(3, getResources().getColor(R.color.Accept)); // set stroke width and stroke color
-                            Holder.mStatus.setBackgroundColor(getResources().getColor(R.color.Accept));
-                            Holder.mStatus.setText(R.string.accepted);
-
-                        } else if (meetings1s.get(position).getInvites().get(i).getStatus() == 1) {
-                            //declined
-                            drawable.setStroke(3, getResources().getColor(R.color.Decline)); // set stroke width and stroke color
-                            Holder.mStatus.setBackgroundColor(getResources().getColor(R.color.Decline));
-                            Holder.mStatus.setText(R.string.declined);
+                if (empData.getEmp_id().equalsIgnoreCase(meetings1s.get(position).getEmp_id())) {
+                } else {
+                    for (int i = 0; i < meetings1s.get(position).getInvites().size(); i++) {
+                        if (!meetings1s.get(position).getInvites().get(i).getView_status()) {
+                            Holder.host.setTypeface(null, Typeface.BOLD);
+                            Holder.subject.setTypeface(null, Typeface.BOLD);
+                            Holder.viziter.setTypeface(null, Typeface.BOLD);
+                        } else {
                         }
-                        break;
-                    } else {
-                        Holder.mStatus.setVisibility(GONE);
-                        Holder.mStatusColor.setVisibility(GONE);
                     }
                 }
+
+                if (meetings1s.get(position).getV_id() == null || meetings1s.get(position).getV_id().equalsIgnoreCase("")) {
+                    Holder.title_type.setText(R.string.meeting);
+                } else {
+                    Holder.title_type.setText(R.string.appointment_p);
+                }
+
+                if (meetings1s.get(position).getRecurrence()) {
+                    Holder.img_reccurence.setVisibility(VISIBLE);
+                }
+
+                Holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(context, MeetingDescriptionNewActivity.class);
+                        intent.putExtra("m_id", meetings1s.get(position).get_id().get$oid());
+                        startActivityForResult(intent, REQUEST_CODE);
+                        getActivity().overridePendingTransition(R.anim.enter, R.anim.exit);
+                    }
+                });
+
+                String s_time1 = Conversions.millitotime((meetings1s.get(position).getStart() + Conversions.timezone()) * 1000, false);
+                String e_time = Conversions.millitotime((meetings1s.get(position).getEnd() + 1 + Conversions.timezone()) * 1000, false);
+                Holder.s_time.setText(s_time1);
+
+                DateFormat simple = new SimpleDateFormat("dd MMM yyyy");
+                if (sharedPreferences1.getString("language", "").equals("ar")) {
+                    Locale locale = new Locale("ar");
+                    simple = new SimpleDateFormat("dd MMM yyyy", locale);
+                }
+
+                Date result = new Date((meetings1s.get(position).getStart() + Conversions.timezone()) * 1000);
+                String time = simple.format(result) + "";
+                Holder.date.setText(time);
+
+
+                //meeting time
+                Holder.meeting_time.setText(time + " " + s_time1 + " To " + e_time);
+
+                if (meetings1s.get(position).getInvites().get(0).getName() != null) {
+                    Holder.viziter.setText(meetings1s.get(position).getInvites().get(0).getName() + "");
+                } else {
+                    Holder.viziter.setText(meetings1s.get(position).getInvites().get(0).getEmail() + "");
+                }
+
+                //create date and time
+                long longtime = (Long.parseLong(String.valueOf(Long.parseLong(meetings1s.get(position).getCreated_time().get$numberLong()) * 1000)));
+                Holder.create_time.setText(ViewController.Create_date_month_year_hr_mm_am_pm(longtime) + "");
+
+
+                Holder.host_title.setText(getResources().getString(R.string.host));
+                if (meetings1s.get(position).getEmployee().getPic() != null && meetings1s.get(position).getEmployee().getPic().size() != 0) {
+                    Glide.with(getActivity()).load(DataManger.IMAGE_URL + "/uploads/" + sharedPreferences1.getString("company_id", null) + "/" + meetings1s.get(position).getEmployee().getPic().get(meetings1s.get(position).getEmployee().getPic().size() - 1))
+                            .into(Holder.pic);
+                }
+                Holder.subject.setText(Conversions.Capitalize(meetings1s.get(position).getSubject()));
+                Holder.host.setText(" " + meetings1s.get(position).getEmployee().getName());
+                if (empData.getEmp_id().equals(meetings1s.get(position).getEmp_id())) {
+                    Holder.host.setText(" Me");
+                    if (meetings1s.get(position).getInvites().get(0).getPic().size() != 0) {
+                        System.out.println(DataManger.IMAGE_URL + "/uploads/" + sharedPreferences1.getString("company_id", null) + "/" + meetings1s.get(position).getInvites().get(0).getPic().get(meetings1s.get(position).getInvites().get(0).getPic().size() - 1));
+                        Glide.with(getActivity()).load(DataManger.IMAGE_URL + "/uploads/" + sharedPreferences1.getString("company_id", null) + "/" + meetings1s.get(position).getInvites().get(0).getPic().get(meetings1s.get(position).getInvites().get(0).getPic().size() - 1))
+                                .into(Holder.pic);
+                    }
+                } else {
+                    if (meetings1s.get(position).getEmployee().getPics().size() != 0) {
+                        Glide.with(getActivity()).load(DataManger.IMAGE_URL + "/uploads/" + sharedPreferences1.getString("company_id", null) + "/" + meetings1s.get(position).getEmployee().getPics().get(meetings1s.get(position).getEmployee().getPics().size() - 1))
+                                .into(Holder.pic);
+                    }
+                }
+                if (meetings1s.get(position).getInvites().size() > 1) {
+                    Holder.count.setVisibility(View.VISIBLE);
+                    Holder.count.setText("+" + (meetings1s.get(position).getInvites().size() - 1));
+                }
+                if (meetings1s.get(position).getStatus() == 1) {
+                    // Cancel
+                    Holder.mStatus.setVisibility(View.VISIBLE);
+                    Holder.mStatusColor.setVisibility(View.VISIBLE);
+                    Holder.mStatus.setText(R.string.Cancelled);
+                    GradientDrawable drawable = (GradientDrawable) Holder.mStatusColor.getBackground();
+                    drawable.setStroke(3, getResources().getColor(R.color.Cancel)); // set stroke width and stroke color
+                    Holder.mStatus.setBackgroundColor(getResources().getColor(R.color.Cancel));
+                } else {
+                    for (int i = 0; i < meetings1s.get(position).getInvites().size(); i++) {
+
+                        GradientDrawable drawable = (GradientDrawable) Holder.mStatusColor.getBackground();
+                        if (empData.getEmail().equals(meetings1s.get(position).getInvites().get(i).getEmail())) {
+                            // Pending
+                            Holder.mStatus.setVisibility(View.VISIBLE);
+                            Holder.mStatusColor.setVisibility(View.VISIBLE);
+                            Holder.mStatus.setBackgroundColor(getResources().getColor(R.color.Pending));
+                            drawable.setStroke(3, getResources().getColor(R.color.Pending)); // set stroke width and stroke color
+                            Holder.mStatus.setText(R.string.pending);
+                            if (meetings1s.get(position).getInvites().get(i).getStatus() == 3) {
+                                //Accepted
+                                drawable.setStroke(3, getResources().getColor(R.color.Accept)); // set stroke width and stroke color
+                                Holder.mStatus.setBackgroundColor(getResources().getColor(R.color.Accept));
+                                Holder.mStatus.setText(R.string.accepted);
+
+                            } else if (meetings1s.get(position).getInvites().get(i).getStatus() == 1) {
+                                //declined
+                                drawable.setStroke(3, getResources().getColor(R.color.Decline)); // set stroke width and stroke color
+                                Holder.mStatus.setBackgroundColor(getResources().getColor(R.color.Decline));
+                                Holder.mStatus.setText(R.string.declined);
+                            }
+                            break;
+                        } else {
+                            Holder.mStatus.setVisibility(GONE);
+                            Holder.mStatusColor.setVisibility(GONE);
+                        }
+                    }
+                }
+
+
             }
 
 
@@ -1683,6 +1809,13 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
         }
 
         public class ViewHolderUpcoming extends RecyclerView.ViewHolder {
+
+            //outlook
+            CardView cardOutlook;
+            TextView outlookMeetingTime,outlookCreateTime,txtName,outlookSubject;
+
+            //other
+            CardView cardOther;
             TextView title_type, subject, host, count, s_time, viziter, date, host_title, meeting_time, create_time, mStatus;
             CircleImageView pic;
             ImageView img_reccurence;
@@ -1690,6 +1823,15 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
 
             public ViewHolderUpcoming(@NonNull View view) {
                 super(view);
+                //outlook
+                cardOutlook = view.findViewById(R.id.cardOutlook);
+                outlookMeetingTime = view.findViewById(R.id.outlookMeetingTime);
+                outlookCreateTime = view.findViewById(R.id.outlookCreateTime);
+                txtName = view.findViewById(R.id.txtName);
+                outlookSubject = view.findViewById(R.id.outlookSubject);
+
+                //other
+                cardOther = view.findViewById(R.id.cardOther);
                 date = view.findViewById(R.id.date);
                 mStatusColor = view.findViewById(R.id.mStatusColor);
                 meeting_time = view.findViewById(R.id.meeting_time);

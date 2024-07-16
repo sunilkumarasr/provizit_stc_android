@@ -220,7 +220,7 @@ public class NavigationActivity extends AppCompatActivity implements View.OnClic
 
         apiViewModel.getazureaddetailsResponse().observe(this, response -> {
             if (response != null) {
-                Toast.makeText(getApplicationContext(),response.getItems().getOnline()+"",Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(),response.getItems().getOnline()+"",Toast.LENGTH_SHORT).show();
                 Preferences.saveStringValue(getApplicationContext(), Preferences.AdOnline, response.getItems().getOnline()+"");
             }
         });
@@ -240,6 +240,9 @@ public class NavigationActivity extends AppCompatActivity implements View.OnClic
                 binding.txtNotificationsCount.setText(String.valueOf(notificationslist.size()));
             }
         });
+
+
+
     }
 
     @Override

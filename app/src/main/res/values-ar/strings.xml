@@ -116,6 +116,7 @@
     <string name="are_you_sure_resend_this_meeting">هل أنت متأكد من إعادة إرسال هذا الاجتماع؟</string>
     <string name="yes">نعم</string>
     <string name="no">لا</string>
+    <string name="outlook">الآفاق</string>
 
     <!--    others-->
     <string name="Version">إصدار</string>

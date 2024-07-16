@@ -16,6 +16,7 @@ public class CompanyData implements Serializable {
     private String comp_id;
     private String location;
     private String name,company,caddress,nation;
+    private String host;
     private String cat_type;
     private String desc;
     private String supertype;
@@ -264,6 +265,14 @@ public class CompanyData implements Serializable {
 
     public void setCompany(String company) {
         this.company = company;
+    }
+
+    public String getHost() {
+        return host;
+    }
+
+    public void setHost(String host) {
+        this.host = host;
     }
 
     public String getCat_type() {
