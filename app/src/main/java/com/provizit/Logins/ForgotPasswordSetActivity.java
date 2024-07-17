@@ -27,7 +27,6 @@ import com.provizit.AESUtil;
 import com.provizit.Activities.SplashActivity;
 import com.provizit.Config.Constant;
 import com.provizit.Config.ConnectionReceiver;
-import com.provizit.Config.ProgressLoader;
 import com.provizit.Config.ViewController;
 import com.provizit.MVVM.ApiViewModel;
 import com.provizit.MVVM.RequestModels.UpdatePwdModelRequest;
@@ -108,7 +107,7 @@ public class ForgotPasswordSetActivity extends AppCompatActivity {
                             //mvvm
                             UpdatePwdModelRequest updatePwdModelRequest = new UpdatePwdModelRequest(sharedPreferences1.getString("company_id", null),aesUtil.encrypt(binding.cPassword.getText().toString(),sharedPreferences1.getString("ProvizitEmail",null)),sharedPreferences1.getString("link", null));
                             apiViewModel.updatepwd(getApplicationContext(),updatePwdModelRequest);
-                            ProgressLoader.show(ForgotPasswordSetActivity.this);
+                            ViewController.ShowProgressBar(ForgotPasswordSetActivity.this);
                         }
                         else{
                             binding.cPtl.setErrorEnabled(true);
@@ -127,7 +126,7 @@ public class ForgotPasswordSetActivity extends AppCompatActivity {
         apiViewModel.getupdatepwdResponse().observe(this, new Observer<Model>() {
             @Override
             public void onChanged(Model response) {
-                ProgressLoader.hide();
+                ViewController.DismissProgressBar();
                 if (response != null) {
                     Integer statuscode = response.getResult();
                     Integer successcode = 200, failurecode = 201, not_verified = 404;

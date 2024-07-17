@@ -38,7 +38,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.provizit.AESUtil;
 import com.provizit.Activities.NavigationActivity;
-import com.provizit.Config.ProgressLoader;
 import com.provizit.Config.ViewController;
 import com.provizit.Conversions;
 import com.provizit.Config.ConnectionReceiver;
@@ -177,7 +176,7 @@ public class SetPasswordActivity extends AppCompatActivity {
                             }
                             UpdatePwdModelRequest updatePwdModelRequest = new UpdatePwdModelRequest(sharedPreferences1.getString("company_id", null),aesUtil.encrypt(binding.cPassword.getText().toString(),binding.email.getText().toString().trim()),sharedPreferences1.getString("link", null));
                             apiViewModel.updatepwd(getApplicationContext(),updatePwdModelRequest);
-                            ProgressLoader.show(SetPasswordActivity.this);
+                            ViewController.ShowProgressBar(SetPasswordActivity.this);
                         }
                         else{
                             binding.cPtl.setErrorEnabled(true);
@@ -223,7 +222,7 @@ public class SetPasswordActivity extends AppCompatActivity {
         apiViewModel.getupdatepwdResponse().observe(this, new Observer<Model>() {
             @Override
             public void onChanged(Model response) {
-                ProgressLoader.hide();
+                ViewController.DismissProgressBar();
                 if (response != null) {
                     Integer statuscode = response.getResult();
                     Integer successcode = 200, failurecode = 201, not_verified = 404;
@@ -254,7 +253,7 @@ public class SetPasswordActivity extends AppCompatActivity {
         apiViewModel.getsetuploginResponse().observe(this, new Observer<Model>() {
             @Override
             public void onChanged(Model response) {
-                ProgressLoader.hide();
+                ViewController.DismissProgressBar();
                 if (response != null) {
                     Integer statuscode = response.getResult();
                     Integer successcode = 200, failurecode = 201, not_verified = 404;
@@ -314,7 +313,7 @@ public class SetPasswordActivity extends AppCompatActivity {
         apiViewModel.getactionnotificationResponse().observe(this, new Observer<Model>() {
             @Override
             public void onChanged(Model response) {
-                ProgressLoader.hide();
+                ViewController.DismissProgressBar();
                 Intent intent = new Intent(SetPasswordActivity.this, NavigationActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);

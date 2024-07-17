@@ -30,16 +30,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.AnimationSet;
-import android.widget.EditText;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.provizit.Activities.NavigationActivity;
-import com.provizit.Config.ProgressLoader;
 import com.provizit.Config.ViewController;
 import com.provizit.Conversions;
 import com.provizit.Config.ConnectionReceiver;
@@ -235,7 +229,7 @@ public class OtpActivity extends AppCompatActivity {
 
                         CheckSetupModelRequest checkSetupModelRequest = new CheckSetupModelRequest(binding.email.getText().toString().trim());
                         apiViewModel.checkSetup(getApplicationContext(), checkSetupModelRequest);
-                        ProgressLoader.show(OtpActivity.this);
+                        ViewController.ShowProgressBar(OtpActivity.this);
                     } else {
                         binding.t1.setText("");
                         binding.t2.setText("");
@@ -272,9 +266,9 @@ public class OtpActivity extends AppCompatActivity {
                     Integer statuscode = response.getResult();
                     Integer successcode = 200, failurecode = 201, not_verified = 404;
                     if (statuscode.equals(failurecode)) {
-                        ProgressLoader.hide();
+                        ViewController.DismissProgressBar();
                     } else if (statuscode.equals(not_verified)) {
-                        ProgressLoader.hide();
+                        ViewController.DismissProgressBar();
                     } else if (statuscode.equals(successcode)) {
                         CompanyData items = new CompanyData();
                         items = response.getItems();
@@ -302,16 +296,16 @@ public class OtpActivity extends AppCompatActivity {
                             }
                             SetUpLoginModelRequest setUpLoginModelRequest = new SetUpLoginModelRequest(items.getComp_id(), "email", binding.email.getText().toString(), items.getLink(), items.getMverify() + "");
                             apiViewModel.setuplogin(getApplicationContext(), setUpLoginModelRequest);
-                            ProgressLoader.show(OtpActivity.this);
+                            ViewController.ShowProgressBar(OtpActivity.this);
                         } else {
-                            ProgressLoader.hide();
+                            ViewController.DismissProgressBar();
 
                             Intent intent = new Intent(OtpActivity.this, SetPasswordActivity.class);
                             overridePendingTransition(R.anim.enter, R.anim.exit);
                             startActivity(intent);
                         }
                     } else {
-                        ProgressLoader.hide();
+                        ViewController.DismissProgressBar();
                         builder.setMessage("You don't have access!")
                                 .setCancelable(false)
                                 .setPositiveButton("OK", (dialog, id) -> {
@@ -323,12 +317,12 @@ public class OtpActivity extends AppCompatActivity {
                         AlertDialog alert = builder.create();
                     }
                 } else {
-                    ProgressLoader.hide();
+                    ViewController.DismissProgressBar();
                 }
             }
         });
         apiViewModel.getsetuploginResponse().observe(this, response -> {
-            ProgressLoader.hide();
+            ViewController.DismissProgressBar();
             if (response != null) {
                 Integer statuscode = response.getResult();
                 Integer successcode = 200, failurecode = 201, not_verified = 404;

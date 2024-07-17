@@ -3,6 +3,7 @@ package com.provizit.Config;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -34,6 +35,9 @@ import java.util.regex.Pattern;
 
 public class ViewController {
 
+
+    // private static Dialog dialog;
+    private static ProgressDialog dialog;
 
     public static void barPrimaryColor(Activity activity) {
         Window window = activity.getWindow();
@@ -71,6 +75,31 @@ public class ViewController {
         }
     }
 
+    public static void ShowProgressBar(Activity activity){
+
+        //        dialog  = new Dialog(activity);
+//        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+//        dialog.setCancelable(false);
+//        dialog.setContentView(R.layout.custom_progress_loader);
+//        dialog.show();
+
+
+        if (dialog == null || !dialog.isShowing()) {
+            dialog = new ProgressDialog(activity);
+            dialog.setMessage("Loading...");
+            dialog.setCancelable(false); // Prevent dialog from being canceled by back button
+            dialog.setCanceledOnTouchOutside(false); // Prevent dialog from being canceled by touch outside
+            dialog.show();
+        }
+    }
+    public static void DismissProgressBar() {
+        if (dialog != null && dialog.isShowing()) {
+            dialog.dismiss();
+        }
+    }
+
+
     public static String Create_date_month_year_hr_mm_am_pm(Long date){
         DateFormat createsimple = new SimpleDateFormat("dd MMM yyyy, hh:mm a");
         String Cdatetime = createsimple.format(date) + "";
@@ -103,21 +132,6 @@ public class ViewController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    public static void ifany_error_stop_loading() {
-        Thread t = new Thread() {
-            @Override
-            public void run() {
-                try {
-                    sleep(10000);
-                } catch (Exception e) {
-                } finally {
-                    ProgressLoader.hide();
-                }
-            }
-        };
-        t.start();
     }
 
 

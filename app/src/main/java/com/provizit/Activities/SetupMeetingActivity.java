@@ -296,7 +296,8 @@ public class SetupMeetingActivity extends AppCompatActivity {
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.setStatusBarColor(ContextCompat.getColor(SetupMeetingActivity.this, R.color.colorPrimary));
         card_view_progress = findViewById(R.id.card_view_progress);
-        card_view_progress.setVisibility(View.VISIBLE);
+        //card_view_progress.setVisibility(View.VISIBLE);
+        ViewController.ShowProgressBar(SetupMeetingActivity.this);
 
 
 
@@ -1109,7 +1110,8 @@ public class SetupMeetingActivity extends AppCompatActivity {
                         if (SelfMeetingSetupCheckBox.isChecked() || !AssignID.equalsIgnoreCase("")){
                             setup_meeting.setEnabled(true);
                             gethostslots();
-                            card_view_progress.setVisibility(View.VISIBLE);
+                           // card_view_progress.setVisibility(View.VISIBLE);
+                            ViewController.ShowProgressBar(SetupMeetingActivity.this);
                         }else {
                             new AlertDialog.Builder(SetupMeetingActivity.this)
                                     .setTitle(R.string.warning)
@@ -1121,12 +1123,14 @@ public class SetupMeetingActivity extends AppCompatActivity {
                     }else {
                         setup_meeting.setEnabled(true);
                         gethostslots();
-                        card_view_progress.setVisibility(View.VISIBLE);
+                        //card_view_progress.setVisibility(View.VISIBLE);
+                        ViewController.ShowProgressBar(SetupMeetingActivity.this);
                     }
                 }else {
                     setup_meeting.setEnabled(true);
                     gethostslots();
-                    card_view_progress.setVisibility(View.VISIBLE);
+                    //card_view_progress.setVisibility(View.VISIBLE);
+                    ViewController.ShowProgressBar(SetupMeetingActivity.this);
                 }
 
             }
@@ -1330,7 +1334,8 @@ public class SetupMeetingActivity extends AppCompatActivity {
         });
 
         apiViewModel.getentrypoints_response().observe(this, response -> {
-            card_view_progress.setVisibility(GONE);
+            //card_view_progress.setVisibility(GONE);
+            ViewController.DismissProgressBar();
             if (response != null) {
                 Integer statusCode = response.getResult();
                 Integer successcode = 200, failurecode = 401, not_verified = 404;
@@ -1354,7 +1359,8 @@ public class SetupMeetingActivity extends AppCompatActivity {
         });
 
         apiViewModel.gethostslots_response().observe(this, response -> {
-            card_view_progress.setVisibility(GONE);
+            //card_view_progress.setVisibility(GONE);
+            ViewController.DismissProgressBar();
             if (response != null) {
                 Integer statuscode = response.getResult();
                 Integer successcode = 200, failurecode = 401, not_verified = 404;
@@ -1395,7 +1401,8 @@ public class SetupMeetingActivity extends AppCompatActivity {
         });
 
         apiViewModel.getrmslots_response().observe(this, response -> {
-            card_view_progress.setVisibility(GONE);
+            //card_view_progress.setVisibility(GONE);
+            ViewController.DismissProgressBar();
             if (response != null) {
                 Integer statuscode = response.getResult();
                 Integer successcode = 200, failurecode = 401, not_verified = 404;
@@ -1435,7 +1442,8 @@ public class SetupMeetingActivity extends AppCompatActivity {
         });
 
         apiViewModel.getmeetingdetails_response().observe(this, response -> {
-            card_view_progress.setVisibility(GONE);
+            //card_view_progress.setVisibility(GONE);
+            ViewController.DismissProgressBar();
             if (response != null) {
                 Integer statuscode = response.getResult();
                 Integer successcode = 200, failurecode = 401, not_verified = 404;
@@ -1579,7 +1587,8 @@ public class SetupMeetingActivity extends AppCompatActivity {
 
 
         apiViewModel.actionmeetings_total_count_response().observe(this, response -> {
-            card_view_progress.setVisibility(GONE);
+            //card_view_progress.setVisibility(GONE);
+            ViewController.DismissProgressBar();
             if (response != null) {
                 Integer statuscode = response.getResult();
                 Integer successcode = 200, failurecode = 401, not_verified = 404;
@@ -1599,7 +1608,8 @@ public class SetupMeetingActivity extends AppCompatActivity {
         });
 
         apiViewModel.actionmeetings_response().observe(this, response -> {
-            card_view_progress.setVisibility(GONE);
+            //card_view_progress.setVisibility(GONE);
+            ViewController.DismissProgressBar();
             if (response != null) {
                 Integer statuscode = response.getResult();
                 Integer successcode = 200, failurecode = 401, not_verified = 404;
@@ -1626,7 +1636,8 @@ public class SetupMeetingActivity extends AppCompatActivity {
         });
 
         apiViewModel.addcovisitor_response().observe(SetupMeetingActivity.this, response -> {
-            card_view_progress.setVisibility(GONE);
+            //card_view_progress.setVisibility(GONE);
+            ViewController.DismissProgressBar();
             if (response != null) {
                 Intent intent15 = new Intent(SetupMeetingActivity.this, NavigationActivity.class);
                 intent15.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -1640,7 +1651,8 @@ public class SetupMeetingActivity extends AppCompatActivity {
         });
 
         apiViewModel.updatemeetings_response().observe(SetupMeetingActivity.this, response -> {
-            card_view_progress.setVisibility(GONE);
+            //card_view_progress.setVisibility(GONE);
+            ViewController.DismissProgressBar();
 //            if (response != null) {
 //
 //            }
@@ -2504,7 +2516,8 @@ public class SetupMeetingActivity extends AppCompatActivity {
         apiViewModel.getmeetingrooms_response().observe(this, new Observer<Model1>() {
             @Override
             public void onChanged(Model1 response) {
-                card_view_progress.setVisibility(GONE);
+                //card_view_progress.setVisibility(GONE);
+                ViewController.DismissProgressBar();
                 meetingrooms.clear();
                 if (response != null) {
                     Integer statuscode = response.getResult();
@@ -3010,7 +3023,8 @@ public class SetupMeetingActivity extends AppCompatActivity {
         }
 
         submit.setOnClickListener(v -> {
-            card_view_progress.setVisibility(View.VISIBLE);
+            //card_view_progress.setVisibility(View.VISIBLE);
+            ViewController.ShowProgressBar(SetupMeetingActivity.this);
             if (type == 1) {
                 actionmeetings(jsonObject);
             } else if (type == 2) {

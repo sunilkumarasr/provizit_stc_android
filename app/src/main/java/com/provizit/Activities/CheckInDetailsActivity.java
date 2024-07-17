@@ -35,7 +35,6 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.provizit.Config.ProgressLoader;
 import com.provizit.Config.ViewController;
 import com.provizit.Conversions;
 import com.provizit.Config.ConnectionReceiver;
@@ -167,7 +166,8 @@ public class CheckInDetailsActivity extends AppCompatActivity implements View.On
 
 
         apiViewModel.gethistorydetails(getApplicationContext(), _id, sharedPreferences1.getString("company_id", null));
-        ProgressLoader.show(CheckInDetailsActivity.this);
+
+        ViewController.ShowProgressBar(CheckInDetailsActivity.this);
 
 
         //internet connection
@@ -191,7 +191,7 @@ public class CheckInDetailsActivity extends AppCompatActivity implements View.On
         apiViewModel.gethistorydetails_response().observe(this, new Observer<Model>() {
             @Override
             public void onChanged(Model response) {
-                ProgressLoader.hide();
+                ViewController.DismissProgressBar();
                 companyData_model = response.getItems();
 
                 if (response != null) {
@@ -303,7 +303,7 @@ public class CheckInDetailsActivity extends AppCompatActivity implements View.On
 
         //accept decline
         apiViewModel.actioncheckinout_response().observe(this, response -> {
-            ProgressLoader.hide();
+            ViewController.DismissProgressBar();
             if (response != null) {
                 Intent intent = new Intent(CheckInDetailsActivity.this, NavigationActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -316,7 +316,7 @@ public class CheckInDetailsActivity extends AppCompatActivity implements View.On
         apiViewModel.updateappointment_response().observe(this, new Observer<Model>() {
             @Override
             public void onChanged(Model response) {
-                ProgressLoader.hide();
+                ViewController.DismissProgressBar();
                 if (response != null) {
                     Intent intent = new Intent(CheckInDetailsActivity.this, NavigationActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -332,7 +332,7 @@ public class CheckInDetailsActivity extends AppCompatActivity implements View.On
         apiViewModel.getsubhierarchys_response().observe(this, new Observer<Model1>() {
             @Override
             public void onChanged(Model1 response) {
-                ProgressLoader.hide();
+                ViewController.DismissProgressBar();
                 if (response != null) {
                     departments = new ArrayList<>();
                     departments = response.getItems();
@@ -343,7 +343,7 @@ public class CheckInDetailsActivity extends AppCompatActivity implements View.On
         apiViewModel.getsearchemployees_response().observe(this, new Observer<Model1>() {
             @Override
             public void onChanged(Model1 response) {
-                ProgressLoader.hide();
+                ViewController.DismissProgressBar();
                 if (response != null) {
                     employees = new ArrayList<>();
                     employees = response.getItems();
@@ -374,7 +374,7 @@ public class CheckInDetailsActivity extends AppCompatActivity implements View.On
                     sleep(10000);
                 } catch (Exception e) {
                 } finally {
-                    ProgressLoader.hide();
+                    ViewController.DismissProgressBar();
                 }
             }
         };
@@ -671,7 +671,7 @@ public class CheckInDetailsActivity extends AppCompatActivity implements View.On
             e.printStackTrace();
         }
         apiViewModel.actioncheckinout(getApplicationContext(),gsonObject);
-        ProgressLoader.show(CheckInDetailsActivity.this);
+        ViewController.ShowProgressBar(CheckInDetailsActivity.this);
     }
 
     public static String getTimeStamp(Boolean is12hour) {
@@ -741,7 +741,7 @@ public class CheckInDetailsActivity extends AppCompatActivity implements View.On
                     e.printStackTrace();
                 }
                 apiViewModel.actioncheckinout(getApplicationContext(),gsonObject);
-                ProgressLoader.show(CheckInDetailsActivity.this);
+                ViewController.ShowProgressBar(CheckInDetailsActivity.this);
 
                 dialog.dismiss();
             }
@@ -791,7 +791,7 @@ public class CheckInDetailsActivity extends AppCompatActivity implements View.On
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //employ
-                ProgressLoader.hide();
+                ViewController.DismissProgressBar();
                 apiViewModel.getsearchemployees(getApplicationContext(),empData.getLocation(), departments.get(position).get_id().get$oid());
                 dialog.show();
                 hierarchy_id =  "";

@@ -26,7 +26,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.provizit.Config.ProgressLoader;
 import com.provizit.Config.ViewController;
 import com.provizit.Conversions;
 import com.provizit.Config.ConnectionReceiver;
@@ -92,9 +91,6 @@ public class AppointmentDetailsNewActivity extends AppCompatActivity implements 
             m_id = b.getString("m_id");
         }
 
-        //any error stop loading
-        ViewController.ifany_error_stop_loading();
-
         //db
         sharedPreferences1 = getApplicationContext().getSharedPreferences("EGEMSS_DATA", 0);
         myDb = new DatabaseHelper(AppointmentDetailsNewActivity.this);
@@ -105,7 +101,7 @@ public class AppointmentDetailsNewActivity extends AppCompatActivity implements 
 
 
         apiViewModel.getappointmentsdetails(getApplicationContext(),m_id);
-        ProgressLoader.show(AppointmentDetailsNewActivity.this);
+        ViewController.ShowProgressBar(AppointmentDetailsNewActivity.this);
         //department and employ
         apiViewModel.getsubhierarchys(getApplicationContext(),empData.getLocation());
 
@@ -129,7 +125,7 @@ public class AppointmentDetailsNewActivity extends AppCompatActivity implements 
         apiViewModel.getappointmentsdetails_response().observe(this, new Observer<AppointmentDetailsModel>() {
             @Override
             public void onChanged(AppointmentDetailsModel response) {
-                ProgressLoader.hide();
+                ViewController.DismissProgressBar();
                 if (response != null) {
                     model = response;
                     set_Data(response);
@@ -148,7 +144,7 @@ public class AppointmentDetailsNewActivity extends AppCompatActivity implements 
         apiViewModel.getsearchemployees_response().observe(this, new Observer<Model1>() {
             @Override
             public void onChanged(Model1 response) {
-                ProgressLoader.hide();
+                ViewController.DismissProgressBar();
                 if (response != null) {
                     employees = new ArrayList<>();
                     employees = response.getItems();
@@ -174,7 +170,7 @@ public class AppointmentDetailsNewActivity extends AppCompatActivity implements 
         apiViewModel.updateappointment_response().observe(this, new Observer<Model>() {
             @Override
             public void onChanged(Model response) {
-                ProgressLoader.hide();
+                ViewController.DismissProgressBar();
                 if (response != null) {
                     Intent intent = new Intent(AppointmentDetailsNewActivity.this, NavigationActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

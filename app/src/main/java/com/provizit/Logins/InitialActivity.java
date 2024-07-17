@@ -49,7 +49,6 @@ import com.google.gson.Gson;
 import com.provizit.AESUtil;
 import com.provizit.Activities.PrivacyPolicyActivity;
 import com.provizit.AdapterAndModel.ContactsList;
-import com.provizit.Config.ProgressLoader;
 import com.provizit.Config.ViewController;
 import com.provizit.Conversions;
 import com.provizit.Config.ConnectionReceiver;
@@ -226,7 +225,7 @@ public class InitialActivity extends AppCompatActivity {
                         }
                         apiViewModel.appuserlogin(getApplicationContext(), gsonObject);
 
-                        ProgressLoader.show(InitialActivity.this);
+                        ViewController.ShowProgressBar(InitialActivity.this);
                         binding.relativeUi.setEnabled(false);
                     } else {
                         binding.emailTextinput.setErrorEnabled(true);
@@ -244,7 +243,7 @@ public class InitialActivity extends AppCompatActivity {
                 Integer statuscode = response.getResult();
                 Integer successcode = 200, failurecode = 201, not_verified = 404, internet_verified = 500;
                 if (statuscode.equals(failurecode)) {
-                    ProgressLoader.hide();
+                    ViewController.DismissProgressBar();
                     builder.setTitle("Warning")
                             .setMessage("Wrong Password Entered")
                             .setCancelable(false)
@@ -252,9 +251,9 @@ public class InitialActivity extends AppCompatActivity {
                     AlertDialog alert = builder.create();
                     alert.show();
                 } else if (statuscode.equals(internet_verified)) {
-                    ProgressLoader.hide();
+                    ViewController.DismissProgressBar();
                 } else if (statuscode.equals(not_verified)) {
-                    ProgressLoader.hide();
+                    ViewController.DismissProgressBar();
                 } else if (statuscode.equals(successcode)) {
                     otp = Conversions.getNDigitRandomNumber(4);
                     System.out.println("Otp" + otp);
@@ -279,7 +278,7 @@ public class InitialActivity extends AppCompatActivity {
                     binding.relativeUi.setEnabled(false);
                 }
             } else {
-                ProgressLoader.hide();
+                ViewController.DismissProgressBar();
             }
         });
 
@@ -289,7 +288,7 @@ public class InitialActivity extends AppCompatActivity {
                 Integer statuscode = response.getResult();
                 Integer successcode = 200, failurecode = 201, not_verified = 404, internet_verified = 500;
                 if (statuscode.equals(failurecode)) {
-                    ProgressLoader.hide();
+                    ViewController.DismissProgressBar();
                     builder.setMessage("Presently, this app is accessible by only the enterprise users of PROVIZIT.\n" +
                                     "\n" +
                                     "We couldn’t find you as an enterprise user.\n" +
@@ -304,9 +303,9 @@ public class InitialActivity extends AppCompatActivity {
                     AlertDialog alert = builder.create();
                     alert.show();
                 } else if (statuscode.equals(internet_verified)) {
-                    ProgressLoader.hide();
+                    ViewController.DismissProgressBar();
                 } else if (statuscode.equals(not_verified)) {
-                    ProgressLoader.hide();
+                    ViewController.DismissProgressBar();
                 } else if (statuscode.equals(successcode)) {
                     otp = Conversions.getNDigitRandomNumber(4);
                     System.out.println("Otp" + otp);
@@ -331,12 +330,12 @@ public class InitialActivity extends AppCompatActivity {
                     binding.relativeUi.setEnabled(false);
                 }
             } else {
-                ProgressLoader.hide();
+                ViewController.DismissProgressBar();
             }
         });
 
         apiViewModel.getotpsendemailResponse().observe(this, response -> {
-            ProgressLoader.hide();
+            ViewController.DismissProgressBar();
             binding.relativeUi.setEnabled(true);
             if (response != null) {
                 Intent intent = new Intent(InitialActivity.this, OtpActivity.class);
@@ -346,19 +345,6 @@ public class InitialActivity extends AppCompatActivity {
             }
         });
 
-
-        Thread t = new Thread() {
-            @Override
-            public void run() {
-                try {
-                    sleep(10000);
-                } catch (Exception e) {
-                } finally {
-                    ProgressLoader.hide();
-                }
-            }
-        };
-        t.start();
 
     }
 

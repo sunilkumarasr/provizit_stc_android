@@ -195,9 +195,6 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
         card_view_progress = view.findViewById(R.id.card_view_progress);
 
 
-        Log.e("resultUrukundu", "123");
-
-
         //localdata
         myDb = new DatabaseHelper(getActivity());
         sharedPreferences1 = getActivity().getSharedPreferences("EGEMSS_DATA", 0);
@@ -676,7 +673,8 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
 
     //Appointment List
     private void getoappointments(String s_time, String e_time) {
-        card_view_progress.setVisibility(VISIBLE);
+        //card_view_progress.setVisibility(VISIBLE);
+        ViewController.ShowProgressBar(getActivity());
         DataManger dataManager = DataManger.getDataManager();
         dataManager.getoappointments(new Callback<Model1>() {
             @Override
@@ -720,7 +718,8 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
 
             @Override
             public void onFailure(Call<Model1> call, Throwable t) {
-                card_view_progress.setVisibility(GONE);
+                //card_view_progress.setVisibility(GONE);
+                ViewController.DismissProgressBar();
                 System.out.println("asdf2" + t);
             }
         }, getActivity(), "", "host", "", empData.getEmp_id());
@@ -771,13 +770,15 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
             @Override
             public void onFailure(Call<Model1> call, Throwable t) {
                 System.out.println("asdf2" + t);
-                card_view_progress.setVisibility(GONE);
+                //card_view_progress.setVisibility(GONE);
+                ViewController.DismissProgressBar();
             }
         }, getActivity(), "", empData.getEmp_id(), "today", "checkinn", "checkin");
     }
 
     private void getmeetings(String s_time, String e_time) {
-        card_view_progress.setVisibility(VISIBLE);
+        //card_view_progress.setVisibility(VISIBLE);
+        ViewController.ShowProgressBar(getActivity());
         DataManger dataManager = DataManger.getDataManager();
         dataManager.getmeetings(new Callback<Model1>() {
             @Override
@@ -808,7 +809,8 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
             @Override
             public void onFailure(Call<Model1> call, Throwable t) {
                 System.out.println("asdf2" + t);
-                card_view_progress.setVisibility(GONE);
+                //card_view_progress.setVisibility(GONE);
+                ViewController.DismissProgressBar();
             }
         }, getActivity(), "custom", empData.getEmp_id(), s_time, e_time);
     }
@@ -839,7 +841,6 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
 
                         meetings.addAll(meetings1);
                         getemployeeslots(s_time, e_time);
-
                     }
                 }
             }
@@ -847,7 +848,8 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
             @Override
             public void onFailure(Call<Model1> call, Throwable t) {
                 System.out.println("asdf1" + t);
-                card_view_progress.setVisibility(GONE);
+                //card_view_progress.setVisibility(GONE);
+                ViewController.DismissProgressBar();
             }
         }, getActivity(), "custom", empData.getEmail(), s_time, e_time);
     }
@@ -880,7 +882,8 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
             @Override
             public void onFailure(Call<Model1> call, Throwable t) {
                 System.out.println("asdf1" + t);
-                card_view_progress.setVisibility(GONE);
+                //card_view_progress.setVisibility(GONE);
+                ViewController.DismissProgressBar();
             }
         }, getActivity(), "", empData.getLocation(), "", empData.getEmp_id(), "date", date, end, toDay);
     }
@@ -918,7 +921,8 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
             @Override
             public void onFailure(Call<Model1> call, Throwable t) {
                 Log.d("", t + "");
-                card_view_progress.setVisibility(GONE);
+                //card_view_progress.setVisibility(GONE);
+                ViewController.DismissProgressBar();
             }
         }, getActivity(), "upcoming", empData.getEmp_id(), empData.getLocation(), empData.getHierarchy_id(), s_time, e_time);
     }
@@ -937,15 +941,13 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
                     Integer successcode = 200, failurecode = 401, not_verified = 404;
                     Log.e("meetings_statuscode_",statuscode+"");
                     if (statuscode.equals(successcode)) {
-                        meetings.addAll(model.getItems());
+                        //meetings.addAll(model.getItems());
                         Log.e("meetings_size_2",meetings.size()+"");
                         getmeetingapprovals(s_time, e_time);
                     }else {
                         getmeetingapprovals(s_time, e_time);
                     }
                 }
-
-
             }
             @Override
             public void onFailure(Call<Model1> call,  Throwable t) {
@@ -960,7 +962,8 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
         dataManager.getmeetingapprovals(new Callback<Model1>() {
             @Override
             public void onResponse(Call<Model1> call, Response<Model1> response) {
-                card_view_progress.setVisibility(GONE);
+                //card_view_progress.setVisibility(GONE);
+                ViewController.DismissProgressBar();
                 Model1 model = response.body();
 
                 if (model != null) {
@@ -1112,7 +1115,8 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
             @Override
             public void onFailure(Call<Model1> call, Throwable t) {
                 Log.d("", t + "");
-                card_view_progress.setVisibility(GONE);
+                //card_view_progress.setVisibility(GONE);
+                ViewController.DismissProgressBar();
             }
         }, getActivity(), "custom", empData.getEmp_id(), empData.getRoleid(), empData.getLocation(), empData.getHierarchy_id(), s_time, e_time);
     }
@@ -2600,12 +2604,14 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
     }
 
     private void updateappointment(JsonObject jsonObject) {
-        card_view_progress.setVisibility(VISIBLE);
+        //card_view_progress.setVisibility(VISIBLE);
+        ViewController.ShowProgressBar(getActivity());
         DataManger dataManager = DataManger.getDataManager();
         dataManager.updateappointment(new Callback<Model>() {
             @Override
             public void onResponse(Call<Model> call, Response<Model> response) {
-                card_view_progress.setVisibility(GONE);
+                //card_view_progress.setVisibility(GONE);
+                ViewController.DismissProgressBar();
                 Model model = response.body();
                 if (model != null) {
                     Integer statuscode = model.getResult();
@@ -2621,18 +2627,21 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
             @Override
             public void onFailure(Call<Model> call, Throwable t) {
                 System.out.println("asdf2" + t);
-                card_view_progress.setVisibility(GONE);
+                //card_view_progress.setVisibility(GONE);
+                ViewController.DismissProgressBar();
             }
         }, getActivity(), jsonObject);
     }
 
     private void actioncheckinout(JsonObject jsonObject) {
-        card_view_progress.setVisibility(VISIBLE);
+        //card_view_progress.setVisibility(VISIBLE);
+        ViewController.ShowProgressBar(getActivity());
         DataManger dataManager = DataManger.getDataManager();
         dataManager.actioncheckinout(new Callback<Model>() {
             @Override
             public void onResponse(Call<Model> call, Response<Model> response) {
-                card_view_progress.setVisibility(GONE);
+                //card_view_progress.setVisibility(GONE);
+                ViewController.DismissProgressBar();
                 final Model model = response.body();
                 if (model != null) {
                     Integer statuscode = model.getResult();
@@ -2654,7 +2663,8 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
             @Override
             public void onFailure(Call<Model> call, Throwable t) {
                 System.out.println(t + "subhash");
-                card_view_progress.setVisibility(GONE);
+                //card_view_progress.setVisibility(GONE);
+                ViewController.DismissProgressBar();
             }
         }, getActivity(), jsonObject);
     }
@@ -2708,12 +2718,14 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
     }
 
     private void declineappointment(JsonObject jsonObject) {
-        card_view_progress.setVisibility(VISIBLE);
+        //card_view_progress.setVisibility(VISIBLE);
+        ViewController.ShowProgressBar(getActivity());
         DataManger dataManager = DataManger.getDataManager();
         dataManager.updateappointment(new Callback<Model>() {
             @Override
             public void onResponse(Call<Model> call, Response<Model> response) {
-                card_view_progress.setVisibility(GONE);
+                //card_view_progress.setVisibility(GONE);
+                ViewController.DismissProgressBar();
                 Model model = response.body();
                 if (model != null) {
                     Integer statuscode = model.getResult();
@@ -2729,7 +2741,8 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
             @Override
             public void onFailure(Call<Model> call, Throwable t) {
                 System.out.println("asdf2" + t);
-                card_view_progress.setVisibility(GONE);
+                //card_view_progress.setVisibility(GONE);
+                ViewController.DismissProgressBar();
             }
         }, getActivity(), jsonObject);
     }

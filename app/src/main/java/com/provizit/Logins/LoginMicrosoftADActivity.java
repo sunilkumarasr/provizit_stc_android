@@ -32,7 +32,6 @@ import com.microsoft.identity.client.exception.MsalException;
 import com.provizit.AESUtil;
 import com.provizit.Activities.NavigationActivity;
 import com.provizit.Config.ConnectionReceiver;
-import com.provizit.Config.ProgressLoader;
 import com.provizit.Config.ViewController;
 import com.provizit.Conversions;
 import com.provizit.MVVM.ApiViewModel;
@@ -108,7 +107,7 @@ public class LoginMicrosoftADActivity extends AppCompatActivity implements View.
                 Integer successcode = 200, failurecode = 201, not_verified = 404;
 
                 if (statuscode.equals(failurecode)) {
-                    ProgressLoader.hide();
+                    ViewController.DismissProgressBar();
                     builder.setTitle("Warning")
                             .setMessage("Email not registered")
                             .setCancelable(false)
@@ -116,7 +115,7 @@ public class LoginMicrosoftADActivity extends AppCompatActivity implements View.
                     AlertDialog alert = builder.create();
                     alert.show();
                 } else if (statuscode.equals(not_verified)) {
-                    ProgressLoader.hide();
+                    ViewController.DismissProgressBar();
                     builder.setTitle("Warning")
                             .setMessage("Login Failed")
                             .setCancelable(false)
@@ -138,7 +137,7 @@ public class LoginMicrosoftADActivity extends AppCompatActivity implements View.
                     editor1.apply();
 
                      if(items.isAzure() == false && items.getVerify() == 0){
-                         ProgressLoader.hide();
+                         ViewController.DismissProgressBar();
 
                          Intent intent = new Intent(LoginMicrosoftADActivity.this, SetPasswordActivity.class);
                          overridePendingTransition(R.anim.enter, R.anim.exit);
@@ -146,11 +145,11 @@ public class LoginMicrosoftADActivity extends AppCompatActivity implements View.
 
                     }
                     else if (items.isAzure()) {
-                        ProgressLoader.hide();
+                         ViewController.DismissProgressBar();
                         LoginType = "Azure";
                         microsoft_ad( items.getClientid(), items.getTenantid(), items.getClientsecret());
                     }else if (items.isTwofa()) {
-                        ProgressLoader.hide();
+                         ViewController.DismissProgressBar();
                         Intent intent = new Intent(LoginMicrosoftADActivity.this, InitialActivity.class);
                         intent.putExtra("email",binding.editEmail.getText().toString());
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -163,10 +162,10 @@ public class LoginMicrosoftADActivity extends AppCompatActivity implements View.
                     }
 
                 }else {
-                    ProgressLoader.hide();
+                    ViewController.DismissProgressBar();
                 }
             } else {
-                ProgressLoader.hide();
+                ViewController.DismissProgressBar();
                 builder.setTitle("Warning")
                         .setMessage("Login Failed")
                         .setCancelable(false)
@@ -216,7 +215,7 @@ public class LoginMicrosoftADActivity extends AppCompatActivity implements View.
                                 boolean b2 = myDb.insertTokenDetails("email", username.trim(), items.getLink(), 1);
 
                             }else {
-                                ProgressLoader.hide();
+                                ViewController.DismissProgressBar();
                             }
                         }else {
                             AlertDialog alertDialog = new AlertDialog.Builder(LoginMicrosoftADActivity.this)
@@ -245,7 +244,7 @@ public class LoginMicrosoftADActivity extends AppCompatActivity implements View.
                         apiViewModel.otpsendemail(getApplicationContext(), otpSendEmaiModelRequest);
 
                     }else {
-                        ProgressLoader.hide();
+                        ViewController.DismissProgressBar();
                         builder.setTitle("Warning")
                                 .setMessage("Login Failed")
                                 .setCancelable(false)
@@ -255,7 +254,7 @@ public class LoginMicrosoftADActivity extends AppCompatActivity implements View.
                     }
                 }catch (IndexOutOfBoundsException e) {
                     Log.e("error",e.getMessage());
-                    ProgressLoader.hide();
+                    ViewController.DismissProgressBar();
                     builder.setTitle("Warning")
                             .setMessage("Login Failed")
                             .setCancelable(false)
@@ -265,7 +264,7 @@ public class LoginMicrosoftADActivity extends AppCompatActivity implements View.
                 }
 
             } else {
-                ProgressLoader.hide();
+                ViewController.DismissProgressBar();
                 builder.setTitle("Warning")
                         .setMessage("Login Failed")
                         .setCancelable(false)
@@ -276,7 +275,7 @@ public class LoginMicrosoftADActivity extends AppCompatActivity implements View.
         });
 
         apiViewModel.getactionnotificationResponse().observe(this, response -> {
-            ProgressLoader.hide();
+            ViewController.DismissProgressBar();
             Intent intent = new Intent(LoginMicrosoftADActivity.this, NavigationActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
@@ -284,7 +283,7 @@ public class LoginMicrosoftADActivity extends AppCompatActivity implements View.
         });
 
         apiViewModel.getotpsendemailResponse().observe(this, response -> {
-            ProgressLoader.hide();
+            ViewController.DismissProgressBar();
             if (response != null) {
                 Intent intent = new Intent(LoginMicrosoftADActivity.this, OtpActivity.class);
                 intent.putExtra("activity_type", "");
@@ -300,7 +299,7 @@ public class LoginMicrosoftADActivity extends AppCompatActivity implements View.
                     sleep(10000);
                 } catch (Exception e) {
                 } finally {
-                    ProgressLoader.hide();
+                    ViewController.DismissProgressBar();
                 }
             }
         };
@@ -326,7 +325,7 @@ public class LoginMicrosoftADActivity extends AppCompatActivity implements View.
                 //api mvvm
                 CheckSetupModelRequest checkSetupModelRequest = new CheckSetupModelRequest(binding.editEmail.getText().toString().trim());
                 apiViewModel.checkSetup(getApplicationContext(), checkSetupModelRequest);
-                ProgressLoader.show(LoginMicrosoftADActivity.this);
+                ViewController.ShowProgressBar(LoginMicrosoftADActivity.this);
             } else {
                 binding.emailTextinput.setErrorEnabled(true);
                 binding.emailTextinput.setError("Invalid Email");
@@ -382,7 +381,7 @@ public class LoginMicrosoftADActivity extends AppCompatActivity implements View.
                                         e.printStackTrace();
                                     }
                                     apiViewModel.userADlogin(getApplicationContext(), gsonObject);
-                                    ProgressLoader.show(LoginMicrosoftADActivity.this);
+                                    ViewController.ShowProgressBar(LoginMicrosoftADActivity.this);
                                 }
                             }
 

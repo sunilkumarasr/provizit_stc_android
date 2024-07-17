@@ -30,7 +30,6 @@ import android.view.animation.AnimationSet;
 import com.provizit.AESUtil;
 import com.provizit.Activities.NavigationActivity;
 import com.provizit.Config.Constant;
-import com.provizit.Config.ProgressLoader;
 import com.provizit.Config.ViewController;
 import com.provizit.Conversions;
 import com.provizit.Config.ConnectionReceiver;
@@ -115,7 +114,7 @@ public class ForgotActivity extends AppCompatActivity implements View.OnClickLis
                     Integer statuscode = response.getResult();
                     Integer successcode = 200, failurecode = 201, not_verified = 404, internet_verified = 500;
                     if (statuscode.equals(failurecode)) {
-                        ProgressLoader.hide();
+                        ViewController.DismissProgressBar();
                         builder.setMessage("Presently, this app is accessible by only the enterprise users of PROVIZIT.\n" +
                                         "\n" +
                                         "We couldn’t find you as an enterprise user.\n" +
@@ -130,9 +129,9 @@ public class ForgotActivity extends AppCompatActivity implements View.OnClickLis
                         AlertDialog alert = builder.create();
                         alert.show();
                     } else if (statuscode.equals(internet_verified)) {
-                        ProgressLoader.hide();
+                        ViewController.DismissProgressBar();
                     } else if (statuscode.equals(not_verified)) {
-                        ProgressLoader.hide();
+                        ViewController.DismissProgressBar();
                     } else if (statuscode.equals(successcode)) {
 
                         otp = Conversions.getNDigitRandomNumber(4);
@@ -147,7 +146,7 @@ public class ForgotActivity extends AppCompatActivity implements View.OnClickLis
                         binding.relativeUi.setEnabled(false);
                     }
                 }else {
-                    ProgressLoader.hide();
+                    ViewController.DismissProgressBar();
                 }
             }
         });
@@ -157,7 +156,7 @@ public class ForgotActivity extends AppCompatActivity implements View.OnClickLis
         apiViewModel.getotpsendemailResponse().observe(this, new Observer<Model>() {
             @Override
             public void onChanged(Model response) {
-                ProgressLoader.hide();
+                ViewController.DismissProgressBar();
                 binding.relativeUi.setEnabled(true);
                 if (response != null) {
                     Intent intent = new Intent(ForgotActivity.this, OtpActivity.class);
@@ -187,7 +186,7 @@ public class ForgotActivity extends AppCompatActivity implements View.OnClickLis
                 //api mvvm
                 CheckSetupModelRequest checkSetupModelRequest = new CheckSetupModelRequest(binding.editEmail.getText().toString().trim());
                 apiViewModel.checkSetup(getApplicationContext(), checkSetupModelRequest);
-                ProgressLoader.show(ForgotActivity.this);
+                ViewController.ShowProgressBar(ForgotActivity.this);
             } else {
                 binding.emailTextinput.setErrorEnabled(true);
                 binding.emailTextinput.setError("Invalid Email");

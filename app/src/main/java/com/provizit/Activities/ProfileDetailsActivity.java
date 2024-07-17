@@ -61,7 +61,6 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.provizit.Config.ProgressLoader;
 import com.provizit.Config.ViewController;
 import com.provizit.Conversions;
 import com.provizit.Config.ConnectionReceiver;
@@ -130,8 +129,7 @@ public class ProfileDetailsActivity extends AppCompatActivity {
         binding = ActivityProfileDetailsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        //any error stop loading
-        ViewController.ifany_error_stop_loading();
+
         //internet connection
         ViewController.internetConnection(broadcastReceiver, ProfileDetailsActivity.this);
 
@@ -263,14 +261,14 @@ public class ProfileDetailsActivity extends AppCompatActivity {
                     form = new Adapter(ProfileDetailsActivity.this, other1);
                     binding.emplyoeeform.setAdapter(form);
                     apiViewModel.getEmployeeDetails(getApplicationContext(), empData.getEmp_id());
-                    ProgressLoader.show(ProfileDetailsActivity.this);
+                    ViewController.ShowProgressBar(ProfileDetailsActivity.this);
                 }
             }
         });
 
         //Employee Details
         apiViewModel.getEmployeeDetailsResponse().observe(this, response -> {
-            ProgressLoader.hide();
+            ViewController.DismissProgressBar();
             if (response != null) {
                 Gson gson = new Gson();
                 Inviteemodelclass model = new Inviteemodelclass();

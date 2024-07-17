@@ -421,7 +421,8 @@ public class MeetingDescriptionNewActivity extends AppCompatActivity {
                         updatemeetings(gsonObject);
                         dialog_c.dismiss();
                         //loading
-                        card_view_progress.setVisibility(View.VISIBLE);
+                        //card_view_progress.setVisibility(View.VISIBLE);
+                        ViewController.ShowProgressBar(MeetingDescriptionNewActivity.this);
                     }
 
                 }
@@ -438,7 +439,8 @@ public class MeetingDescriptionNewActivity extends AppCompatActivity {
         accept.setOnClickListener(v -> {
             AnimationSet animation = Conversions.animation();
             v.startAnimation(animation);
-            card_view_progress.setVisibility(View.VISIBLE);
+            //card_view_progress.setVisibility(View.VISIBLE);
+            ViewController.ShowProgressBar(MeetingDescriptionNewActivity.this);
 
             apiViewModel.gethostslots(MeetingDescriptionNewActivity.this, "end", empData.getEmp_id(), empData.getEmail(), s_time, e_time - 1);
 
@@ -456,7 +458,8 @@ public class MeetingDescriptionNewActivity extends AppCompatActivity {
                     })
                     .setPositiveButton(R.string.yes, (dialog, id) -> {
                         dialog.cancel();
-                        card_view_progress.setVisibility(View.VISIBLE);
+                        //card_view_progress.setVisibility(View.VISIBLE);
+                        ViewController.ShowProgressBar(MeetingDescriptionNewActivity.this);
                         JsonObject gsonObject = new JsonObject();
                         JSONObject jsonObj_ = new JSONObject();
                         try {
@@ -571,7 +574,8 @@ public class MeetingDescriptionNewActivity extends AppCompatActivity {
         apiViewModel.gethostslots_response().observe(this, new Observer<Model1>() {
             @Override
             public void onChanged(Model1 response) {
-                card_view_progress.setVisibility(GONE);
+                //card_view_progress.setVisibility(GONE);
+                ViewController.DismissProgressBar();
                 if (response != null) {
                     Integer statuscode = response.getResult();
                     Integer successcode = 200, failurecode = 401, not_verified = 404;
@@ -616,7 +620,8 @@ public class MeetingDescriptionNewActivity extends AppCompatActivity {
         apiViewModel.updatemeetings_response().observe(this, new Observer<Model>() {
             @Override
             public void onChanged(Model response) {
-                card_view_progress.setVisibility(GONE);
+                //card_view_progress.setVisibility(GONE);
+                ViewController.DismissProgressBar();
                 if (response != null) {
                     Integer statuscode = response.getResult();
                     Integer successcode = 200, failurecode = 401, not_verified = 404;
@@ -635,7 +640,8 @@ public class MeetingDescriptionNewActivity extends AppCompatActivity {
         apiViewModel.iresend_response().observe(this, new Observer<Model>() {
             @Override
             public void onChanged(Model response) {
-                card_view_progress.setVisibility(GONE);
+                //card_view_progress.setVisibility(GONE);
+                ViewController.DismissProgressBar();
                 if (response != null) {
                     Integer statuscode = response.getResult();
                     Integer successcode = 200, failurecode = 401, not_verified = 404;
@@ -653,7 +659,8 @@ public class MeetingDescriptionNewActivity extends AppCompatActivity {
         apiViewModel.addcovisitor_response().observe(this, new Observer<Model>() {
             @Override
             public void onChanged(Model response) {
-                card_view_progress.setVisibility(GONE);
+                //card_view_progress.setVisibility(GONE);
+                ViewController.DismissProgressBar();
                 if (response != null) {
                     Integer statuscode = response.getResult();
                     Integer successcode = 200, failurecode = 401, not_verified = 404;
@@ -827,7 +834,8 @@ public class MeetingDescriptionNewActivity extends AppCompatActivity {
         });
 
         apiViewModel.getmeetingdetails_response().observe(this, response -> {
-            card_view_progress.setVisibility(GONE);
+            //card_view_progress.setVisibility(GONE);
+            ViewController.DismissProgressBar();
             if (response != null) {
                 Integer statuscode = response.getResult();
                 Integer successcode = 200, failurecode = 401, not_verified = 404;
@@ -864,12 +872,14 @@ public class MeetingDescriptionNewActivity extends AppCompatActivity {
 
     private void updatemeetings(JsonObject jsonObject) {
         apiViewModel.updatemeetings(getApplicationContext(), jsonObject);
-        card_view_progress.setVisibility(View.VISIBLE);
+        //card_view_progress.setVisibility(View.VISIBLE);
+        ViewController.ShowProgressBar(MeetingDescriptionNewActivity.this);
     }
 
     private void iResend(JsonObject jsonObject) {
         apiViewModel.iresend(getApplicationContext(), jsonObject);
-        card_view_progress.setVisibility(View.VISIBLE);
+        //card_view_progress.setVisibility(View.VISIBLE);
+        ViewController.ShowProgressBar(MeetingDescriptionNewActivity.this);
     }
 
     private void popup(final Boolean ApproverAction) {
@@ -889,7 +899,8 @@ public class MeetingDescriptionNewActivity extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                card_view_progress.setVisibility(View.VISIBLE);
+                //card_view_progress.setVisibility(View.VISIBLE);
+                ViewController.ShowProgressBar(MeetingDescriptionNewActivity.this);
                 if (reason.getText().toString().equalsIgnoreCase("")) {
                     reason_textinput.setErrorEnabled(true);
                     reason_textinput.setError("Enter Reason");
@@ -1049,7 +1060,8 @@ public class MeetingDescriptionNewActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                card_view_progress.setVisibility(View.VISIBLE);
+                //card_view_progress.setVisibility(View.VISIBLE);
+                ViewController.ShowProgressBar(MeetingDescriptionNewActivity.this);
                 JsonObject json = Reschedulejson();
                 System.out.println("json object" + json);
                 updatemeetings(json);
@@ -1197,7 +1209,8 @@ public class MeetingDescriptionNewActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (invitedArrayList.size() != 0) {
                     dialog.dismiss();
-                    card_view_progress.setVisibility(View.VISIBLE);
+                    //card_view_progress.setVisibility(View.VISIBLE);
+                    ViewController.ShowProgressBar(MeetingDescriptionNewActivity.this);
                     JsonObject json = addCovisitorjson();
                     System.out.println("json object" + json);
                     addcovisitor(json);
@@ -1846,13 +1859,15 @@ public class MeetingDescriptionNewActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                card_view_progress.setVisibility(GONE);
+                //card_view_progress.setVisibility(GONE);
+                ViewController.DismissProgressBar();
             }
         });
         assign_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                card_view_progress.setVisibility(View.VISIBLE);
+                //card_view_progress.setVisibility(View.VISIBLE);
+                ViewController.ShowProgressBar(MeetingDescriptionNewActivity.this);
                 Invited invited = new Invited();
                 invited.setEmail(Assignemail);
                 invited.setAssign(true);
@@ -1869,7 +1884,8 @@ public class MeetingDescriptionNewActivity extends AppCompatActivity {
     private void addcovisitor(JsonObject jsonObject) {
 
         apiViewModel.addcovisitor(getApplicationContext(), jsonObject);
-        card_view_progress.setVisibility(View.VISIBLE);
+        //card_view_progress.setVisibility(View.VISIBLE);
+        ViewController.ShowProgressBar(MeetingDescriptionNewActivity.this);
     }
 
     private void getsubhierarchys(String l_id) {
@@ -2655,7 +2671,8 @@ public class MeetingDescriptionNewActivity extends AppCompatActivity {
     private void getmeetingdetails(String id) {
 
         apiViewModel.getmeetingdetails(MeetingDescriptionNewActivity.this, id);
-        card_view_progress.setVisibility(View.VISIBLE);
+        //card_view_progress.setVisibility(View.VISIBLE);
+        ViewController.ShowProgressBar(MeetingDescriptionNewActivity.this);
 
     }
 

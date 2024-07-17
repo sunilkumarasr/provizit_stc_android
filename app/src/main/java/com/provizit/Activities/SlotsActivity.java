@@ -24,7 +24,6 @@ import android.widget.RelativeLayout;
 
 import com.bumptech.glide.Glide;
 import com.provizit.Config.ConnectionReceiver;
-import com.provizit.Config.ProgressLoader;
 import com.provizit.Config.ViewController;
 import com.provizit.Conversions;
 import com.provizit.MVVM.ApiViewModel;
@@ -81,7 +80,7 @@ public class SlotsActivity extends AppCompatActivity {
         apiViewModel = new ViewModelProvider(SlotsActivity.this).get(ApiViewModel.class);
 
         apiViewModel.getuserslotdetails(getApplicationContext(), id, sharedPreferences1.getString("company_id", null));
-        ProgressLoader.show(SlotsActivity.this);
+        ViewController.ShowProgressBar(SlotsActivity.this);
 
 
         broadcastReceiver = new ConnectionReceiver() {
@@ -102,7 +101,7 @@ public class SlotsActivity extends AppCompatActivity {
         apiViewModel.getuserslotdetails_response().observe(this, new Observer<Model>() {
             @Override
             public void onChanged(Model response) {
-                ProgressLoader.hide();
+                ViewController.DismissProgressBar();;
                 companyData_model = response.getItems();
 
                 if (response != null) {
