@@ -84,7 +84,6 @@ public class ViewController {
 //        dialog.setContentView(R.layout.custom_progress_loader);
 //        dialog.show();
 
-
         if (dialog == null || !dialog.isShowing()) {
             dialog = new ProgressDialog(activity);
             dialog.setMessage("Loading...");

@@ -1106,7 +1106,6 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
                         }
 
 
-
                     }
                 }
 

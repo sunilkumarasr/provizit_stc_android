@@ -70,7 +70,7 @@ public class ApiRepository {
             }
             @Override
             public void onFailure(Call<Model> call, Throwable t) {
-                Log.e(TAG, "onResp"+"checkSetup2" );
+                Log.e(TAG, "onResp"+"checkSetup2" +t.getMessage().toString());
                 logresponse.onFailure(new Throwable(t));
             }
         },context,checkSetupmodelrequest);
