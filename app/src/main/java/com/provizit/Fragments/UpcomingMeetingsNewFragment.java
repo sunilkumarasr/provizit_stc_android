@@ -3,7 +3,6 @@ package com.provizit.Fragments;
 import static android.content.Context.NOTIFICATION_SERVICE;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
-
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.NotificationManager;
@@ -15,7 +14,6 @@ import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
@@ -27,7 +25,6 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
 import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -46,15 +43,12 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.bumptech.glide.Glide;
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.provizit.Activities.AppointmentDetailsNewActivity;
 import com.provizit.Activities.CheckInDetailsActivity;
 import com.provizit.Activities.MeetingDescriptionNewActivity;
-import com.provizit.Activities.NavigationActivity;
 import com.provizit.Activities.SelectedDateMeetingsActivity;
 import com.provizit.Activities.SetupMeetingActivity;
 import com.provizit.Activities.SlotsActivity;
@@ -77,11 +71,8 @@ import com.provizit.Utilities.DatabaseHelper;
 import com.provizit.Utilities.EmpData;
 import com.provizit.Utilities.RoleDetails;
 import com.provizit.databinding.TodayMeetingsListItemsBinding;
-
-import org.apache.poi.ss.formula.functions.T;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -90,7 +81,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
-
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -113,7 +103,7 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
 
     CardView flot_bt;
 
-    //calanderView Top
+    //calenderView Top
     private List<MyCalendar> calendarList = new ArrayList<>();
     private ArrayList<String> calendar1 = new ArrayList<>();
     ArrayList<CompanyData> meetings;
@@ -184,7 +174,6 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
     private boolean isPanelShown;
 
     ApiViewModel apiViewModel;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -742,7 +731,9 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
 
                     } else if (statuscode.equals(successcode)) {
                         if (model.getItems() != null) {
+
                             for (int i = 0; i < model.getItems().size(); i++) {
+
                                 if (model.getItems().get(i).getCreated_time() != null) {
                                     String soort_stamp = model.getItems().get(i).getCreated_time().get$numberLong();
 
@@ -761,6 +752,7 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
                                 }
 
                             }
+
                         }
                         getmeetings(s_time, e_time);
                     }
@@ -787,12 +779,13 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
                 if (model != null) {
                     Integer statuscode = model.getResult();
                     Integer successcode = 200, failurecode = 401, not_verified = 404;
-                    if (statuscode.equals(failurecode)) {
+                    if(statuscode.equals(failurecode)) {
 
-                    } else if (statuscode.equals(not_verified)) {
+                    }else if (statuscode.equals(not_verified)) {
 
-                    } else if (statuscode.equals(successcode)) {
+                    }else if (statuscode.equals(successcode)) {
                         meetings = model.getItems();
+
 //                        if (model.getItems()!=null){
 //                            for (int i = 0; i < model.getItems().size(); i++) {
 //                                if (model.getItems().get(i).getCreated_time()!=null){
@@ -801,6 +794,7 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
 //                                }
 //                            }
 //                        }
+
                         getmeetingrequests(s_time, e_time);
                     }
                 }
@@ -819,7 +813,7 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
         DataManger dataManager = DataManger.getDataManager();
         dataManager.getmeetingrequests(new Callback<Model1>() {
             @Override
-            public void onResponse(Call<Model1> call, Response<Model1> response) {
+            public void onResponse(Call<Model1> call , Response<Model1> response) {
                 Model1 model = response.body();
 
                 if (model != null) {
@@ -908,16 +902,15 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
                 }
 
                 String AdOnline = Preferences.loadStringValue(getActivity(), Preferences.AdOnline, "");
+//
+//                if (AdOnline.equalsIgnoreCase("true")){
+//                    getoutlookappointments(s_time, e_time);
+//                }else {
+//                    getmeetingapprovals(s_time, e_time);
+//                }
 
-                if (AdOnline.equalsIgnoreCase("true")){
-                    getoutlookappointments(s_time, e_time);
-                }else {
-                    getmeetingapprovals(s_time, e_time);
-                }
-
-
+                getmeetingapprovals(s_time, e_time);
             }
-
             @Override
             public void onFailure(Call<Model1> call, Throwable t) {
                 Log.d("", t + "");
@@ -926,7 +919,6 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
             }
         }, getActivity(), "upcoming", empData.getEmp_id(), empData.getLocation(), empData.getHierarchy_id(), s_time, e_time);
     }
-
 
     private void getoutlookappointments(String s_time, String e_time) {
         DataManger dataManager = DataManger.getDataManager();
@@ -1047,8 +1039,6 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
                             }
                         }
 
-
-
                         Log.e("outlookmeetings_size_2",meetings1.size()+"");
                         //upcoming
                         upComingMeetingAdapter = new UpComingMeetingAdapter(getActivity(), meetings1);
@@ -1056,7 +1046,6 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
                         recyclerview_upcoming.setLayoutManager(manager);
                         //set adapter
                         recyclerview_upcoming.setAdapter(upComingMeetingAdapter);
-
 
                         //count
                         upcoming_count_text.setText("(" + meetings1.size() + ")");
@@ -1102,9 +1091,7 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
                                 Log.e(TAG, "onResponse:getStatus " + toDayMeetings_Appointments.get(i).getStatus());
                                 Log.e(TAG, "onResponse:getStatus " + toDayMeetings_Appointments.get(i).getStatus());
                             }
-
                         }
-
 
                     }
                 }
@@ -1852,7 +1839,6 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
             }
         }
     }
-
 
     //Appointments
     public ArrayList<CompanyData> appoinment_insertionSort(ArrayList<CompanyData> meetingsA) {
@@ -2668,7 +2654,6 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
         }, getActivity(), jsonObject);
     }
 
-
     //decline
     private void declineAppointmentpopup(String id, String Emp_id) {
         final Dialog dialog = new Dialog(getActivity());
@@ -2745,7 +2730,6 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
             }
         }, getActivity(), jsonObject);
     }
-
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

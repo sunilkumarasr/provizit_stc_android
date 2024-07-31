@@ -62,7 +62,7 @@ public class LoginMicrosoftADActivity extends AppCompatActivity implements View.
 
 
     String AUTHORITY = "https://login.microsoftonline.com/c6416dc9-4961-4429-a1bc-1c1bfee7f846";
-    String REDIRECT_URI = "msauth://com.provizit.ksa/UxP3IRhPTbETz7%2FC8mdQfs5RtS4%3D";
+    String REDIRECT_URI = "msauth://com.provizit.ksa/bta3EkaSa%2FfwPCvr7mXXc%2F13WsQ%3D";
     String CLIENT_ID = "3e4a6142-7057-4e08-a278-114688ab51ef";
     String Company_ID = "";
 
@@ -338,7 +338,7 @@ public class LoginMicrosoftADActivity extends AppCompatActivity implements View.
 
         Company_ID = company_id;
         AUTHORITY = "https://login.microsoftonline.com/" + tenantid;
-        REDIRECT_URI = "msauth://com.provizit.ksa/UxP3IRhPTbETz7%2FC8mdQfs5RtS4%3D";
+        REDIRECT_URI = "msauth://com.provizit.ksa/bta3EkaSa%2FfwPCvr7mXXc%2F13WsQ%3D";
         CLIENT_ID = clientid;
 
         // Create PublicClientApplication instance

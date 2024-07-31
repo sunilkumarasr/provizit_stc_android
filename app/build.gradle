@@ -9,14 +9,12 @@ android {
         applicationId "com.provizit.ksa"
         minSdkVersion 21
         targetSdkVersion 34
-        versionCode 25
-        versionName "4.0"
+        versionCode 26
+        versionName "4.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
 
-//    Provizit Stc
-//    use Stc url
 //    Key password: Ftech@123
 //    key alias: Key0
 //    Jks file name: Untitled.jks
@@ -25,7 +23,6 @@ android {
         release {
             minifyEnabled true
             shrinkResources true
-
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -67,9 +64,6 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
     implementation "com.itextpdf:itext7-core:7.1.10"
 
-    // Declare the dependencies for the Firebase Cloud Messaging and Analytics libraries
-    // When using the BoM, you don't specify versions in Firebase library dependencies
-
     implementation 'com.google.firebase:firebase-messaging'
     implementation 'com.google.firebase:firebase-analytics'
     implementation 'com.google.firebase:firebase-messaging-directboot:20.2.0'
@@ -92,9 +86,6 @@ dependencies {
     //lottie
     implementation "com.airbnb.android:lottie:3.6.0"
 
-    //notification count
-//  implementation 'com.github.arturogutierrez:badges:1.0.5@aar'
-
     //pdf download
     implementation 'com.itextpdf:itext7-core:7.1.3'
 
@@ -115,7 +106,7 @@ dependencies {
     //loading
     implementation 'com.github.ybq:Android-SpinKit:1.4.0'
 
-//    implementation 'com.microsoft.identity.client:msal:4.5.0'
+    //implementation 'com.microsoft.identity.client:msal:4.5.0'
     implementation 'com.microsoft.identity.client:msal:2.0.0'
 
     //placeholder loading

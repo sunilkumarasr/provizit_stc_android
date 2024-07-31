@@ -167,8 +167,8 @@
             android:name=".Activities.DeepLinkingActivity"
             android:exported="true">
             <intent-filter android:autoVerify="true">
-                <action android:name="android.intent.action.VIEW" />
 
+                <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
@@ -180,6 +180,7 @@
                     android:host="ft.provizit.com"
                     android:pathPrefix="/linkdetails"
                     android:scheme="https" />
+
             </intent-filter>
         </activity>
 
@@ -194,9 +195,8 @@
 
                 <data
                     android:host="com.provizit.ksa"
-                    android:path="/UxP3IRhPTbETz7/C8mdQfs5RtS4="
+                    android:path="/bta3EkaSa/fwPCvr7mXXc/13WsQ="
                     android:scheme="msauth" />
-
             </intent-filter>
         </activity>
 
