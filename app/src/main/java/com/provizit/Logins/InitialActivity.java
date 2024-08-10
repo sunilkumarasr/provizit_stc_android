@@ -39,12 +39,6 @@ import android.view.animation.AnimationSet;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.CompoundButton;
 import android.widget.Toast;
-
-import com.google.android.play.core.appupdate.AppUpdateInfo;
-import com.google.android.play.core.appupdate.AppUpdateManager;
-import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
-import com.google.android.play.core.install.model.AppUpdateType;
-import com.google.android.play.core.install.model.UpdateAvailability;
 import com.google.gson.Gson;
 import com.provizit.AESUtil;
 import com.provizit.Activities.PrivacyPolicyActivity;
@@ -82,10 +76,6 @@ public class InitialActivity extends AppCompatActivity {
 
     AlertDialog.Builder builder;
     AESUtil aesUtil;
-
-    //app update
-    private AppUpdateManager mAppUpdateManager;
-    private static final int RC_APP_UPDATE = 100;
 
     ApiViewModel apiViewModel;
 
@@ -354,32 +344,5 @@ public class InitialActivity extends AppCompatActivity {
         }
     }
 
-    private void autoUpdate() {
-        //autoupdate play store app
-        mAppUpdateManager = AppUpdateManagerFactory.create(this);
-
-        mAppUpdateManager.getAppUpdateInfo().addOnSuccessListener(appUpdateInfo -> {
-            if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
-                try {
-                    mAppUpdateManager.startUpdateFlowForResult(appUpdateInfo, AppUpdateType.IMMEDIATE, InitialActivity.this, RC_APP_UPDATE);
-                } catch (IntentSender.SendIntentException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
-        if (requestCode == PERMISSIONS_REQUEST_READ_CONTACTS) {
-            if (grantResults.length > 0
-                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Permission granted, read contacts
-            } else {
-                // Permission denied
-            }
-        }
-    }
 
 }
