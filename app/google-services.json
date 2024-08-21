@@ -14,7 +14,23 @@
       },
       "oauth_client": [
         {
-          "client_id": "846706984718-07nrvuajrubo8hstcn2okhcgjkaukupf.apps.googleusercontent.com",
+          "client_id": "846706984718-0hrjeg2r6qkc2abuq15md0pm0b5j01ns.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.provizit.ksa",
+            "certificate_hash": "5313f721184f4db113cfbfc2f267507ece51b52e"
+          }
+        },
+        {
+          "client_id": "846706984718-j01b6m3d0qm7g6e72q9a27vhh7e152ap.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.provizit.ksa",
+            "certificate_hash": "44dcb9a2b68803b43100463d301fd9e63ff05a0a"
+          }
+        },
+        {
+          "client_id": "846706984718-mo2kf7vg1n7dg2af6854ktjbslif852d.apps.googleusercontent.com",
           "client_type": 3
         }
       ],

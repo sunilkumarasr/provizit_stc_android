@@ -60,11 +60,11 @@ public class LoginMicrosoftADActivity extends AppCompatActivity implements View.
     AESUtil aesUtil;
     ApiViewModel apiViewModel;
 
-
     String AUTHORITY = "https://login.microsoftonline.com/c6416dc9-4961-4429-a1bc-1c1bfee7f846";
-    String REDIRECT_URI = "msauth://com.provizit.ksa/bta3EkaSa%2FfwPCvr7mXXc%2F13WsQ%3D";
+    String REDIRECT_URI = "msauth://com.provizit.ksa/RNy5oraIA7QxAEY9MB%2FZ5j%2FwWgo%3D";
     String CLIENT_ID = "3e4a6142-7057-4e08-a278-114688ab51ef";
     String Company_ID = "";
+
 
     String username = "";
     String LoginType = "";
@@ -338,8 +338,12 @@ public class LoginMicrosoftADActivity extends AppCompatActivity implements View.
 
         Company_ID = company_id;
         AUTHORITY = "https://login.microsoftonline.com/" + tenantid;
-        REDIRECT_URI = "msauth://com.provizit.ksa/bta3EkaSa%2FfwPCvr7mXXc%2F13WsQ%3D";
+        REDIRECT_URI = "msauth://com.provizit.ksa/RNy5oraIA7QxAEY9MB%2FZ5j%2FwWgo%3D";
         CLIENT_ID = clientid;
+
+        Log.e("AUTHORITY_",AUTHORITY);
+        Log.e("REDIRECT_URI_",REDIRECT_URI);
+        Log.e("CLIENT_ID_",CLIENT_ID);
 
         // Create PublicClientApplication instance
         PublicClientApplication.create(

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.provizit">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -20,9 +21,8 @@
     <uses-permission android:name="com.sonyericsson.home.permission.BROADCAST_BADGE" /> <!-- HTC -->
     <uses-permission android:name="com.htc.launcher.permission.READ_SETTINGS" />
     <uses-permission android:name="com.htc.launcher.permission.UPDATE_SHORTCUT" />
-
-    <uses-permission android:name="com.google.android.gms.permission.AD_ID"/>
-
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
     <uses-feature android:name="android.hardware.camera.front" />
     <uses-feature android:name="android.hardware.camera" />
@@ -151,26 +151,26 @@
             android:name=".Activities.SelectedDateMeetingsActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".Logins.Login"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".Activities.SplashActivity"
             android:exported="true"
             android:screenOrientation="portrait">
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
-
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".Activities.DeepLinkingActivity"
             android:exported="true">
             <intent-filter android:autoVerify="true">
-
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-
                 <data
                     android:host="stc.provizit.com"
                     android:pathPrefix="/linkdetails"
@@ -179,7 +179,6 @@
                     android:host="ft.provizit.com"
                     android:pathPrefix="/linkdetails"
                     android:scheme="https" />
-
             </intent-filter>
         </activity>
 
@@ -188,13 +187,11 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
-
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-
                 <data
                     android:host="com.provizit.ksa"
-                    android:path="/bta3EkaSa/fwPCvr7mXXc/13WsQ="
+                    android:path="/RNy5oraIA7QxAEY9MB/Z5j/wWgo="
                     android:scheme="msauth" />
             </intent-filter>
         </activity>
