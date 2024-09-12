@@ -12,7 +12,6 @@
         layout="@layout/no_internet"/>
 
     <RelativeLayout
-        android:id="@+id/relative_ui"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -45,11 +44,11 @@
 
         </RelativeLayout>
 
-        <ScrollView
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_below="@+id/appbarlayout"
-            android:layout_above="@+id/uploadPdf"
-            android:layout_height="match_parent">
+            android:layout_marginBottom="60dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -157,7 +156,7 @@
                             android:layout_width="18dp"
                             android:layout_height="23dp"
                             android:background="@drawable/ic_pdfshow"
-                            android:drawableTint="@color/colorPrimary"
+                            app:drawableTint="@color/colorPrimary"
                             android:drawablePadding="10dp"
                             android:textColor="#868686"
                             android:textSize="@dimen/subject_text" />
@@ -170,7 +169,7 @@
                             android:layout_marginEnd="5dp"
                             style="@style/medium_font"
                             android:singleLine="true"
-                            android:drawableTint="@color/colorPrimary"
+                            app:drawableTint="@color/colorPrimary"
                             android:textColor="@color/colorPrimary"
                             android:text="dasdasdasdas"
                             android:textSize="14sp"/>
@@ -331,7 +330,7 @@
                         android:id="@+id/reschedule"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="10dp"
+                        android:layout_marginEnd="10dp"
                         android:layout_weight="1"
                         android:background="?attr/selectableItemBackground"
                         android:gravity="center"
@@ -757,15 +756,11 @@
                         android:src="@drawable/recurring_active"/>
                 </RelativeLayout>
 
-
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerViewinvites"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp"
-                    android:layout_marginBottom="5dp"/>
-
+                    android:padding="15dp"/>
 
                 <TextView
                     android:id="@+id/txt_view_more"
@@ -778,8 +773,8 @@
                     android:textColor="@color/colorPrimary"
                     style="@style/medium_font"/>
 
-
                 <TextView
+                    android:visibility="gone"
                     android:id="@+id/agendaText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -792,24 +787,12 @@
                     android:textColor="@color/colorPrimary"/>
 
 
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/cardview_agenda"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:visibility="gone"
+                    android:id="@+id/agendaRecyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginTop="5dp"
-                    app:cardCornerRadius="10dp"
-                    app:cardBackgroundColor="@color/white"
-                    android:outlineSpotShadowColor="@color/gray"
-                    android:outlineAmbientShadowColor="@color/gray"
-                    app:cardElevation="3dp">
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/agendaRecyclerView"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
-                </androidx.cardview.widget.CardView>
+                    android:padding="15dp"/>
 
 
                 <TextView
@@ -853,7 +836,7 @@
 
             </LinearLayout>
 
-        </ScrollView>
+        </androidx.core.widget.NestedScrollView>
 
         <androidx.cardview.widget.CardView
             android:visibility="gone"
@@ -952,7 +935,6 @@
                 <LinearLayout
                     android:id="@+id/linear1"
                     android:layout_width="match_parent"
-                    android:layout_below="@+id/meeting1"
                     android:orientation="vertical"
                     android:gravity="center_horizontal"
                     android:layout_height="wrap_content">
@@ -986,10 +968,8 @@
                     <TextView
                         android:id="@+id/location"
                         android:layout_width="wrap_content"
-                        android:layout_alignParentBottom="true"
                         android:layout_marginTop="5dp"
                         style="@style/regular_font"
-                        android:layout_centerHorizontal="true"
                         android:layout_marginBottom="20dp"
                         android:text="Sample Sample"
                         android:textSize="15sp"
@@ -1015,14 +995,12 @@
             android:id="@+id/uploadPdf"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:layout_alignParentBottom="true"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
-            android:contentDescription="TODO"
-            android:outlineAmbientShadowColor="@color/white"
             android:src="@drawable/ic_pdfupload1"
             android:tint="@color/white"
             app:borderWidth="5dp"/>
@@ -1031,14 +1009,12 @@
             android:id="@+id/fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
-            android:contentDescription="TODO"
-            android:outlineAmbientShadowColor="@color/white"
             android:src="@drawable/ic_baseline_add_24"
             android:tint="@color/white"
             app:borderWidth="5dp" />

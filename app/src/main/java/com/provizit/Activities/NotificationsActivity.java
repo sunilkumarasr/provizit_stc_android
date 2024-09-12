@@ -37,6 +37,7 @@ import com.provizit.Config.CommonClass;
 import com.provizit.Config.ViewController;
 import com.provizit.Conversions;
 import com.provizit.Config.ConnectionReceiver;
+import com.provizit.Logins.ForgotActivity;
 import com.provizit.MVVM.ApiViewModel;
 import com.provizit.MVVM.RequestModels.NotificationsStatusChangeModelRequest;
 import com.provizit.R;
@@ -154,6 +155,8 @@ public class NotificationsActivity extends AppCompatActivity implements View.OnC
                 //set adapter
                 recycler_view.setAdapter(notificationsAdapter);
                 cc.AnimationLeft(recycler_view);
+            }else {
+                Conversions.errroScreen(NotificationsActivity.this, "getnotificationsList");
             }
 
         });
@@ -164,7 +167,6 @@ public class NotificationsActivity extends AppCompatActivity implements View.OnC
                 shimmer_view_container.setVisibility(View.GONE);
                 shimmer_view_container.stopShimmerAnimation();
                 //redirect to Navigation page
-
             }
         });
 

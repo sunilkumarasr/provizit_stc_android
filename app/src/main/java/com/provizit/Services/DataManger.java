@@ -7,6 +7,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.provizit.AESUtil;
+import com.provizit.AdapterAndModel.HostSlots.HostSlotsModel;
 import com.provizit.Conversions;
 import com.provizit.MVVM.RequestModels.ActionNotificationModelRequest;
 import com.provizit.MVVM.RequestModels.CheckSetupModelRequest;
@@ -323,12 +324,12 @@ public class DataManger {
         Call<Model1> call = apiService.getentrypoints(bearer,newEncrypt,location);
         call.enqueue((Callback<Model1>) cb);
     }
-    public void gethostslots(Callback<Model1> cb,Context context, String type,  String emp_id, String email, Long start, Long end) {
+    public void gethostslots(Callback<HostSlotsModel> cb, Context context, String type, String emp_id, String email, Long start, Long end) {
         API apiService = retrofitSecurity.create(API.class);
         String newEncrypt = Conversions.encrypt(context,false);
         String bearer = "Bearer" + newEncrypt;
-        Call<Model1> call = apiService.gethostslots(bearer,newEncrypt,type,emp_id,email,start,end);
-        call.enqueue((Callback<Model1>) cb);
+        Call<HostSlotsModel> call = apiService.gethostslots(bearer,newEncrypt,type,emp_id,email,start,end);
+        call.enqueue((Callback<HostSlotsModel>) cb);
     }
 
     public void getuserslotdetails(Callback<Model> cb, Context context,String id,String comp_id) {

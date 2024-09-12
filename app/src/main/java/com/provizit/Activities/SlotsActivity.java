@@ -26,6 +26,7 @@ import com.bumptech.glide.Glide;
 import com.provizit.Config.ConnectionReceiver;
 import com.provizit.Config.ViewController;
 import com.provizit.Conversions;
+import com.provizit.Logins.ForgotActivity;
 import com.provizit.MVVM.ApiViewModel;
 import com.provizit.R;
 import com.provizit.Services.DataManger;
@@ -145,6 +146,8 @@ public class SlotsActivity extends AppCompatActivity {
 
 
                     }
+                }else {
+                    Conversions.errroScreen(SlotsActivity.this, "getuserslotdetails");
                 }
 
             }

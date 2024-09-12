@@ -56,8 +56,11 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.bumptech.glide.Glide;
+import com.provizit.AdapterAndModel.HostSlots.HostSlotsData;
+import com.provizit.AdapterAndModel.HostSlots.HostSlotsModel;
 import com.provizit.Conversions;
 import com.provizit.Config.ConnectionReceiver;
+import com.provizit.Logins.ForgotActivity;
 import com.provizit.MVVM.ApiViewModel;
 import com.provizit.R;
 import com.provizit.Services.DataManger;
@@ -593,9 +596,9 @@ public class MeetingDescriptionActivity extends AppCompatActivity {
         }
 
 
-        apiViewModel.gethostslots_response().observe(this, new Observer<Model1>() {
+        apiViewModel.gethostslots_response().observe(this, new Observer<HostSlotsModel>() {
             @Override
-            public void onChanged(Model1 response) {
+            public void onChanged(HostSlotsModel response) {
                 card_view_progress.setVisibility(GONE);
                 if (response != null) {
                     Integer statuscode = response.getResult();
@@ -605,9 +608,9 @@ public class MeetingDescriptionActivity extends AppCompatActivity {
                     } else if (statuscode.equals(not_verified)) {
 
                     } else if (statuscode.equals(successcode)) {
-                        ArrayList<CompanyData> companyData = new ArrayList<>();
-                        companyData = response.getItems();
-                         if (companyData.size() == 0) {
+                        ArrayList<HostSlotsData> hostSlotsData = new ArrayList<>();
+                        hostSlotsData = response.getItems();
+                         if (hostSlotsData.size() == 0) {
 
                             JsonObject gsonObject = new JsonObject();
                             JSONObject jsonObj_ = new JSONObject();
@@ -840,6 +843,8 @@ public class MeetingDescriptionActivity extends AppCompatActivity {
                             dialog.show();
                         }
                     }
+                }else {
+                    Conversions.errroScreen(MeetingDescriptionActivity.this, "");
                 }
             }
         });

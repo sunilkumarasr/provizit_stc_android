@@ -30,16 +30,12 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
-import android.net.ConnectivityManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.ParcelFileDescriptor;
@@ -83,6 +79,9 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.provizit.AdapterAndModel.HostSlots.HostSlotsData;
+import com.provizit.AdapterAndModel.HostSlots.HostSlotsModel;
+import com.provizit.AdapterAndModel.MeetingDetailsAgendas.MeetingDetailsAgendaAdapter;
 import com.provizit.AdapterAndModel.MultipleEmailAddressAdapter;
 import com.provizit.AdapterAndModel.MultiplePhoneNumberAdapter;
 import com.provizit.Config.Customthree;
@@ -90,16 +89,13 @@ import com.provizit.Config.ViewController;
 import com.provizit.Conversions;
 import com.provizit.FragmentDailouge.ReccurenceDatesListFragment;
 import com.provizit.FragmentDailouge.ViewMoreInvitesFragment;
-import com.provizit.Config.ConnectionReceiver;
-import com.provizit.Logins.InitialActivity;
+import com.provizit.Logins.ForgotActivity;
 import com.provizit.MVVM.ApiViewModel;
 import com.provizit.R;
-import com.provizit.Services.APIConstant;
 import com.provizit.Services.DataManger;
 import com.provizit.Services.Model;
 import com.provizit.Services.Model1;
 import com.provizit.Utilities.Agenda;
-import com.provizit.Utilities.ApproverStatistics;
 import com.provizit.Utilities.CompanyData;
 import com.provizit.Utilities.CustomAdapter;
 import com.provizit.Utilities.DatabaseHelper;
@@ -147,8 +143,6 @@ public class MeetingDescriptionNewActivity extends AppCompatActivity {
     CardView card_view_progress;
 
     BroadcastReceiver broadcastReceiver;
-    RelativeLayout relative_internet;
-    RelativeLayout relative_ui;
     public static final int RESULT_CODE = 12;
     ImageView img_back;
     TextView txtTitle, txt_date_time;
@@ -191,13 +185,12 @@ public class MeetingDescriptionNewActivity extends AppCompatActivity {
     RecyclerView recyclerViewinvites, agendaRecyclerView;
     TextView txt_view_more;
     InvitesAdapter1 invitesAdapter;
-    AgendaAdapter1 agendaAdapter;
+    MeetingDetailsAgendaAdapter agendaAdapter;
     LinearLayout leanear_stamp;
     CardView cardview_note;
     TextView v_name, E_desi, email, mobile, host,coordinatorName, invitee_text, txt_stamp, assignedto, title1, pdfName;
     LinearLayout pdf;
     FloatingActionButton fab, uploadPdf;
-    CardView cardview_agenda;
     TextView agendaText;
     ArrayList<Pdfs> pdfsArrayList;
     private Intent browserIntent;
@@ -497,7 +490,6 @@ public class MeetingDescriptionNewActivity extends AppCompatActivity {
         recyclerViewinvites = findViewById(R.id.recyclerViewinvites);
         txt_view_more = findViewById(R.id.txt_view_more);
         agendaText = findViewById(R.id.agendaText);
-        cardview_agenda = findViewById(R.id.cardview_agenda);
         agendaRecyclerView = findViewById(R.id.agendaRecyclerView);
 
 
@@ -570,10 +562,9 @@ public class MeetingDescriptionNewActivity extends AppCompatActivity {
         //meeting details
         getmeetingdetails(meetingsId);
 
-
-        apiViewModel.gethostslots_response().observe(this, new Observer<Model1>() {
+        apiViewModel.gethostslots_response().observe(this, new Observer<HostSlotsModel>() {
             @Override
-            public void onChanged(Model1 response) {
+            public void onChanged(HostSlotsModel response) {
                 //card_view_progress.setVisibility(GONE);
                 ViewController.DismissProgressBar();
                 if (response != null) {
@@ -584,9 +575,9 @@ public class MeetingDescriptionNewActivity extends AppCompatActivity {
                     } else if (statuscode.equals(not_verified)) {
 
                     } else if (statuscode.equals(successcode)) {
-                        ArrayList<CompanyData> companyData = new ArrayList<>();
-                        companyData = response.getItems();
-                        if (companyData.size() == 0) {
+                        ArrayList<HostSlotsData> hostSlotsData = new ArrayList<>();
+                        hostSlotsData = response.getItems();
+                        if (hostSlotsData.size() == 0) {
 
                             JsonObject gsonObject = new JsonObject();
                             JSONObject jsonObj_ = new JSONObject();
@@ -613,6 +604,8 @@ public class MeetingDescriptionNewActivity extends AppCompatActivity {
                                     .show();
                         }
                     }
+                }else {
+                    Conversions.errroScreen(MeetingDescriptionNewActivity.this, "gethostslots");
                 }
             }
         });
@@ -633,6 +626,8 @@ public class MeetingDescriptionNewActivity extends AppCompatActivity {
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
                     }
+                }else {
+                    Conversions.errroScreen(MeetingDescriptionNewActivity.this, "updatemeetings");
                 }
             }
         });
@@ -652,7 +647,8 @@ public class MeetingDescriptionNewActivity extends AppCompatActivity {
                         int colorInt = ContextCompat.getColor(getApplicationContext(), R.color.Accept);
                         ViewController.snackbar(MeetingDescriptionNewActivity.this, getApplicationContext().getString(R.string.success), colorInt);
                     }
-                }
+                }else {
+                    Conversions.errroScreen(MeetingDescriptionNewActivity.this, "iresend");                }
             }
         });
 
@@ -672,6 +668,8 @@ public class MeetingDescriptionNewActivity extends AppCompatActivity {
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
                     }
+                }else {
+                    Conversions.errroScreen(MeetingDescriptionNewActivity.this, "addcovisitor");
                 }
             }
         });
@@ -688,6 +686,8 @@ public class MeetingDescriptionNewActivity extends AppCompatActivity {
                         departments = new ArrayList<>();
                         departments = response.getItems();
                     }
+                }else {
+                    Conversions.errroScreen(MeetingDescriptionNewActivity.this, "getsubhierarchys");
                 }
             }
         });
@@ -732,6 +732,8 @@ public class MeetingDescriptionNewActivity extends AppCompatActivity {
                             emp_spinner.setEnabled(true);
                         }
                     }
+                }else {
+                    Conversions.errroScreen(MeetingDescriptionNewActivity.this, "getsearchemployees");
                 }
             }
         });
@@ -757,6 +759,8 @@ public class MeetingDescriptionNewActivity extends AppCompatActivity {
                             email_spinner.showDropDown();
                         }
                     }
+                }else {
+                    Conversions.errroScreen(MeetingDescriptionNewActivity.this, "getInviteData");
                 }
             }
         });
@@ -822,6 +826,19 @@ public class MeetingDescriptionNewActivity extends AppCompatActivity {
                         }
                     }
                 }
+                else {
+                    builder = new AlertDialog.Builder(MeetingDescriptionNewActivity.this);
+                    builder.setMessage("Visitor details not found")
+                            .setCancelable(false)
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    //do things
+                                    dialog.cancel();
+                                }
+                            });
+                    AlertDialog alert = builder.create();
+                    alert.show();
+                }
             }
         });
 
@@ -845,6 +862,8 @@ public class MeetingDescriptionNewActivity extends AppCompatActivity {
                     meetings = response.getItems();
                     setupView();
                 }
+            }else {
+                Conversions.errroScreen(MeetingDescriptionNewActivity.this, "getmeetingdetails");
             }
         });
 
@@ -2314,47 +2333,8 @@ public class MeetingDescriptionNewActivity extends AppCompatActivity {
     }
 
 
-    public class AgendaAdapter1 extends RecyclerView.Adapter<AgendaAdapter1.MyviewHolder> {
-        Context context;
-        ArrayList<Agenda> agenda;
-
-        public AgendaAdapter1(Context context, ArrayList<Agenda> agenda) {
-            this.context = context;
-            this.agenda = agenda;
-        }
-
-        @Override
-        public AgendaAdapter1.MyviewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View itemView = LayoutInflater.from(context).inflate(R.layout.agenda_items_list, parent, false);
-            return new AgendaAdapter1.MyviewHolder(itemView);
-        }
-
-        @Override
-        public void onBindViewHolder(final AgendaAdapter1.MyviewHolder holder, final int position) {
-            System.out.println("Size@" + agenda.size());
-            holder.agneda.setText((position + 1) + "." + agenda.get(position).getDesc());
-        }
-
-        @Override
-        public int getItemCount() {
-            return agenda.size();
-        }
-
-        public class MyviewHolder extends RecyclerView.ViewHolder {
-            TextView agneda;
-
-            public MyviewHolder(View view) {
-                super(view);
-                agneda = view.findViewById(R.id.txt_agneda);
-            }
-        }
-
-    }
-
     private void getEmployeeDetails(String position) {
-
         apiViewModel.getEmployeeDetails(getApplicationContext(), position);
-
     }
 
     private void PdfClick() {
@@ -2943,14 +2923,20 @@ public class MeetingDescriptionNewActivity extends AppCompatActivity {
 //             email.setText(meetings.getInvites().get(0).getEmail());
 //        }
         //agendas list
-        LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(MeetingDescriptionNewActivity.this, LinearLayoutManager.VERTICAL, false);
+        LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(MeetingDescriptionNewActivity.this);
         agendaRecyclerView.setLayoutManager(linearLayoutManager1);
         if (meetings.getAgenda() != null && meetings.getAgenda().size() != 0) {
-            agendaAdapter = new AgendaAdapter1(MeetingDescriptionNewActivity.this, meetings.getAgenda());
+            ArrayList<Agenda> agendaList =  new ArrayList<>();
+            agendaList.clear();
+            for (int i = 0; i < meetings.getAgenda().size(); i++) {
+                if (meetings.getAgenda().get(i).getStatus().equals("0.0")){
+                    agendaList.add(meetings.getAgenda().get(i));
+                    agendaRecyclerView.setVisibility(VISIBLE);
+                    agendaText.setVisibility(VISIBLE);
+                }
+            }
+            agendaAdapter = new MeetingDetailsAgendaAdapter(MeetingDescriptionNewActivity.this, agendaList);
             agendaRecyclerView.setAdapter(agendaAdapter);
-        } else {
-            agendaText.setVisibility(View.GONE);
-            cardview_agenda.setVisibility(View.GONE);
         }
 
         //read card

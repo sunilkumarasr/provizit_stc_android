@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
@@ -55,6 +56,7 @@ import com.provizit.FragmentDailouge.UpdatePopUpFragment;
 import com.provizit.Fragments.MeetingRoomFragment;
 import com.provizit.Fragments.UpcomingMeetingsNewFragment;
 import com.provizit.Config.ConnectionReceiver;
+import com.provizit.Logins.ForgotActivity;
 import com.provizit.Logins.InitialActivity;
 import com.provizit.MVVM.ApiViewModel;
 import com.provizit.Config.Preferences;
@@ -215,6 +217,8 @@ public class NavigationActivity extends AppCompatActivity implements View.OnClic
                     }
 
                 }
+            }else {
+                Conversions.errroScreen(NavigationActivity.this,"apiInitView");
             }
         });
 
@@ -222,6 +226,8 @@ public class NavigationActivity extends AppCompatActivity implements View.OnClic
             if (response != null) {
                 //Toast.makeText(getApplicationContext(),response.getItems().getOnline()+"",Toast.LENGTH_SHORT).show();
                 Preferences.saveStringValue(getApplicationContext(), Preferences.AdOnline, response.getItems().getOnline()+"");
+            }else {
+                Conversions.errroScreen(NavigationActivity.this, "getazureaddetails");
             }
         });
 
@@ -238,9 +244,10 @@ public class NavigationActivity extends AppCompatActivity implements View.OnClic
                 notificationslist1 = response.getItems();
                 notificationslist.addAll(notificationslist1);
                 binding.txtNotificationsCount.setText(String.valueOf(notificationslist.size()));
+            }else {
+                Conversions.errroScreen(NavigationActivity.this, "getnotificationsList");
             }
         });
-
 
 
     }

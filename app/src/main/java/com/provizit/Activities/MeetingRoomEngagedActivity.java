@@ -37,6 +37,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.provizit.Conversions;
 import com.provizit.Config.ConnectionReceiver;
+import com.provizit.Logins.ForgotActivity;
 import com.provizit.MVVM.ApiViewModel;
 import com.provizit.R;
 import com.provizit.Services.Model1;
@@ -155,6 +156,8 @@ public class MeetingRoomEngagedActivity extends AppCompatActivity {
                         meetingRoomsrecycler.setAdapter(meetingroomAdapter);
                     }
 
+                }else {
+                    Conversions.errroScreen(MeetingRoomEngagedActivity.this, "getmrmslots");
                 }
             }
         });

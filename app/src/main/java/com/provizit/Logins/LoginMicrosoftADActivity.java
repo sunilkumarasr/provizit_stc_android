@@ -289,6 +289,8 @@ public class LoginMicrosoftADActivity extends AppCompatActivity implements View.
                 intent.putExtra("activity_type", "");
                 overridePendingTransition(R.anim.enter, R.anim.exit);
                 startActivity(intent);
+            }else {
+                Conversions.errroScreen(LoginMicrosoftADActivity.this, "getotpsendemail");
             }
         });
 

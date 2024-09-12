@@ -1,6 +1,7 @@
 package com.provizit.Services;
 
 import com.google.gson.JsonObject;
+import com.provizit.AdapterAndModel.HostSlots.HostSlotsModel;
 import com.provizit.MVVM.RequestModels.ActionNotificationModelRequest;
 import com.provizit.MVVM.RequestModels.CheckSetupModelRequest;
 import com.provizit.MVVM.RequestModels.NotificationsStatusChangeModelRequest;
@@ -115,7 +116,7 @@ public interface API {
     Call<Model1> getentrypoints(@Header("Authorization") String Bearer, @Header("DeviceId") String header, @Query("location") String location);
 
     @GET("meeting/gethostslots")
-    Call<Model1> gethostslots(@Header("Authorization") String Bearer, @Header("DeviceId") String header, @Query("type") String type, @Query("emp_id") String emp_id, @Query("email") String email, @Query("start") Long start, @Query("end") Long end);
+    Call<HostSlotsModel> gethostslots(@Header("Authorization") String Bearer, @Header("DeviceId") String header, @Query("type") String type, @Query("emp_id") String emp_id, @Query("email") String email, @Query("start") Long start, @Query("end") Long end);
 
     @GET("slots/getuserslotdetails")
     Call<Model> getuserslotdetails(@Header("Authorization") String Bearer, @Header("DeviceId") String header, @Query("id") String id, @Query("comp_id") String comp_id);

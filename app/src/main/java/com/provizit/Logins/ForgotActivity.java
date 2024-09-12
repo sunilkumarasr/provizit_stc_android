@@ -11,6 +11,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -147,6 +148,7 @@ public class ForgotActivity extends AppCompatActivity implements View.OnClickLis
                     }
                 }else {
                     ViewController.DismissProgressBar();
+                    Conversions.errroScreen(ForgotActivity.this, "getcheckSetup");
                 }
             }
         });
@@ -163,6 +165,8 @@ public class ForgotActivity extends AppCompatActivity implements View.OnClickLis
                     intent.putExtra("activity_type","forgot");
                     overridePendingTransition(R.anim.enter, R.anim.exit);
                     startActivity(intent);
+                }else {
+                    Conversions.errroScreen(ForgotActivity.this, "getotpsendemail");
                 }
             }
         });

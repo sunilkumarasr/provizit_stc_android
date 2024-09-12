@@ -20,18 +20,17 @@
             android:layout_height="wrap_content"
             android:background="@color/colorPrimaryDark"
             android:gravity="center"
-            android:padding="10dp"
+            android:padding="8dp"
             android:text="@string/visitor_details"
             android:textColor="#ffffff"
-            android:textSize="@dimen/subject_text"
-            android:textStyle="bold" />
+            android:textSize="16dp"/>
 
         <LinearLayout
             android:id="@+id/invitee_details"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="20dp">
+            android:padding="15dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -41,10 +40,9 @@
                     android:id="@+id/emp_img"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="10dp"
-                    android:layout_weight="0"
+                    android:layout_marginEnd="10dp"
                     android:src="@drawable/ic_user_white"
                     app:civ_border_color="@color/colorPrimary"
                     app:civ_border_width="1dp" />
@@ -52,78 +50,101 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_toRightOf="@+id/emp_img"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@+id/emp_img"
                     android:orientation="vertical">
-
                     <TextView
                         android:id="@+id/v_name"
-                        style="@style/medium_font"
+                        style="@style/regular_font"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="5dp"
+                        android:layout_marginBottom="2dp"
                         android:text="XXXXXXXXXX"
                         android:textColor="@color/colorPrimary"
-                        android:textSize="@dimen/text_size" />
-
+                        android:textSize="13sp" />
                     <TextView
                         android:id="@+id/E_desi"
                         style="@style/light_font"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="5dp"
+                        android:layout_marginBottom="2dp"
                         android:text="XXXXXXXXXX"
-                        android:textColor="#868686"
-                        android:textSize="@dimen/text_size" />
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="11sp" />
                 </LinearLayout>
             </RelativeLayout>
 
-
-            <TextView
-                android:id="@+id/company"
-                style="@style/regular_font"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="5dp"
-                android:drawableStart="@drawable/ic_visitor"
-                android:drawablePadding="5dp"
-                android:text="XXXXXXXXXX"
-                android:textColor="#868686"
-                android:textSize="@dimen/text_size" />
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="10dp"
+                android:orientation="horizontal">
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:src="@drawable/ic_visitor"/>
+                <TextView
+                    android:id="@+id/company"
+                    style="@style/light_font"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:layout_marginStart="5dp"
+                    android:text="XXXXXXXXXX"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="11sp" />
+            </LinearLayout>
 
-            <TextView
-                android:id="@+id/email"
-                style="@style/regular_font"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="5dp"
-                android:drawableStart="@drawable/ic_mail_icon"
-                android:drawablePadding="5dp"
-                android:text="XXXXXXXXXX"
-                android:textColor="#868686"
-                android:textSize="@dimen/text_size" />
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="10dp"
+                android:orientation="horizontal">
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:src="@drawable/ic_mail_icon"/>
+                <TextView
+                    android:id="@+id/email"
+                    style="@style/light_font"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:layout_marginStart="5dp"
+                    android:text="XXXXXXXXXX"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="11sp" />
+            </LinearLayout>
 
-            <TextView
-                android:id="@+id/mobile"
-                style="@style/regular_font"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="-5dp"
-                android:layout_marginTop="10dp"
-                android:drawableStart="@drawable/ic_smartphone"
-                android:drawablePadding="5dp"
-                android:text="XXXXXXXXXX"
-                android:textColor="#868686"
-                android:textSize="@dimen/text_size" />
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="10dp"
+                android:orientation="horizontal">
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:src="@drawable/ic_smartphone"/>
+                <TextView
+                    android:id="@+id/mobile"
+                    style="@style/light_font"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:layout_marginStart="5dp"
+                    android:text="XXXXXXXXXX"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="11sp" />
+            </LinearLayout>
 
         </LinearLayout>
-
 
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
-            android:layout_marginTop="5dp"
             android:background="#868686" />
 
         <LinearLayout
@@ -131,15 +152,13 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/cancel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_weight="1"
                 android:background="?attr/selectableItemBackground"
                 style="@style/bold_font"
-                android:padding="10dp"
+                android:padding="8dp"
                 android:text="@string/ok"
                 android:textAlignment="center"
                 android:textColor="@color/colorPrimaryDark" />

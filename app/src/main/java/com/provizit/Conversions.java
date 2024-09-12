@@ -43,8 +43,9 @@ public class Conversions {
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
-    public static void errroScreen(Activity activity) {
+    public static void errroScreen(Activity activity,String error) {
         Intent intent = new Intent(activity, ErrorActivity.class);
+        intent.putExtra("error",error);
         activity.startActivity(intent);
     }
 
@@ -98,11 +99,11 @@ public class Conversions {
     public static AnimationSet animation() {
         Animation fadeIn = new AlphaAnimation(0, 1);
         fadeIn.setInterpolator(new DecelerateInterpolator()); //add this
-        fadeIn.setDuration(300);
+        fadeIn.setDuration(100);
         Animation fadeOut = new AlphaAnimation(1, 0);
         fadeOut.setInterpolator(new AccelerateInterpolator()); //and this
-        fadeOut.setStartOffset(300);
-        fadeOut.setDuration(300);
+        fadeOut.setStartOffset(100);
+        fadeOut.setDuration(100);
         AnimationSet animation = new AnimationSet(false); //change to false
         animation.addAnimation(fadeIn);
 //        animation.addAnimation(fadeOut);

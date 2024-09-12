@@ -246,6 +246,8 @@ public class SetPasswordActivity extends AppCompatActivity {
                         SetUpLoginModelRequest setUpLoginModelRequest = new SetUpLoginModelRequest(sharedPreferences1.getString("company_id", null),"email",binding.email.getText().toString(),sharedPreferences1.getString("link", null),sharedPreferences1.getInt("mverify", 0)+"");
                         apiViewModel.setuplogin(getApplicationContext(),setUpLoginModelRequest);
                     }
+                }else {
+                    Conversions.errroScreen(SetPasswordActivity.this, "getupdatepwd");
                 }
             }
         });
@@ -306,6 +308,8 @@ public class SetPasswordActivity extends AppCompatActivity {
                             }).show();
                         }
                     }
+                }else {
+                    Conversions.errroScreen(SetPasswordActivity.this, "getsetuplogin");
                 }
             }
         });

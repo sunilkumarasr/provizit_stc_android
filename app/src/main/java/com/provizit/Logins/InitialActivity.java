@@ -269,6 +269,7 @@ public class InitialActivity extends AppCompatActivity {
                 }
             } else {
                 ViewController.DismissProgressBar();
+                Conversions.errroScreen(InitialActivity.this, "getappuserlogin");
             }
         });
 
@@ -332,6 +333,8 @@ public class InitialActivity extends AppCompatActivity {
                 intent.putExtra("activity_type", "");
                 overridePendingTransition(R.anim.enter, R.anim.exit);
                 startActivity(intent);
+            }else {
+                Conversions.errroScreen(InitialActivity.this, "getotpsendemail");
             }
         });
 

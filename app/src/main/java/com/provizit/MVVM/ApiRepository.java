@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.google.gson.JsonObject;
+import com.provizit.AdapterAndModel.HostSlots.HostSlotsModel;
 import com.provizit.MVVM.RequestModels.ActionNotificationModelRequest;
 import com.provizit.MVVM.RequestModels.CheckSetupModelRequest;
 import com.provizit.MVVM.RequestModels.NotificationsStatusChangeModelRequest;
@@ -954,23 +955,23 @@ public class ApiRepository {
 
     //SetUpMeetingActivity
     //get host slots
-    public void gethostslots(Model1Response model1Response, Context context, String type, String emp_id, String email, Long start, Long end){
+    public void gethostslots(HostSlotsModelResponse hostSlotsModelResponse, Context context, String type, String emp_id, String email, Long start, Long end){
         DataManger dataManager = DataManger.getDataManager();
-        dataManager.gethostslots(new Callback<Model1>() {
+        dataManager.gethostslots(new Callback<HostSlotsModel>() {
             @Override
-            public void onResponse(Call<Model1> call, Response<Model1> response) {
+            public void onResponse(Call<HostSlotsModel> call, Response<HostSlotsModel> response) {
                 if (response.isSuccessful()){
-                    model1Response.onResponse(response.body());
+                    hostSlotsModelResponse.onResponse(response.body());
                     Log.e(TAG, "onResp"+"gethostslots0" );
                 }else {
                     Log.e(TAG, "onResp"+"gethostslots1" );
-                    model1Response.onFailure(new Throwable(response.message()));
+                    hostSlotsModelResponse.onFailure(new Throwable(response.message()));
                 }
             }
             @Override
-            public void onFailure(Call<Model1> call, Throwable t) {
+            public void onFailure(Call<HostSlotsModel> call, Throwable t) {
                 Log.e(TAG, "onResp"+"gethostslots2" );
-                model1Response.onFailure(new Throwable(t));
+                hostSlotsModelResponse.onFailure(new Throwable(t));
             }
         },context,type, emp_id, email, start, end);
     }
@@ -1103,6 +1104,12 @@ public class ApiRepository {
         void onResponse(Model1 model1Response);
         void onFailure(Throwable t);
     }
+
+    public interface HostSlotsModelResponse{
+        void onResponse(HostSlotsModel hostSlotsModel);
+        void onFailure(Throwable t);
+    }
+
 
     public interface TotalModelCountResponse{
         void onResponse(TotalModelCount totalmodelCountResponse);

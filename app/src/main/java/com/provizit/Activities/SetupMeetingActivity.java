@@ -1,6 +1,8 @@
 package com.provizit.Activities;
 
 import static android.view.View.GONE;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -80,6 +82,7 @@ import android.widget.Toast;
 import com.google.android.datatransport.cct.internal.LogEvent;
 import com.google.gson.Gson;
 import com.provizit.AdapterAndModel.ContactsList;
+import com.provizit.AdapterAndModel.HostSlots.HostSlotsData;
 import com.provizit.AdapterAndModel.MultipleEmailAddressAdapter;
 import com.provizit.AdapterAndModel.MultiplePhoneNumberAdapter;
 import com.provizit.Config.Customthree;
@@ -91,6 +94,7 @@ import com.provizit.FragmentDailouge.ReccurenceFragment;
 import com.provizit.FragmentDailouge.ReccuringNewFragment;
 import com.provizit.FragmentDailouge.SetUpMeetingSelectedMailsMobileListFragment;
 import com.provizit.Config.ConnectionReceiver;
+import com.provizit.Logins.ForgotActivity;
 import com.provizit.MVVM.ApiViewModel;
 import com.provizit.R;
 import com.provizit.Services.AppointmentDetails.AppointmentDetailsModel;
@@ -143,6 +147,10 @@ import java.util.Objects;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 import static com.provizit.FilePath.isDownloadsDocument;
 import static com.provizit.FilePath.isExternalStorageDocument;
 import static com.provizit.FragmentDailouge.SetUpMeetingContactListFragment.isPhoneNumberValid;
@@ -180,7 +188,7 @@ public class SetupMeetingActivity extends AppCompatActivity {
     DurationAdapter alertad;
     ArrayList<CompanyData> meetingrooms, entrypoints, invitesData, invitesData1;
     CustomAdapter customAdapter1, customAdapter2, invitesadapter;
-    AutoCompleteTextView meeting_room, meeting_location, entrypoint, alert;
+    AutoCompleteTextView meetingRoomSpinner, meeting_location, entrypoint, alert;
     public static long s_time, e_time, s_date;
 
     //self invitastion
@@ -235,6 +243,8 @@ public class SetupMeetingActivity extends AppCompatActivity {
     int samecabin;
     SharedPreferences.Editor editor1;
     ArrayList<Agenda> agendaArrayList;
+    //reshedule agenda
+    ArrayList<Agenda>  addagendaList = new ArrayList<>();
     RecyclerView recyclerView;
     Adapter1 agendaAdapter;
     String SelectedDate, SelectedSTime, SelectedETime;
@@ -299,16 +309,12 @@ public class SetupMeetingActivity extends AppCompatActivity {
         //card_view_progress.setVisibility(View.VISIBLE);
         ViewController.ShowProgressBar(SetupMeetingActivity.this);
 
-
-
         //contacts list permission
         if (ContextCompat.checkSelfPermission(SetupMeetingActivity.this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(SetupMeetingActivity.this, new String[]{Manifest.permission.READ_CONTACTS}, 200);
         }
 
-
         apiViewModel = new ViewModelProvider(SetupMeetingActivity.this).get(ApiViewModel.class);
-
 
         //internet connection
         relative_internet = findViewById(R.id.relative_internet);
@@ -518,7 +524,7 @@ public class SetupMeetingActivity extends AppCompatActivity {
         subject = findViewById(R.id.subject);
         alert = findViewById(R.id.alert);
         entrypoint = findViewById(R.id.entrypoint_spinner);
-        meeting_room = findViewById(R.id.meetingroom_spinner);
+        meetingRoomSpinner = findViewById(R.id.meetingRoomSpinner);
         meeting_location = findViewById(R.id.location_spinner);
 
         Intent intent = getIntent();
@@ -607,15 +613,28 @@ public class SetupMeetingActivity extends AppCompatActivity {
             AnimationSet abc = Conversions.animation();
             view.startAnimation(abc);
             if (agenda.getText().length() != 0) {
-                Agenda agenda1 = new Agenda();
-                agenda1.setDesc(agenda.getText().toString());
-                agenda1.setPoints(new ArrayList<>());
-                agenda.setText("");
-                agendaArrayList.add(agenda1);
-                Conversions.setAgenda(agendaArrayList);
-                agendaAdapter = new Adapter1(SetupMeetingActivity.this, agendaArrayList);
-                recyclerView.setVisibility(View.VISIBLE);
-                recyclerView.setAdapter(agendaAdapter);
+                if (actiontype == 2){
+                    Log.e("actiontype","2");
+                    Agenda agenda1 = new Agenda();
+                    agenda1.setDesc(agenda.getText().toString());
+                    agenda1.setPoints(new ArrayList<>());
+                    agenda.setText("");
+                    agendaArrayList.add(agenda1);
+                    addagendaList.add(agenda1);
+                    agendaAdapter.notifyItemInserted(addagendaList.size() - 1);
+                    Conversions.setAgenda(agendaArrayList);
+                    recyclerView.setVisibility(View.VISIBLE);
+                }else {
+                    Agenda agenda1 = new Agenda();
+                    agenda1.setDesc(agenda.getText().toString());
+                    agenda1.setPoints(new ArrayList<>());
+                    agenda.setText("");
+                    agendaArrayList.add(agenda1);
+                    Conversions.setAgenda(agendaArrayList);
+                    agendaAdapter = new Adapter1(SetupMeetingActivity.this, agendaArrayList);
+                    recyclerView.setVisibility(View.VISIBLE);
+                    recyclerView.setAdapter(agendaAdapter);
+                }
             }
         });
 
@@ -649,9 +668,9 @@ public class SetupMeetingActivity extends AppCompatActivity {
         // attaching data adapter to spinner
         mlist2 = MeetingEndTime();
         mlist4 = AlertArray();
-        meeting_room.setOnFocusChangeListener((v, hasFocus) -> {
+        meetingRoomSpinner.setOnFocusChangeListener((v, hasFocus) -> {
             if (!hasFocus) {
-                String str = meeting_room.getText().toString();
+                String str = meetingRoomSpinner.getText().toString();
 
                 for (int i = 0; i < customAdapter1.getCount(); i++) {
                     String temp = Objects.requireNonNull(customAdapter1.getItem(i)).getName();
@@ -660,7 +679,7 @@ public class SetupMeetingActivity extends AppCompatActivity {
                     }
                 }
                 customAdapter1.getFilter().filter("");
-                meeting_room.setText("");
+                meetingRoomSpinner.setText("");
                 builder.setMessage("Invalid Visitor type")
                         .setCancelable(false)
                         .setPositiveButton("OK", (dialog, id) -> dialog.cancel());
@@ -668,35 +687,44 @@ public class SetupMeetingActivity extends AppCompatActivity {
                 alert.show();
             } else {
                 ViewController.hideKeyboard(SetupMeetingActivity.this);
-                meeting_room.showDropDown();
+                meetingRoomSpinner.showDropDown();
             }
         });
 
-        meeting_room.setOnClickListener(arg0 -> {
+        meetingRoomSpinner.setOnClickListener(arg0 -> {
             AnimationSet animationmeeting_room = Conversions.animation();
             arg0.startAnimation(animationmeeting_room);
-            meeting_room.showDropDown();
+            meetingRoomSpinner.showDropDown();
         });
+
         pSlotCheckBox.setOnClickListener(view -> {
             AnimationSet animationp = Conversions.animation();
             view.startAnimation(animationp);
-            pSlotCheckBox.setChecked(false);
+//            pSlotCheckBox.setChecked(false);
 
-            if (invitedArrayList.isEmpty()) {
-                warning_popup();
-            } else {
-                FragmentManager fm = getSupportFragmentManager();
-                AllotParkingFragment sFragment = new AllotParkingFragment();
-                // Show DialogFragment
-                sFragment.onItemsSelectedListner((allotInvites , lastname , allowCheck) -> {
-                    pSlots = allowCheck;
-                    pSlotCheckBox.isChecked();
-                    pSlotCheckBox.setChecked(true);
-                });
-                sFragment.show(fm, "Dialog Fragment");
+            if (!pSlotCheckBox.isChecked()) {
+                allotparkingRemove();
+            }else {
+                pSlots = false;
+                if (invitedArrayList.isEmpty()) {
+                    pSlotCheckBox.setChecked(false);
+                    warning_popup();
+                } else {
+                    FragmentManager fm = getSupportFragmentManager();
+                    AllotParkingFragment sFragment = new AllotParkingFragment();
+                    // Show DialogFragment
+                    sFragment.onItemsSelectedListner((allotInvites , lastname , allowCheck) -> {
+                        pSlots = allowCheck;
+                        pSlotCheckBox.isChecked();
+                        pSlotCheckBox.setChecked(true);
+                    });
+                    sFragment.show(fm, "Dialog Fragment");
+                }
             }
+
         });
-        meeting_room.setOnItemClickListener((parent, view, index, id) -> {
+
+        meetingRoomSpinner.setOnItemClickListener((parent, view, index, id) -> {
             CompanyData contactModel = meetingrooms.get(index);
             String name1 = contactModel.getName();
             mIndex = index;
@@ -721,13 +749,13 @@ public class SetupMeetingActivity extends AppCompatActivity {
         });
 
 //        // Handle the item click event
-//        meeting_room.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//        meetingRoomSpinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 //            @Override
 //            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 //                CompanyData contactModel = meetingrooms.get(position);
 //                String name1 = contactModel.getName();
 //                // Change the text in the AutoCompleteTextView
-//                meeting_room.setText(name1 + " selected");
+//                meetingRoomSpinner.setText(name1 + " selected");
 //
 //                m_room = meetingrooms.get(position).get_id().get$oid();
 //                Log.e("m_room_:",meetingrooms.get(position).get_id().get$oid().toString());
@@ -1030,7 +1058,7 @@ public class SetupMeetingActivity extends AppCompatActivity {
 //                           recyclerView.setAdapter(meetingListAdapter);
 //                           recyclerView.setVisibility(View.VISIBLE);
                     Chip newChip = getChip(chipgroup, invited, 1);
-//                           ge
+//                  ge
                     iEmail.add(textValue);
                     chipgroup.addView(newChip);
                 }
@@ -1103,8 +1131,7 @@ public class SetupMeetingActivity extends AppCompatActivity {
                 System.out.println("json object" + json);
                 confirmationPopup(json, 3);
                 setup_meeting.setEnabled(true);
-            } else {
-
+            }else {
                 if (actiontype == 0){
                     if (roledetails.getBehalfof().equalsIgnoreCase("true")){
                         if (SelfMeetingSetupCheckBox.isChecked() || !AssignID.equalsIgnoreCase("")){
@@ -1198,7 +1225,7 @@ public class SetupMeetingActivity extends AppCompatActivity {
             subject.setText(convertedObject.get("subject").getAsString());
             meeting_description.setText(convertedObject.get("desc").getAsString());
             meeting_location.setText(sharedPreferences1.getString("SetupMeetingLocation", ""));
-            meeting_room.setText(sharedPreferences1.getString("SetupMeetingMRoom", ""));
+            meetingRoomSpinner.setText(sharedPreferences1.getString("SetupMeetingMRoom", ""));
             entrypoint.setText(sharedPreferences1.getString("SetupMeetingEntryPoint", ""));
 
             if (M_SUGGETION == 1) {
@@ -1321,6 +1348,8 @@ public class SetupMeetingActivity extends AppCompatActivity {
                     chipgroup.addView(newChip);
                     iEmail.add(appointments_model.items.getvData().getEmail());
                 }
+            }else {
+                Conversions.errroScreen(SetupMeetingActivity.this, "getappointmentsdetails");
             }
         });
 
@@ -1355,6 +1384,8 @@ public class SetupMeetingActivity extends AppCompatActivity {
                     entrypoint.setAdapter(customAdapter2);//setting the adapter data into the AutoCompleteTextView
                     entrypoint.setEnabled(true);
                 }
+            }else {
+                Conversions.errroScreen(SetupMeetingActivity.this, "getentrypoints");
             }
         });
 
@@ -1369,10 +1400,10 @@ public class SetupMeetingActivity extends AppCompatActivity {
                 } else if (statuscode.equals(not_verified)) {
 
                 } else if (statuscode.equals(successcode)) {
-                    ArrayList<CompanyData> companyData = new ArrayList<>();
-                    companyData = response.getItems();
-                    if (companyData.size() == 0) {
-                        if (meeting_room.getText().toString().equals(empData.getName() + " Cabin") || !m_type.equals("1")) {
+                    ArrayList<HostSlotsData> hostSlotsData = new ArrayList<>();
+                    hostSlotsData = response.getItems();
+                    if (hostSlotsData.size() == 0) {
+                        if (meetingRoomSpinner.getText().toString().equals(empData.getName() + " - Cabin") || !m_type.equals("1")) {
                             if (actiontype == 0) {
                                 JsonObject json = createjson();
                                 System.out.println("json object" + json);
@@ -1385,7 +1416,7 @@ public class SetupMeetingActivity extends AppCompatActivity {
                         } else {
                             getrmslots(m_room);
                         }
-                    } else if (companyData.size() == 1 && companyData.get(0).get_id().get$oid().equals(sharedPreferences1.getString("m_id", ""))) {
+                    } else if (hostSlotsData.size() == 1 && hostSlotsData.get(0).get_id().get$oid().equals(sharedPreferences1.getString("m_id", ""))) {
                         JsonObject json = reschedulejson();
                         confirmationPopup(json, 2);
                     } else {
@@ -1397,6 +1428,8 @@ public class SetupMeetingActivity extends AppCompatActivity {
                         setup_meeting.setEnabled(true);
                     }
                 }
+            }else {
+                Conversions.errroScreen(SetupMeetingActivity.this, "gethostslots");
             }
         });
 
@@ -1429,7 +1462,7 @@ public class SetupMeetingActivity extends AppCompatActivity {
                         editor1 = sharedPreferences1.edit();
                         editor1.putString("SetupMeetingJson", json.toString());
                         editor1.putString("SetupMeetingLocation", meeting_location.getText().toString());
-                        editor1.putString("SetupMeetingMRoom", meeting_room.getText().toString());
+                        editor1.putString("SetupMeetingMRoom", meetingRoomSpinner.getText().toString());
                         editor1.putString("SetupMeetingMRoomID", m_room);
                         editor1.putString("SetupMeetingEntryPoint", entrypoint.getText().toString());
                         editor1.apply();
@@ -1438,6 +1471,8 @@ public class SetupMeetingActivity extends AppCompatActivity {
                         startActivity(intent12);
                     }
                 }
+            }else {
+                Conversions.errroScreen(SetupMeetingActivity.this, "getrmslots");
             }
         });
 
@@ -1463,7 +1498,7 @@ public class SetupMeetingActivity extends AppCompatActivity {
                         img_category_info.setEnabled(false);
                         meeting_st.setEnabled(false);
                         meeting_et.setEnabled(false);
-                        meeting_room.setEnabled(false);
+                        meetingRoomSpinner.setEnabled(false);
                         meeting_location.setEnabled(false);
                         entrypoint.setEnabled(false);
                         radioButton1.setEnabled(false);
@@ -1485,6 +1520,26 @@ public class SetupMeetingActivity extends AppCompatActivity {
                     }
 
                     meeting_details = response.getItems();
+
+
+
+                    if (meeting_details.getAgenda().size() != 0) {
+
+                        for (int i = 0; i < meeting_details.getAgenda().size(); i++) {
+                            // Add all items to agendaArrayList
+                            agendaArrayList.add(meeting_details.getAgenda().get(i));
+
+                            // Only add items with status "0.0" to addagendaList
+                            if (meeting_details.getAgenda().get(i).getStatus().equals("0.0")) {
+                                addagendaList.add(meeting_details.getAgenda().get(i));
+                                recyclerView.setVisibility(View.VISIBLE); // Show RecyclerView if there are items to display
+                            }
+                        }
+
+                        // Set up the RecyclerView adapter with addagendaList
+                        agendaAdapter = new Adapter1(SetupMeetingActivity.this, addagendaList);
+                        recyclerView.setAdapter(agendaAdapter);
+                    }
 
 //                        progress.dismiss()
 //                        date.setText(meeting_details.);
@@ -1558,7 +1613,7 @@ public class SetupMeetingActivity extends AppCompatActivity {
                     Log.e("category_itemm_value_",meeting_details.getMtype_val());
                     category_item = meeting_details.getCategoryData().get_id().get$oid();
 
-                    meeting_room.setText(meeting_details.getMeetingrooms().getName());
+                    meetingRoomSpinner.setText(meeting_details.getMeetingrooms().getName());
                     meeting_location.setText(meeting_details.getLocations().getName());
                     entrypoint.setText(meeting_details.getEntrypoints().getName());
                     Conversions.setAgenda(meeting_details.getAgenda());
@@ -1582,6 +1637,8 @@ public class SetupMeetingActivity extends AppCompatActivity {
                         chipgroup.addView(newChip);
                     }
                 }
+            }else {
+                Conversions.errroScreen(SetupMeetingActivity.this, "getmeetingdetails");
             }
         });
 
@@ -1604,6 +1661,8 @@ public class SetupMeetingActivity extends AppCompatActivity {
                         acceptappointment(Total_counts);
                     }
                 }
+            }else {
+                Conversions.errroScreen(SetupMeetingActivity.this, "actionmeetings_total_count");
             }
         });
 
@@ -1623,6 +1682,8 @@ public class SetupMeetingActivity extends AppCompatActivity {
                     intent13.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     startActivity(intent13);
                 }
+            }else {
+                Conversions.errroScreen(SetupMeetingActivity.this, "actionmeetings");
             }
         });
 
@@ -1647,6 +1708,8 @@ public class SetupMeetingActivity extends AppCompatActivity {
                 editor1.remove("m_action");
                 editor1.apply();
                 startActivity(intent15);
+            }else {
+                Conversions.errroScreen(SetupMeetingActivity.this, "addcovisitor");
             }
         });
 
@@ -1710,6 +1773,8 @@ public class SetupMeetingActivity extends AppCompatActivity {
                     });
 
                 }
+            }else {
+                Conversions.errroScreen(SetupMeetingActivity.this, "getcategories");
             }
         });
 
@@ -1784,6 +1849,8 @@ public class SetupMeetingActivity extends AppCompatActivity {
                     department_spinner.setText("");
                     AssignID = "";
                 }
+            }else {
+                Conversions.errroScreen(SetupMeetingActivity.this, "getsubhierarchys");
             }
         });
 
@@ -1810,6 +1877,8 @@ public class SetupMeetingActivity extends AppCompatActivity {
                         emp_spinner.setAdapter(employeeAdapter);
                     }
                 }
+            }else {
+                Conversions.errroScreen(SetupMeetingActivity.this, "getsearchemployees");
             }
         });
 
@@ -1845,7 +1914,6 @@ public class SetupMeetingActivity extends AppCompatActivity {
     private void allotparkingRemove() {
         pSlots = false;
         pSlotCheckBox.setChecked(false);
-        pSlotCheckBox.setVisibility(View.GONE);
 
         if (invitedArrayList.size()>0){
             for (int i = 0; i < invitedArrayList.size(); i++) {
@@ -1986,8 +2054,9 @@ public class SetupMeetingActivity extends AppCompatActivity {
         //duplicates remove
         duplicatenumbersandemailsremoved(listOfPhoneNumbers, EmailAddresslist);
 
-        String self_result = SetupMeetingActivity.empData.getMobile().replaceAll("[-.^:,]", "");
-        String replace_number = phoneNumber.replaceAll("[-.^:,]", "");
+        String self_result = SetupMeetingActivity.empData.getMobile().replaceAll("[\\s-.^:,]", "");
+        String replace_number = phoneNumber.replaceAll("[\\s-.^:,]", "");
+
 
         //only one number condition
         if (listOfPhoneNumbers.size() <= 1) {
@@ -2082,10 +2151,10 @@ public class SetupMeetingActivity extends AppCompatActivity {
                 String[] phonenumbers = {phoneNumber};
                 for (String phone : phonenumbers) {
                     if (isPhoneNumberValid(phone)) {
-                        if (phoneNumber.startsWith("+91")) {
+                        if (phoneNumber.startsWith("+91") || phoneNumber.startsWith("0091") || phoneNumber.startsWith("00966") || phoneNumber.startsWith("+966")) {
                             invited.setMobile(phoneNumber);
                         } else {
-                            invited.setMobile("+91" + phoneNumber);
+                            invited.setMobile("+966" + phoneNumber);
                         }
                     } else {
                         phoneNumber = "";
@@ -2169,10 +2238,10 @@ public class SetupMeetingActivity extends AppCompatActivity {
                                 String[] phonenumbers = {selectedPhoneNumber};
                                 for (String phone : phonenumbers) {
                                     if (isPhoneNumberValid(phone)) {
-                                        if (selectedPhoneNumber.startsWith("+91")) {
+                                        if (selectedPhoneNumber.startsWith("+91") || selectedPhoneNumber.startsWith("0091") || selectedPhoneNumber.startsWith("00966") || selectedPhoneNumber.startsWith("+966")) {
                                             update_position.setMobile(selectedPhoneNumber);
                                         } else {
-                                            update_position.setMobile("+91" + selectedPhoneNumber);
+                                            update_position.setMobile("+966" + selectedPhoneNumber);
                                         }
                                     } else {
                                         int colorInt = ContextCompat.getColor(getApplicationContext(), R.color.red);
@@ -2202,10 +2271,10 @@ public class SetupMeetingActivity extends AppCompatActivity {
                                 String[] phonenumbers = {selectedPhoneNumber};
                                 for (String phone : phonenumbers) {
                                     if (isPhoneNumberValid(phone)) {
-                                        if (selectedPhoneNumber.startsWith("+91")) {
+                                        if (selectedPhoneNumber.startsWith("+91") || selectedPhoneNumber.startsWith("0091") || selectedPhoneNumber.startsWith("00966") || selectedPhoneNumber.startsWith("+966")) {
                                             invited.setMobile(selectedPhoneNumber);
                                         } else {
-                                            invited.setMobile("+91" + selectedPhoneNumber);
+                                            invited.setMobile("+966" + selectedPhoneNumber);
                                         }
                                     } else {
                                         selectedPhoneNumber = "";
@@ -2247,10 +2316,10 @@ public class SetupMeetingActivity extends AppCompatActivity {
                         String[] phonenumbers = {selectedPhoneNumber};
                         for (String phone : phonenumbers) {
                             if (isPhoneNumberValid(phone)) {
-                                if (selectedPhoneNumber.startsWith("+91")) {
+                                if (selectedPhoneNumber.startsWith("+91") || selectedPhoneNumber.startsWith("0091") || selectedPhoneNumber.startsWith("00966") || selectedPhoneNumber.startsWith("+966")) {
                                     invited.setMobile(selectedPhoneNumber);
                                 } else {
-                                    invited.setMobile("+91" + selectedPhoneNumber);
+                                    invited.setMobile("+966" + selectedPhoneNumber);
                                 }
                             } else {
                                 selectedPhoneNumber = "";
@@ -2287,13 +2356,13 @@ public class SetupMeetingActivity extends AppCompatActivity {
         tvContactName.setText(contactName);
 
         if (listOfPhoneNumbers != null) {
-            if (listOfPhoneNumbers.size() != 0) {
+            if (!listOfPhoneNumbers.isEmpty()) {
                 initializePhoneNumberAdapter(rvPhoneNumbers, listOfPhoneNumbers);
             }
         }
 
         if (emailAddresslist != null) {
-            if (emailAddresslist.size() != 0) {
+            if (!emailAddresslist.isEmpty()) {
                 llEmail.setVisibility(View.VISIBLE);
                 initializeEmailAddressAdapter(rvEmailAddress, emailAddresslist);
             } else {
@@ -2546,7 +2615,7 @@ public class SetupMeetingActivity extends AppCompatActivity {
 
                         if (actiontype == 0 && M_SUGGETION == 0) {
                             m_room = empData.getEmp_id();
-                            meeting_room.setText(empData.getName() + getString(R.string.Cabin));
+                            meetingRoomSpinner.setText(empData.getName() +" - "+ getString(R.string.Cabin));
                             samecabin = 1;
                         } else if (actiontype == 2 && M_SUGGETION == 0) {
                             String mName = meeting_details.getMeetingrooms().getName();
@@ -2571,7 +2640,7 @@ public class SetupMeetingActivity extends AppCompatActivity {
                         }
                         if (RMS_STATUS == 1) {
                             for (int j = 0; j < meetingrooms.size(); j++) {
-                                meeting_room.setText(meetingrooms.get(RMS_Mroom).getName());
+                                meetingRoomSpinner.setText(meetingrooms.get(RMS_Mroom).getName());
                                 m_room = meetingrooms.get(RMS_Mroom).get_id().get$oid();
                                 m_room_info.setVisibility(View.VISIBLE);
                                 setMInformationData(RMS_Mroom);
@@ -2579,12 +2648,14 @@ public class SetupMeetingActivity extends AppCompatActivity {
                         }
 
                         customAdapter1 = new CustomAdapter(SetupMeetingActivity.this, R.layout.row, R.id.lbl_name, meetingrooms, 0, "", true);
-                        meeting_room.setThreshold(1);//will start working from first character
-                        meeting_room.setAdapter(customAdapter1);//setting the adapter data into the AutoCompleteTextView
-                        meeting_room.setEnabled(true);
+                        meetingRoomSpinner.setThreshold(1);//will start working from first character
+                        meetingRoomSpinner.setAdapter(customAdapter1);//setting the adapter data into the AutoCompleteTextView
+                        meetingRoomSpinner.setEnabled(true);
                         getentrypoints(locationId);
                     }
 
+                }else {
+                    Conversions.errroScreen(SetupMeetingActivity.this, "getmeetingrooms");
                 }
             }
         });
@@ -2618,7 +2689,7 @@ public class SetupMeetingActivity extends AppCompatActivity {
         JSONArray days_s = new JSONArray();
         JSONArray starts_dates = new JSONArray();
         JSONArray ends_dates = new JSONArray();
-        ArrayList<Agenda> agendaArrayList = Conversions.agenda;
+
 
         int hh_s = (d_hour * 60) * 60;
         int mm_s = d_min * 60;
@@ -2720,6 +2791,7 @@ public class SetupMeetingActivity extends AppCompatActivity {
             }
         }
 
+        Log.e("pSlots",pSlots+"");
         Log.e("daysList",days_s+"");
         Log.e("weeksList",weeks_dates+"");
 
@@ -2835,16 +2907,63 @@ public class SetupMeetingActivity extends AppCompatActivity {
         JSONArray agenda = new JSONArray();
         JSONArray invites = new JSONArray();
         JSONArray pdfs = new JSONArray();
+        JSONArray weeks_dates = new JSONArray();
+        JSONArray days_s = new JSONArray();
+        JSONArray starts_dates = new JSONArray();
+        JSONArray ends_dates = new JSONArray();
 
-        if (agendaArrayList != null && agendaArrayList.size() != 0) {
-            try {
-                agenda = new JSONArray();
-                for (int i = 0; i < agendaArrayList.size(); i++) {
-                    agenda.put(agendaArrayList.get(i).getAgenda());
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
+        int hh_s = (d_hour * 60) * 60;
+        int mm_s = d_min * 60;
+        int duration_min = hh_s + mm_s;
+
+
+        //reccuring
+        //date stamps array
+        JSONArray conflict_indexs = new JSONArray();
+
+        //Weeks
+        try {
+            weeks_dates = new JSONArray();
+            for (int i = 0; i < weekday_s.size(); i++) {
+                weeks_dates.put(weekday_s.get(i).isSelected());
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        //days
+        try {
+            days_s = new JSONArray();
+            for (int i = 0; i < dates_s.size(); i++) {
+                days_s.put(dates_s.get(i));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        //start days
+        try {
+            starts_dates = new JSONArray();
+            ends_dates = new JSONArray();
+            for (int i = 0; i < dates_s.size(); i++) {
+
+                int hh_string = Integer.parseInt(Conversions.millisTotime(((s_time + Conversions.timezone()) * 1000), true));
+                int mm_string = Integer.parseInt(Conversions.millisTotime(((s_time + Conversions.timezone()) * 1000), false));
+                int hh_string_s = (hh_string * 60) * 60;
+                int mm_string_s = mm_string * 60;
+                int hh_mm_min = hh_string_s + mm_string_s;
+
+                long ss = dates_s.get(i) + hh_mm_min;
+                long end = ss + duration_min - 1;
+
+                starts_dates.put(ss);
+                ends_dates.put(end);
+                Log.e(TAG, "createjson:dates_s" + dates_s);
+                Log.e(TAG, "createjson:starts_dates" + starts_dates);
+                Log.e(TAG, "createjson:ends_dates" + ends_dates);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         try {
@@ -2856,7 +2975,37 @@ public class SetupMeetingActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        if (pdfsArrayList != null && pdfsArrayList.size() != 0) {
+        // Reschedule agenda
+        if (agendaArrayList != null && agendaArrayList.size() != 0) {
+            try {
+                agenda = new JSONArray();
+
+                for (int i = 0; i < agendaArrayList.size(); i++) {
+                    boolean foundInAddAgendaList = false;
+                    if (addagendaList != null && !addagendaList.isEmpty()) {
+                        for (int j = 0; j < addagendaList.size(); j++) {
+                            if (agendaArrayList.get(i).get_id().get$oid().equalsIgnoreCase(addagendaList.get(j).get_id().get$oid())) {
+                                agendaArrayList.get(i).setStatus("0.0");
+                                foundInAddAgendaList = true;
+                                break;
+                            }
+                        }
+                    }
+
+                    // If not found in addagendaList, mark it as "1.0"
+                    if (!foundInAddAgendaList) {
+                        agendaArrayList.get(i).setStatus("1.0");
+                    }
+
+                    // Add the agenda item to the JSONArray
+                    agenda.put(agendaArrayList.get(i).getAgenda());
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        if (pdfsArrayList != null && !pdfsArrayList.isEmpty()) {
             try {
                 pdfs = new JSONArray();
                 for (int i = 0; i < pdfsArrayList.size(); i++) {
@@ -2869,26 +3018,63 @@ public class SetupMeetingActivity extends AppCompatActivity {
 
         try {
             jsonObj_.put("formtype", "reschedule");
-            jsonObj_.put("comp_id", sharedPreferences1.getString("company_id", null));
-            jsonObj_.put("id", sharedPreferences1.getString("m_id", null));
-            jsonObj_.put("emp_id", empData.getEmp_id());
-            jsonObj_.put("status", 2);
+            jsonObj_.put("location", location);
             jsonObj_.put("mtype", m_type);
             jsonObj_.put("mtype_val", m_value.getText().toString());
             jsonObj_.put("pslots", pSlots);
-            jsonObj_.put("date", s_date);
+            jsonObj_.put("meetingroom", m_room);
+            jsonObj_.put("roleid", empData.getRoleid());
+            jsonObj_.put("rolename", empData.getRolename());
+            jsonObj_.put("samecabin", samecabin);
             jsonObj_.put("start", s_time);
             jsonObj_.put("end", e_time - 1);
-            jsonObj_.put("meetingroom", m_room);
-            jsonObj_.put("entrypoint", e_gate);
             jsonObj_.put("subject", subject.getText().toString());
-            jsonObj_.put("desc", meeting_description.getText().toString());
-            jsonObj_.put("location", location);
-            jsonObj_.put("samecabin", samecabin);
+            jsonObj_.put("entrypoint", e_gate);
+            jsonObj_.put("hierarchy_id", empData.getHierarchy_id());
+            jsonObj_.put("hierarchy_indexid", empData.getHierarchy_indexid());
             jsonObj_.put("agenda", agenda);
-            jsonObj_.put("category", category_item);
-           // jsonObj_.put("invites", invites);
+            jsonObj_.put("invites", invites);
             jsonObj_.put("pdfs", pdfs);
+            jsonObj_.put("category", category_item);
+            jsonObj_.put("v_id", v_id);
+            jsonObj_.put("comp_id", sharedPreferences1.getString("company_id", null));
+            jsonObj_.put("date", s_date);
+            jsonObj_.put("desc", meeting_description.getText().toString());
+            jsonObj_.put("id", sharedPreferences1.getString("m_id", null));
+            jsonObj_.put("status", 2);
+
+            if (roledetails.getApprover() != null && roledetails.getApprover().equalsIgnoreCase("true")) {
+                jsonObj_.put("approver", true);
+            }else {
+                jsonObj_.put("approver", false);
+            }
+            if (!pdfsArrayList.isEmpty()) {
+                jsonObj_.put("pdfStatus", true);
+            }
+            if (roledetails.getBehalfof().equalsIgnoreCase("true")){
+                if (SelfMeetingSetupCheckBox.isChecked()){
+                    jsonObj_.put("emp_id", empData.getEmp_id());
+                    jsonObj_.put("coordinator", empData.getEmp_id());
+                }else {
+                    jsonObj_.put("emp_id", AssignID);
+                    jsonObj_.put("coordinator", empData.getEmp_id());
+                }
+            }else {
+                jsonObj_.put("emp_id", empData.getEmp_id());
+                jsonObj_.put("coordinator", empData.getEmp_id());
+            }
+            if (recurrence_status.equalsIgnoreCase("true")) {
+                jsonObj_.put("recurrence", true);
+                jsonObj_.put("dates", days_s);
+                jsonObj_.put("re_type", recurrence_type);
+                jsonObj_.put("dtstart", dtstart);
+                jsonObj_.put("dtend", dtend);
+                jsonObj_.put("starts", starts_dates);
+                jsonObj_.put("ends", ends_dates);
+                jsonObj_.put("weekdays", weeks_dates);
+                jsonObj_.put("conflict_indexs", conflict_indexs);
+            }
+
             JsonParser jsonParser = new JsonParser();
             gsonObject = (JsonObject) jsonParser.parse(jsonObj_.toString());
             System.out.println("gsonObject::" + gsonObject);
@@ -2968,7 +3154,7 @@ public class SetupMeetingActivity extends AppCompatActivity {
 //            }
 //        }
 
-        if (invitedArrayList != null && invitedArrayList.size() != 0) {
+        if (invitedArrayList != null && !invitedArrayList.isEmpty()) {
             for (int i = 0; i < invitedArrayList.size(); i++) {
                 if (invitedArrayList.get(i).getName().equals("x") || invitedArrayList.get(i).getName().equals("")) {
                     if (invitedArrayList.get(i).getMobile().equals("")) {
@@ -3118,7 +3304,7 @@ public class SetupMeetingActivity extends AppCompatActivity {
 
                 } else if (statuscode.equals(successcode)) {
                     invitesData.addAll(response.getItems());
-                    if (response.getItems().size() == 0) {
+                    if (response.getItems().isEmpty()) {
                         Log.e(TAG, "onResponse:te: " + S_value);
                     } else {
                         Log.e(TAG, "onResponse:te: " + "2");
@@ -3138,8 +3324,9 @@ public class SetupMeetingActivity extends AppCompatActivity {
                         name.showDropDown();
                     }
                 }
+            }else {
+                Conversions.errroScreen(SetupMeetingActivity.this, "getInviteData");
             }
-
         });
 
     }
@@ -3198,7 +3385,7 @@ public class SetupMeetingActivity extends AppCompatActivity {
         chip.setCheckable(false);
         chip.setText(invited.getName());
 
-        if (invited.getPic() != null && invited.getPic().size() != 0) {
+        if (invited.getPic() != null && !invited.getPic().isEmpty()) {
             if (type == 2) {
                 chip.setIconUrl1(DataManger.IMAGE_URL + "/uploads/" + sharedPreferences1.getString("company_id", null) + "/" + invited.getPic().get(invited.getPic().size() - 1), getResources().getDrawable(R.drawable.ic_user));
             } else {
@@ -3387,14 +3574,16 @@ public class SetupMeetingActivity extends AppCompatActivity {
 
     public class Adapter1 extends RecyclerView.Adapter<Adapter1.MyviewHolder> {
         Context context;
-        ArrayList<Agenda> agendaArrayList;
+        ArrayList<Agenda> agendaList;
 
         public class MyviewHolder extends RecyclerView.ViewHolder {
+            LinearLayout linear;
             TextView listItemText;
             ImageButton remove;
 
             public MyviewHolder(View view) {
                 super(view);
+                linear = (LinearLayout) view.findViewById(R.id.linear);
                 listItemText = (TextView) view.findViewById(R.id.lbl_name);
                 remove = (ImageButton) view.findViewById(R.id.remove);
             }
@@ -3402,27 +3591,44 @@ public class SetupMeetingActivity extends AppCompatActivity {
 
         public Adapter1(Context context, ArrayList<Agenda> agendaArrayList) {
             this.context = context;
-            this.agendaArrayList = agendaArrayList;
+            this.agendaList = agendaArrayList;
         }
 
+        @NonNull
         @Override
-        public Adapter1.MyviewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public Adapter1.MyviewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View itemView = LayoutInflater.from(context).inflate(R.layout.row_list_view, parent, false);
             return new Adapter1.MyviewHolder(itemView);
         }
 
         @Override
         public void onBindViewHolder(final Adapter1.MyviewHolder holder, @SuppressLint("RecyclerView") final int position) {
-            holder.listItemText.setText(agendaArrayList.get(position).getDesc());
+
+            holder.listItemText.setText(agendaList.get(position).getDesc());
+
             holder.remove.setOnClickListener(v -> {
-                agendaArrayList.remove(position);
-                agendaAdapter.notifyDataSetChanged();
+                // Update the status to "1.0" when an item is removed
+                agendaList.get(position).setStatus("1.0");
+
+                // Find and remove the item from agendaArrayList as well
+                for (int i = 0; i < agendaArrayList.size(); i++) {
+                    if (agendaArrayList.get(i).get_id().get$oid().equals(agendaList.get(position).get_id().get$oid())) {
+                        agendaArrayList.get(i).setStatus("1.0");
+                        break;
+                    }
+                }
+
+                // Remove the item from the current list and update RecyclerView
+                agendaList.remove(position);
+                notifyItemRemoved(position);
+                notifyItemRangeChanged(position, agendaList.size());
             });
+
         }
 
         @Override
         public int getItemCount() {
-            return agendaArrayList.size();
+            return agendaList.size();
         }
     }
 

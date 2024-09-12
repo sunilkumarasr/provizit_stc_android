@@ -5,6 +5,7 @@ import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.NotificationManager;
 import android.content.Context;
@@ -48,6 +49,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -111,7 +113,7 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
     DatabaseHelper myDb;
     EmpData empData;
 
-    CardView flot_bt;
+    FloatingActionButton flot_bt;
 
     //calanderView Top
     private List<MyCalendar> calendarList = new ArrayList<>();
@@ -431,7 +433,7 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
                 if (appoinntment_open_type.equalsIgnoreCase("0")) {
                     img_arrow_appointment.animate().rotation(180).start();
                     appoinntment_open_type = "1";
-//                 set animation
+//                  set animation
                     Animation bottomUp = AnimationUtils.loadAnimation(getActivity(), R.anim.bottom_up);
                     recyclerview_appointment.startAnimation(bottomUp);
                     recyclerview_appointment.setVisibility(View.VISIBLE);
@@ -875,8 +877,7 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
 //                        }
                     }
                 }
-                getmeetingroomapprovals(s_time, e_time);
-                // getmeetingapprovals(s_time, e_time);
+                 getmeetingapprovals(s_time, e_time);
             }
 
             @Override
@@ -907,14 +908,16 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
                     }
                 }
 
-                String AdOnline = Preferences.loadStringValue(getActivity(), Preferences.AdOnline, "");
+//                String AdOnline = Preferences.loadStringValue(getActivity(), Preferences.AdOnline, "");
+//
+//                if (AdOnline.equalsIgnoreCase("true")){
+//                    getoutlookappointments(s_time, e_time);
+//                }else {
+//                    getmeetingapprovals(s_time, e_time);
+//                }
+                getoutlookappointments(s_time, e_time);
 
-                if (AdOnline.equalsIgnoreCase("true")){
-                    getoutlookappointments(s_time, e_time);
-                }else {
-                    getmeetingapprovals(s_time, e_time);
-                }
-
+                //getmeetingapprovals(s_time, e_time);
 
             }
 
@@ -926,7 +929,6 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
             }
         }, getActivity(), "upcoming", empData.getEmp_id(), empData.getLocation(), empData.getHierarchy_id(), s_time, e_time);
     }
-
 
     private void getoutlookappointments(String s_time, String e_time) {
         DataManger dataManager = DataManger.getDataManager();
@@ -941,20 +943,22 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
                     Integer successcode = 200, failurecode = 401, not_verified = 404;
                     Log.e("meetings_statuscode_",statuscode+"");
                     if (statuscode.equals(successcode)) {
-                        //meetings.addAll(model.getItems());
+                        meetings.addAll(model.getItems());
                         Log.e("meetings_size_2",meetings.size()+"");
                         getmeetingapprovals(s_time, e_time);
                     }else {
                         getmeetingapprovals(s_time, e_time);
                     }
+                }else {
+                    Conversions.errroScreen(getActivity(),model.getResult()+"");
                 }
             }
             @Override
             public void onFailure(Call<Model1> call,  Throwable t) {
                 System.out.println("getoutlookappointments_" + t);
-                Log.e("meetings_model_","12345");
+                Conversions.errroScreen(getActivity(), t.getMessage()+"");
             }
-        }, getActivity(), "upcoming","zaldawsari@saudiexports.gov.sa", s_time, e_time, sharedPreferences1.getString("company_id", null));
+        }, getActivity(), "upcoming",empData.getEmail(), s_time, e_time, sharedPreferences1.getString("company_id", null));
     }
 
     private void getmeetingapprovals(String s_time, String e_time) {
@@ -1055,7 +1059,6 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
                         recyclerview_upcoming.setLayoutManager(manager);
                         //set adapter
                         recyclerview_upcoming.setAdapter(upComingMeetingAdapter);
-
 
                         //count
                         upcoming_count_text.setText("(" + meetings1.size() + ")");

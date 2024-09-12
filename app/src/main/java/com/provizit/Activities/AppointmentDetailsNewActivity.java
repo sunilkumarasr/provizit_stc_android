@@ -29,6 +29,7 @@ import com.google.gson.JsonParser;
 import com.provizit.Config.ViewController;
 import com.provizit.Conversions;
 import com.provizit.Config.ConnectionReceiver;
+import com.provizit.Logins.ForgotActivity;
 import com.provizit.MVVM.ApiViewModel;
 import com.provizit.R;
 import com.provizit.Services.AppointmentDetails.AppointmentDetailsModel;
@@ -129,6 +130,8 @@ public class AppointmentDetailsNewActivity extends AppCompatActivity implements 
                 if (response != null) {
                     model = response;
                     set_Data(response);
+                }else {
+                    Conversions.errroScreen(AppointmentDetailsNewActivity.this, "getappointmentsdetails");
                 }
             }
         });
@@ -138,6 +141,8 @@ public class AppointmentDetailsNewActivity extends AppCompatActivity implements 
                 if (response != null) {
                     departments = new ArrayList<>();
                     departments = response.getItems();
+                }else {
+                    Conversions.errroScreen(AppointmentDetailsNewActivity.this, "getsubhierarchys");
                 }
             }
         });
@@ -163,6 +168,8 @@ public class AppointmentDetailsNewActivity extends AppCompatActivity implements 
                         emp_spinner.setAdapter(employeeAdapter);//setting the adapter data into the AutoCompleteTextView
                         emp_spinner.setEnabled(true);
                     }
+                }else {
+                    Conversions.errroScreen(AppointmentDetailsNewActivity.this, "getsearchemployees");
                 }
             }
         });
@@ -176,6 +183,8 @@ public class AppointmentDetailsNewActivity extends AppCompatActivity implements 
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     startActivity(intent);
+                }else {
+                    Conversions.errroScreen(AppointmentDetailsNewActivity.this, "updateappointment");
                 }
             }
         });

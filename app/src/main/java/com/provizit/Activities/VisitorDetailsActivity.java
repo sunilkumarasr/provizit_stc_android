@@ -58,6 +58,7 @@ import com.bumptech.glide.Glide;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.provizit.Conversions;
 import com.provizit.Config.ConnectionReceiver;
+import com.provizit.Logins.ForgotActivity;
 import com.provizit.Logins.InitialActivity;
 import com.provizit.MVVM.ApiViewModel;
 import com.provizit.MVVM.RequestModels.QrIndexModelRequest;
@@ -286,6 +287,8 @@ public class VisitorDetailsActivity extends AppCompatActivity {
                         emplyoeeform.setAdapter(form);
                         apiViewModel.getEmployeeDetails(getApplicationContext(),empData.getEmp_id());
                     }
+                }else {
+                    Conversions.errroScreen(VisitorDetailsActivity.this, "getemployeeformdetails");
                 }
             }
         });
@@ -342,6 +345,8 @@ public class VisitorDetailsActivity extends AppCompatActivity {
                             }
                         }
                     }
+                }else {
+                    Conversions.errroScreen(VisitorDetailsActivity.this, "getEmployeeDetails");
                 }
             }
         });
@@ -380,6 +385,8 @@ public class VisitorDetailsActivity extends AppCompatActivity {
                     } else if (statuscode.equals(successcode)) {
                         apiViewModel.getemployeeformdetails(getApplicationContext());
                     }
+                }else {
+                    Conversions.errroScreen(VisitorDetailsActivity.this, "actionEmployees");
                 }
             }
         });

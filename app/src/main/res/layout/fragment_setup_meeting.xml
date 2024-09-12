@@ -27,7 +27,7 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:titleTextColor="#ffffff"></androidx.appcompat.widget.Toolbar>
+                app:titleTextColor="#ffffff"/>
         </RelativeLayout>
 
         <RelativeLayout
@@ -143,6 +143,7 @@
                         android:layout_marginEnd="35dp"
                         android:layout_marginBottom="3dp"
                         android:hint="@string/meeting_subject"
+                        android:orientation="vertical"
                         app:boxBackgroundColor="#ffffff">
 
                         <androidx.appcompat.widget.AppCompatEditText
@@ -257,7 +258,7 @@
 
                         <TextView
                             android:id="@+id/img_phone_list"
-                            android:layout_width="19dp"
+                            android:layout_width="23dp"
                             android:layout_height="22dp"
                             android:layout_marginEnd="10dp"
                             android:background="@drawable/phone_book_ic" />
@@ -335,7 +336,6 @@
                             app:tint="@color/hash" />
                     </LinearLayout>
 
-
                     <LinearLayout
                         android:id="@+id/linear_recorring"
                         android:layout_width="match_parent"
@@ -391,7 +391,6 @@
                         </LinearLayout>
                     </LinearLayout>
 
-
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -421,8 +420,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:checked="false"
-                            android:focusableInTouchMode="false"
                             android:text="@string/AllotParking"
                             android:textColor="@color/colorPrimary" />
 
@@ -548,7 +545,7 @@
                             android:padding="12dp"
                             android:singleLine="true"
                             android:textColor="@color/colorPrimary"
-                            android:textSize="15sp" />
+                            android:textSize="14sp"/>
 
                         <androidx.appcompat.widget.AppCompatImageView
                             android:id="@+id/img_category_info"
@@ -577,7 +574,7 @@
                             android:background="@drawable/ic_meeting_room" />
 
                         <androidx.appcompat.widget.AppCompatAutoCompleteTextView
-                            android:id="@+id/meetingroom_spinner"
+                            android:id="@+id/meetingRoomSpinner"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"

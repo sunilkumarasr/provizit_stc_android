@@ -318,6 +318,7 @@ public class OtpActivity extends AppCompatActivity {
                     }
                 } else {
                     ViewController.DismissProgressBar();
+                    Conversions.errroScreen(OtpActivity.this, "getcheckSetup");
                 }
             }
         });
@@ -373,6 +374,8 @@ public class OtpActivity extends AppCompatActivity {
                                 }).show();
                     }
                 }
+            }else {
+                Conversions.errroScreen(OtpActivity.this, "getsetuplogin");
             }
         });
         apiViewModel.getactionnotificationResponse().observe(this, new Observer<Model>() {

@@ -38,6 +38,7 @@ import com.google.gson.JsonParser;
 import com.provizit.Config.ViewController;
 import com.provizit.Conversions;
 import com.provizit.Config.ConnectionReceiver;
+import com.provizit.Logins.ForgotActivity;
 import com.provizit.MVVM.ApiViewModel;
 import com.provizit.R;
 import com.provizit.Services.DataManger;
@@ -295,6 +296,8 @@ public class CheckInDetailsActivity extends AppCompatActivity implements View.On
                             Log.e("Exception" , e.getMessage());
                         }
                     }
+                }else {
+                    Conversions.errroScreen(CheckInDetailsActivity.this, "gethistorydetails");
                 }
 
             }
@@ -309,6 +312,8 @@ public class CheckInDetailsActivity extends AppCompatActivity implements View.On
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 startActivity(intent);
+            }else {
+                Conversions.errroScreen(CheckInDetailsActivity.this, "actioncheckinout");
             }
         });
 
@@ -322,6 +327,8 @@ public class CheckInDetailsActivity extends AppCompatActivity implements View.On
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     startActivity(intent);
+                }else {
+                    Conversions.errroScreen(CheckInDetailsActivity.this, "updateappointment");
                 }
             }
         });
@@ -336,6 +343,8 @@ public class CheckInDetailsActivity extends AppCompatActivity implements View.On
                 if (response != null) {
                     departments = new ArrayList<>();
                     departments = response.getItems();
+                }else {
+                    Conversions.errroScreen(CheckInDetailsActivity.this, "getsubhierarchys");
                 }
             }
         });
@@ -362,6 +371,8 @@ public class CheckInDetailsActivity extends AppCompatActivity implements View.On
                         emp_spinner.setAdapter(employeeAdapter);//setting the adapter data into the AutoCompleteTextView
                         emp_spinner.setEnabled(true);
                     }
+                }else {
+                    Conversions.errroScreen(CheckInDetailsActivity.this, "getsearchemployees");
                 }
             }
         });
@@ -606,6 +617,8 @@ public class CheckInDetailsActivity extends AppCompatActivity implements View.On
 
                     }
 
+                }else {
+                    Conversions.errroScreen(CheckInDetailsActivity.this, "getmeetingrooms");
                 }
             }
         });

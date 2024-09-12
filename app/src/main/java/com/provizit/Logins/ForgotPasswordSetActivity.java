@@ -28,6 +28,7 @@ import com.provizit.Activities.SplashActivity;
 import com.provizit.Config.Constant;
 import com.provizit.Config.ConnectionReceiver;
 import com.provizit.Config.ViewController;
+import com.provizit.Conversions;
 import com.provizit.MVVM.ApiViewModel;
 import com.provizit.MVVM.RequestModels.UpdatePwdModelRequest;
 import com.provizit.R;
@@ -137,6 +138,8 @@ public class ForgotPasswordSetActivity extends AppCompatActivity {
                         startActivity(new Intent(ForgotPasswordSetActivity.this, InitialActivity.class));
                         overridePendingTransition(R.anim.enter, R.anim.exit);
                     }
+                }else {
+                    Conversions.errroScreen(ForgotPasswordSetActivity.this, "getupdatepwd");
                 }
             }
         });

@@ -60,10 +60,16 @@ public class CustomAdapter extends ArrayAdapter<CompanyData> {
                     myDb = new DatabaseHelper(context);
                     EmpData empData = new EmpData();
                     empData = myDb.getEmpdata();
-                    if(!people.getName().equals(empData.getName() + " Cabin")){
-                        String str1 = " ("+people.getCapacity() + " Persons)";
-                        if (people.getActive()==true){
-                            lblName.setText(people.getName() + str1);
+                    if(!people.getName().equals(empData.getName() + " - Cabin")){
+
+                        if (people.getActive()){
+
+                            if (people.getCapacity() != null){
+                                lblName.setText(people.getName() + " ("+people.getCapacity() + " Persons)");
+                            }else {
+                                lblName.setText(people.getName());
+                            }
+
                         }
                     }
                 }else {

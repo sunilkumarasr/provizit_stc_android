@@ -39,6 +39,7 @@ import com.provizit.Calendar.MyCalendar;
 import com.provizit.Calendar.RecyclerTouchListener;
 import com.provizit.Calendar.myCalendarData;
 import com.provizit.Conversions;
+import com.provizit.Logins.ForgotActivity;
 import com.provizit.MVVM.ApiViewModel;
 import com.provizit.R;
 import com.provizit.Services.DataManger;
@@ -397,6 +398,8 @@ public class MeetingRoomFragment extends Fragment implements  WeekView.EventClic
                         }
                     }
 
+                }else {
+                    Conversions.errroScreen(getActivity(), "getrmslots");
                 }
             }
         });
@@ -596,6 +599,8 @@ public class MeetingRoomFragment extends Fragment implements  WeekView.EventClic
                         }
                     }
 
+                }else {
+                    Conversions.errroScreen(getActivity(), "getmeetingrooms");
                 }
             }
         });

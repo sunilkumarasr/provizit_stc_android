@@ -3,12 +3,14 @@ package com.provizit.MVVM;
 import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.google.gson.JsonObject;
+import com.provizit.AdapterAndModel.HostSlots.HostSlotsModel;
 import com.provizit.Config.ViewController;
 import com.provizit.Conversions;
 import com.provizit.MVVM.RequestModels.ActionNotificationModelRequest;
@@ -85,7 +87,7 @@ public class ApiViewModel extends ViewModel {
     MutableLiveData<JsonObject> pdfupload_response = new MutableLiveData<>();
     MutableLiveData<Model> readorunread_response = new MutableLiveData<>();
     MutableLiveData<Model1> getentrypoints_response = new MutableLiveData<>();
-    MutableLiveData<Model1> gethostslots_response = new MutableLiveData<>();
+    MutableLiveData<HostSlotsModel> gethostslots_response = new MutableLiveData<>();
     MutableLiveData<TotalModelCount> actionmeetings_total_count_response = new MutableLiveData<>();
     MutableLiveData<Model> actionmeetings_response = new MutableLiveData<>();
     MutableLiveData<Model1> getcategories_response = new MutableLiveData<>();
@@ -111,6 +113,7 @@ public class ApiViewModel extends ViewModel {
             public void onFailure(Throwable t) {
                 Log.e(TAG, "onResponse: " + "failed");
                 ViewController.DismissProgressBar();
+                getVersions_response.postValue(null);
             }
         }, context);
     }
@@ -127,12 +130,13 @@ public class ApiViewModel extends ViewModel {
             @Override
             public void onFailure(Throwable t) {
                 ViewController.DismissProgressBar();
-                Log.e(TAG, "onResponse: " + "failed");
+                Log.e(TAG, "onResponse:checkSetup " + t.getMessage());
+                checkSetup_response.postValue(null);
             }
         }, context, checkSetupmodelrequest);
     }
 
-    //InitialActivity,OtpActivity
+    //InitialActivity
     //login
     public void appuserlogin(Context context, JsonObject jsonObject) {
         apiRepository.appuserlogin(new ApiRepository.ModelResponse() {
@@ -145,6 +149,7 @@ public class ApiViewModel extends ViewModel {
             public void onFailure(Throwable t) {
                 ViewController.DismissProgressBar();
                 Log.e(TAG, "onResponse: " + "failed");
+                appuserlogin_response.postValue(null);
             }
         }, context, jsonObject);
     }
@@ -181,6 +186,7 @@ public class ApiViewModel extends ViewModel {
             public void onFailure(Throwable t) {
                 Log.e(TAG, "onResponse: " + "failed");
                 ViewController.DismissProgressBar();
+                otpsendemail_response.postValue(null);
             }
         }, context, otpSendEmaiModelRequest);
     }
@@ -198,6 +204,7 @@ public class ApiViewModel extends ViewModel {
             public void onFailure(Throwable t) {
                 ViewController.DismissProgressBar();
                 Log.e(TAG, "onResponse: " + "failed");
+                setuplogin_response.postValue(null);
             }
         }, context, setUpLoginModelRequest);
     }
@@ -215,6 +222,7 @@ public class ApiViewModel extends ViewModel {
             public void onFailure(Throwable t) {
                 ViewController.DismissProgressBar();
                 Log.e(TAG, "onResponse: " + "failed");
+                actionnotification_response.postValue(null);
             }
         }, context, actionNotificationModelRequest);
     }
@@ -232,6 +240,7 @@ public class ApiViewModel extends ViewModel {
             public void onFailure(Throwable t) {
                 ViewController.DismissProgressBar();
                 Log.e(TAG, "onResponse: " + "failed");
+                updatepwd_response.postValue(null);
             }
         }, context, updatePwdModelRequest);
     }
@@ -249,6 +258,7 @@ public class ApiViewModel extends ViewModel {
             public void onFailure(Throwable t) {
                 ViewController.DismissProgressBar();
                 Log.e(TAG, "onResponse: " + "failed");
+                getazureaddetails_response.postValue(null);
             }
         }, context, camp_id);
     }
@@ -266,6 +276,7 @@ public class ApiViewModel extends ViewModel {
             public void onFailure(Throwable t) {
                 ViewController.DismissProgressBar();
                 Log.e(TAG, "onResponse: " + "failed");
+                getamenities_response.postValue(null);
             }
         }, context);
     }
@@ -283,6 +294,7 @@ public class ApiViewModel extends ViewModel {
             public void onFailure(Throwable t) {
                 ViewController.DismissProgressBar();
                 Log.e(TAG, "onResponse: " + "failed");
+                notificationsList_response.postValue(null);
             }
         }, context, comp_id, email);
     }
@@ -300,6 +312,7 @@ public class ApiViewModel extends ViewModel {
             public void onFailure(Throwable t) {
                 ViewController.DismissProgressBar();
                 Log.e(TAG, "onResponse: " + "failed");
+                notificationsstatuschange_response.postValue(null);
             }
         }, context, notificationsStatusChangeModelRequest);
     }
@@ -316,8 +329,8 @@ public class ApiViewModel extends ViewModel {
             @Override
             public void onFailure(Throwable t) {
                 Log.e("onFailure: failed", t.getMessage() + "");
-                Conversions.errroScreen((Activity) context);
                 ViewController.DismissProgressBar();
+                employeeformdetails_response.postValue(null);
             }
         }, context);
     }
@@ -333,8 +346,9 @@ public class ApiViewModel extends ViewModel {
 
             @Override
             public void onFailure(Throwable t) {
-                ViewController.DismissProgressBar();
                 Log.e(TAG, "onResponse: " + "failed");
+                ViewController.DismissProgressBar();
+                employeeDetails_response.postValue(null);
             }
         }, context, Emp_id);
     }
@@ -352,6 +366,7 @@ public class ApiViewModel extends ViewModel {
             public void onFailure(Throwable t) {
                 ViewController.DismissProgressBar();
                 Log.e(TAG, "onResponse: " + "failed");
+                qrindex_response.postValue(null);
             }
         }, context, qrIndexModelRequest);
     }
@@ -369,6 +384,7 @@ public class ApiViewModel extends ViewModel {
             public void onFailure(Throwable t) {
                 ViewController.DismissProgressBar();
                 Log.e(TAG, "onResponse: " + "failed");
+                actionEmployees_response.postValue(null);
             }
         }, context, gsonObject);
     }
@@ -386,6 +402,7 @@ public class ApiViewModel extends ViewModel {
             public void onFailure(Throwable t) {
                 ViewController.DismissProgressBar();
                 Log.e(TAG, "onResponse: " + "failed");
+                getappointmentsdetails_response.postValue(null);
             }
         }, context, m_id);
     }
@@ -403,6 +420,7 @@ public class ApiViewModel extends ViewModel {
             public void onFailure(Throwable t) {
                 ViewController.DismissProgressBar();
                 Log.e(TAG, "onResponse: " + "failed");
+                getsubhierarchys_response.postValue(null);
             }
         }, context, l_id);
     }
@@ -420,6 +438,7 @@ public class ApiViewModel extends ViewModel {
             public void onFailure(Throwable t) {
                 ViewController.DismissProgressBar();
                 Log.e(TAG, "onResponse: " + "failed");
+                getsearchemployees_response.postValue(null);
             }
         }, context, Location, id);
     }
@@ -436,7 +455,9 @@ public class ApiViewModel extends ViewModel {
             @Override
             public void onFailure(Throwable t) {
                 ViewController.DismissProgressBar();
+                Conversions.errroScreen((Activity) context, t.getMessage() + "");
                 Log.e(TAG, "onResponse: " + "failed");
+                updateappointment_response.postValue(null);
             }
         }, context, jsonObject);
     }
@@ -473,6 +494,7 @@ public class ApiViewModel extends ViewModel {
             public void onFailure(Throwable t) {
                 ViewController.DismissProgressBar();
                 Log.e(TAG, "onResponse: " + "failed");
+                getoappointments_response.postValue(null);
             }
         }, context, meetingsId, type, host, Emp_id);
     }
@@ -490,6 +512,7 @@ public class ApiViewModel extends ViewModel {
             public void onFailure(Throwable t) {
                 ViewController.DismissProgressBar();
                 Log.e(TAG, "onResponse: " + "failed");
+                getvisitorslist_response.postValue(null);
             }
         }, context, l_id, id, type, maintype, newmaintype);
     }
@@ -507,6 +530,7 @@ public class ApiViewModel extends ViewModel {
             @Override
             public void onFailure(Throwable t) {
                 ViewController.DismissProgressBar();
+                gethistorydetails_response.postValue(null);
                 Log.e(TAG, "onResponse: " + "failed");
             }
         }, context, id, comp_id);
@@ -525,6 +549,7 @@ public class ApiViewModel extends ViewModel {
             public void onFailure(Throwable t) {
                 ViewController.DismissProgressBar();
                 Log.e(TAG, "onResponse: " + "failed");
+                getmeetings_response.postValue(null);
             }
         }, context, type, emp_id, start, end);
     }
@@ -541,6 +566,7 @@ public class ApiViewModel extends ViewModel {
             @Override
             public void onFailure(Throwable t) {
                 ViewController.DismissProgressBar();
+                getmeetingrequests_response.postValue(null);
                 Log.e(TAG, "onResponse: " + "failed");
             }
         }, context, type, emp_id, start, end);
@@ -560,6 +586,7 @@ public class ApiViewModel extends ViewModel {
             public void onFailure(Throwable t) {
                 ViewController.DismissProgressBar();
                 Log.e(TAG, "onResponse: " + "failed");
+                getmeetingapprovals_response.postValue(null);
             }
         }, context, type, Emp_id, Roleid, Location, Hierarchy_id, start, end);
     }
@@ -578,6 +605,7 @@ public class ApiViewModel extends ViewModel {
             public void onFailure(Throwable t) {
                 ViewController.DismissProgressBar();
                 Log.e(TAG, "onResponse: " + "failed");
+                actioncheckinout_response.postValue(null);
             }
         }, context, jsonObject);
     }
@@ -595,6 +623,7 @@ public class ApiViewModel extends ViewModel {
             public void onFailure(Throwable t) {
                 ViewController.DismissProgressBar();
                 Log.e(TAG, "onResponse: " + "failed");
+                getuserslotdetails_response.postValue(null);
             }
         }, context, id, comp_id);
     }
@@ -613,6 +642,7 @@ public class ApiViewModel extends ViewModel {
             public void onFailure(Throwable t) {
                 ViewController.DismissProgressBar();
                 Log.e(TAG, "onResponse: " + "failed");
+                getrmslots_response.postValue(null);
             }
         }, context, type, start, end, rm_id);
     }
@@ -630,6 +660,7 @@ public class ApiViewModel extends ViewModel {
             public void onFailure(Throwable t) {
                 ViewController.DismissProgressBar();
                 Log.e(TAG, "onResponse: " + "failed");
+                getmeetingrooms_response.postValue(null);
             }
         }, context, locationId);
     }
@@ -647,6 +678,7 @@ public class ApiViewModel extends ViewModel {
             @Override
             public void onFailure(Throwable t) {
                 ViewController.DismissProgressBar();
+                getmrmslots_response.postValue(null);
                 Log.e(TAG, "onResponse: " + "failed");
             }
         }, context, type, start, end, l_id);
@@ -664,7 +696,7 @@ public class ApiViewModel extends ViewModel {
 
             @Override
             public void onFailure(Throwable t) {
-                Log.e(TAG, "onResponse: " + "failed");
+                Log.e(TAG, "onerror:updatemeetings " + t.getMessage() + "");
                 updatemeetings_response.postValue(null);
                 ViewController.DismissProgressBar();
             }
@@ -684,6 +716,7 @@ public class ApiViewModel extends ViewModel {
             public void onFailure(Throwable t) {
                 ViewController.DismissProgressBar();
                 Log.e(TAG, "onResponse: " + "failed");
+                reschedulemeeting_response.postValue(null);
             }
         }, context, jsonObject);
     }
@@ -702,6 +735,7 @@ public class ApiViewModel extends ViewModel {
             public void onFailure(Throwable t) {
                 ViewController.DismissProgressBar();
                 Log.e(TAG, "onResponse: " + "failed");
+                iresend_response.postValue(null);
             }
         }, context, jsonObject);
     }
@@ -719,6 +753,7 @@ public class ApiViewModel extends ViewModel {
             public void onFailure(Throwable t) {
                 ViewController.DismissProgressBar();
                 Log.e(TAG, "onResponse: " + "failed");
+                addcovisitor_response.postValue(null);
             }
         }, context, jsonObject);
     }
@@ -736,6 +771,7 @@ public class ApiViewModel extends ViewModel {
             public void onFailure(Throwable t) {
                 ViewController.DismissProgressBar();
                 Log.e(TAG, "onResponse: " + "failed");
+                getInviteData_response.postValue(null);
             }
         }, context, type, usertype, S_value);
     }
@@ -753,6 +789,7 @@ public class ApiViewModel extends ViewModel {
             public void onFailure(Throwable t) {
                 ViewController.DismissProgressBar();
                 Log.e(TAG, "onResponse: " + "failed");
+                pdfupload_response.postValue(null);
             }
         }, context, file, fname, cid);
     }
@@ -769,6 +806,7 @@ public class ApiViewModel extends ViewModel {
             @Override
             public void onFailure(Throwable t) {
                 ViewController.DismissProgressBar();
+                readorunread_response.postValue(null);
                 Log.e(TAG, "onResponse: " + "failed");
             }
         }, context, jsonObject);
@@ -787,6 +825,7 @@ public class ApiViewModel extends ViewModel {
             public void onFailure(Throwable t) {
                 ViewController.DismissProgressBar();
                 Log.e(TAG, "onResponse: " + "failed");
+                getentrypoints_response.postValue(null);
             }
         }, context, locationId);
     }
@@ -795,18 +834,20 @@ public class ApiViewModel extends ViewModel {
     //SetUpMeetingActivity
     //get host slots
     public void gethostslots(Context context, String type, String emp_id, String email, Long start, Long end) {
-        apiRepository.gethostslots(new ApiRepository.Model1Response() {
+        apiRepository.gethostslots(new ApiRepository.HostSlotsModelResponse() {
             @Override
-            public void onResponse(Model1 response) {
+            public void onResponse(HostSlotsModel response) {
                 gethostslots_response.postValue(response);
             }
 
             @Override
             public void onFailure(Throwable t) {
                 ViewController.DismissProgressBar();
-                Log.e(TAG, "onResponse: " + "failed");
+                Log.e(TAG, "onerrorgethostslots " + t.getMessage());
+                gethostslots_response.postValue(null);
             }
         }, context, type, emp_id, email, start, end);
+
     }
 
 
@@ -823,6 +864,7 @@ public class ApiViewModel extends ViewModel {
             public void onFailure(Throwable t) {
                 ViewController.DismissProgressBar();
                 Log.e(TAG, "onResponse: " + "failed");
+                actionmeetings_total_count_response.postValue(null);
             }
         }, context, jsonObject);
     }
@@ -836,11 +878,11 @@ public class ApiViewModel extends ViewModel {
             public void onResponse(Model response) {
                 actionmeetings_response.postValue(response);
             }
-
             @Override
             public void onFailure(Throwable t) {
                 ViewController.DismissProgressBar();
                 Log.e(TAG, "onResponse: " + "failed");
+                actionmeetings_response.postValue(null);
             }
         }, context, jsonObject);
     }
@@ -853,11 +895,11 @@ public class ApiViewModel extends ViewModel {
             public void onResponse(Model1 response) {
                 getcategories_response.postValue(response);
             }
-
             @Override
             public void onFailure(Throwable t) {
                 ViewController.DismissProgressBar();
                 Log.e(TAG, "onResponse: " + "failed");
+                getcategories_response.postValue(null);
             }
         }, context, id);
     }
@@ -870,11 +912,11 @@ public class ApiViewModel extends ViewModel {
             public void onResponse(Model1 l_loginResponse) {
                 getEmployees_response.postValue(l_loginResponse);
             }
-
             @Override
             public void onFailure(Throwable t) {
                 ViewController.DismissProgressBar();
                 Log.e(TAG, "onResponse: " + "failed");
+                getEmployees_response.postValue(null);
             }
         }, context, comp_id);
     }
@@ -901,7 +943,6 @@ public class ApiViewModel extends ViewModel {
         return userADlogin_response;
     }
 
-
     //otpsend response
     public LiveData<Model> getotpsendemailResponse() {
         return otpsendemail_response;
@@ -926,7 +967,6 @@ public class ApiViewModel extends ViewModel {
     public LiveData<Inviteemodelclass> getamenitiesResponse() {
         return getamenities_response;
     }
-
 
     //get azuread details response
     public LiveData<Model> getazureaddetailsResponse() {
@@ -1086,7 +1126,7 @@ public class ApiViewModel extends ViewModel {
     }
 
     //get host slots
-    public LiveData<Model1> gethostslots_response() {
+    public LiveData<HostSlotsModel> gethostslots_response() {
         return gethostslots_response;
     }
 

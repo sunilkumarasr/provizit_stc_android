@@ -33,6 +33,7 @@ import com.bumptech.glide.Glide;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.provizit.Conversions;
 import com.provizit.Config.ConnectionReceiver;
+import com.provizit.Logins.ForgotActivity;
 import com.provizit.MVVM.ApiViewModel;
 import com.provizit.R;
 import com.provizit.Services.DataManger;
@@ -305,6 +306,8 @@ public class SelectedDateMeetingsActivity extends AppCompatActivity {
                             empty.setVisibility(View.GONE);
                         }
                     }
+                }else {
+                    Conversions.errroScreen(SelectedDateMeetingsActivity.this, "getmeetingapprovals");
                 }
             }
         });
@@ -508,6 +511,8 @@ public class SelectedDateMeetingsActivity extends AppCompatActivity {
                             compactCalendarView.addEvent(ev1);
                         }
                     }
+                }else {
+                    Conversions.errroScreen(SelectedDateMeetingsActivity.this, "getmeetings");
                 }
             }
         });
@@ -542,6 +547,8 @@ public class SelectedDateMeetingsActivity extends AppCompatActivity {
                             compactCalendarView.addEvent(ev1);
                         }
                     }
+                }else {
+                    Conversions.errroScreen(SelectedDateMeetingsActivity.this, "getmeetingrequests");
                 }
             }
         });

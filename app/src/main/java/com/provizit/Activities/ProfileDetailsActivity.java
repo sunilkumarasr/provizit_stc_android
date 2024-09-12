@@ -64,6 +64,7 @@ import com.google.gson.JsonParser;
 import com.provizit.Config.ViewController;
 import com.provizit.Conversions;
 import com.provizit.Config.ConnectionReceiver;
+import com.provizit.Logins.ForgotActivity;
 import com.provizit.Logins.InitialActivity;
 import com.provizit.Logins.LoginMicrosoftADActivity;
 import com.provizit.MVVM.ApiViewModel;
@@ -263,6 +264,8 @@ public class ProfileDetailsActivity extends AppCompatActivity {
                     apiViewModel.getEmployeeDetails(getApplicationContext(), empData.getEmp_id());
                     ViewController.ShowProgressBar(ProfileDetailsActivity.this);
                 }
+            }else {
+                Conversions.errroScreen(ProfileDetailsActivity.this, "getemployeeformdetails");
             }
         });
 
@@ -315,6 +318,8 @@ public class ProfileDetailsActivity extends AppCompatActivity {
                         }
                     }
                 }
+            }else {
+                Conversions.errroScreen(ProfileDetailsActivity.this, "getEmployeeDetails");
             }
         });
 
@@ -347,6 +352,8 @@ public class ProfileDetailsActivity extends AppCompatActivity {
                 } else if (statuscode.equals(successcode)) {
                     apiViewModel.getemployeeformdetails(getApplicationContext());
                 }
+            }else {
+                Conversions.errroScreen(ProfileDetailsActivity.this, "actionEmployees");
             }
         });
 

@@ -31,7 +31,9 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.provizit.Activities.SetupMeetingActivity;
 import com.provizit.AdapterAndModel.AllotParking.AllotParkingAdapter;
+import com.provizit.Conversions;
 import com.provizit.CustomItemListener;
+import com.provizit.Logins.ForgotActivity;
 import com.provizit.MVVM.ApiViewModel;
 import com.provizit.R;
 import com.provizit.Services.Model;
@@ -198,6 +200,8 @@ public class AllotParkingFragment extends BottomSheetDialogFragment implements V
 
                     }
                 }
+            }else {
+                Conversions.errroScreen(getActivity(), "getEmployees");
             }
 
         });
@@ -240,7 +244,7 @@ public class AllotParkingFragment extends BottomSheetDialogFragment implements V
 
                 break;
             case R.id.bt_cancel:
-                listner.onSelected(allotinvites,"",pSlot);
+                listner.onSelected(allotinvites,"",false);
                 dismiss();
                 break;
         }
