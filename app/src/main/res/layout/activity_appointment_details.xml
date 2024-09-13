@@ -24,7 +24,7 @@
             android:layout_height="45dp"
             android:background="@color/colorPrimary"
             android:orientation="horizontal">
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/img_back"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
@@ -35,11 +35,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
                 android:text="@string/appointment_request"
                 style="@style/medium_font"
                 android:textColor="@color/white"
-                android:textSize="15dp"/>
+                android:textSize="15sp"/>
         </LinearLayout>
 
         <LinearLayout
@@ -59,8 +59,8 @@
                     android:orientation="vertical"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
-                    android:layout_marginRight="15dp">
-                    <ImageView
+                    android:layout_marginEnd="15dp">
+                    <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:src="@drawable/ic_success"
@@ -71,7 +71,7 @@
                         android:text="@string/accept"
                         android:textColor="@color/Accept"
                         style="@style/medium_font"
-                        android:textSize="12dp"/>
+                        android:textSize="12sp"/>
                 </LinearLayout>
             </LinearLayout>
             <LinearLayout
@@ -86,7 +86,7 @@
                     android:orientation="vertical"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp">
-                    <ImageView
+                    <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:src="@drawable/ic_assign"
@@ -97,7 +97,7 @@
                         android:text="@string/assign"
                         android:textColor="@color/a_color"
                         style="@style/medium_font"
-                        android:textSize="12dp"/>
+                        android:textSize="12sp"/>
                 </LinearLayout>
             </LinearLayout>
             <LinearLayout
@@ -112,8 +112,8 @@
                     android:orientation="vertical"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
-                    android:layout_marginLeft="15dp">
-                    <ImageView
+                    android:layout_marginStart="15dp">
+                    <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:src="@drawable/ic_cancel"
@@ -124,7 +124,7 @@
                         android:text="@string/decline"
                         android:textColor="@color/Cancel"
                         style="@style/medium_font"
-                        android:textSize="12dp"/>
+                        android:textSize="12sp"/>
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
@@ -135,12 +135,12 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:layout_marginTop="10dp"
-            android:layout_marginRight="25dp"
+            android:layout_marginEnd="25dp"
             android:layout_marginBottom="10dp"
             style="@style/medium_font"
             android:text="date"
             android:textColor="@color/colorPrimary"
-            android:textSize="15dp" />
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/txt_purpose"
@@ -152,7 +152,7 @@
             android:text="@string/new_product_discution"
             android:textColor="@color/colorPrimary"
             style="@style/medium_font"
-            android:textSize="23dp"/>
+            android:textSize="23sp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -160,12 +160,12 @@
             android:layout_marginLeft="25dp"
             android:layout_marginRight="25dp"
             android:orientation="horizontal">
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:src="@drawable/name"
                 android:layout_gravity="center_vertical"
-                android:layout_marginRight="15dp"
+                android:layout_marginEnd="15dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"/>
             <LinearLayout
@@ -178,7 +178,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/from"
                     android:textColor="@color/gray"
-                    android:textSize="13dp"
+                    android:textSize="13sp"
                     style="@style/medium_font"/>
                 <TextView
                     android:id="@+id/txt_name"
@@ -187,7 +187,7 @@
                     android:text="Raghu Veera Reddy"
                     android:textColor="@color/colorPrimary"
                     android:layout_marginTop="3dp"
-                    android:textSize="13dp"
+                    android:textSize="13sp"
                     style="@style/medium_font"/>
             </LinearLayout>
         </LinearLayout>
@@ -199,7 +199,7 @@
             android:layout_marginLeft="25dp"
             android:layout_marginRight="25dp"
             android:orientation="horizontal">
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:src="@drawable/mobile"
@@ -217,7 +217,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/phone"
                     android:textColor="@color/gray"
-                    android:textSize="13dp"
+                    android:textSize="13sp"
                     style="@style/medium_font"/>
                 <TextView
                     android:id="@+id/txt_phone"
@@ -226,7 +226,7 @@
                     android:text="+91 9441085061"
                     android:textColor="@color/colorPrimary"
                     android:layout_marginTop="3dp"
-                    android:textSize="13dp"
+                    android:textSize="13sp"
                     style="@style/medium_font"/>
             </LinearLayout>
         </LinearLayout>
@@ -238,12 +238,12 @@
             android:layout_marginLeft="25dp"
             android:layout_marginRight="25dp"
             android:orientation="horizontal">
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:src="@drawable/email"
                 android:layout_gravity="center_vertical"
-                android:layout_marginRight="15dp"
+                android:layout_marginEnd="15dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"/>
             <LinearLayout
@@ -256,7 +256,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/email"
                     android:textColor="@color/gray"
-                    android:textSize="13dp"
+                    android:textSize="13sp"
                     style="@style/medium_font"/>
                 <TextView
                     android:id="@+id/txt_email"
@@ -265,7 +265,7 @@
                     android:text="raghuveerareddy@gmail.com"
                     android:textColor="@color/colorPrimary"
                     android:layout_marginTop="3dp"
-                    android:textSize="13dp"
+                    android:textSize="13sp"
                     style="@style/medium_font"/>
             </LinearLayout>
         </LinearLayout>
@@ -277,12 +277,12 @@
             android:layout_marginLeft="25dp"
             android:layout_marginRight="25dp"
             android:orientation="horizontal">
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:src="@drawable/organization"
                 android:layout_gravity="center_vertical"
-                android:layout_marginRight="15dp"
+                android:layout_marginEnd="15dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"/>
             <LinearLayout
@@ -295,7 +295,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/organization_a"
                     android:textColor="@color/gray"
-                    android:textSize="13dp"
+                    android:textSize="13sp"
                     style="@style/medium_font"/>
                 <TextView
                     android:id="@+id/txt_origanization"
@@ -304,7 +304,7 @@
                     android:text="Hindustan Unilever Corporation"
                     android:textColor="@color/colorPrimary"
                     android:layout_marginTop="3dp"
-                    android:textSize="13dp"
+                    android:textSize="13sp"
                     style="@style/medium_font"/>
             </LinearLayout>
         </LinearLayout>
@@ -318,12 +318,12 @@
             android:layout_marginLeft="25dp"
             android:layout_marginRight="25dp"
             android:orientation="horizontal">
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:src="@drawable/note"
                 android:layout_gravity="center_vertical"
-                android:layout_marginRight="15dp"
+                android:layout_marginEnd="15dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"/>
             <LinearLayout
@@ -336,7 +336,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/note"
                     android:textColor="@color/gray"
-                    android:textSize="13dp"
+                    android:textSize="13sp"
                     style="@style/medium_font"/>
                 <TextView
                     android:id="@+id/txt_note"
@@ -345,7 +345,7 @@
                     android:text="If anything note wanted to show then we can show hee for this appointment"
                     android:textColor="@color/colorPrimary"
                     android:layout_marginTop="3dp"
-                    android:textSize="13dp"
+                    android:textSize="13sp"
                     style="@style/medium_font"/>
             </LinearLayout>
         </LinearLayout>
@@ -359,12 +359,12 @@
             android:layout_marginLeft="25dp"
             android:layout_marginRight="25dp"
             android:orientation="horizontal">
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:src="@drawable/ic_pdfshow"
                 android:layout_gravity="center_vertical"
-                android:layout_marginRight="15dp"
+                android:layout_marginEnd="15dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"/>
             <TextView
@@ -374,7 +374,7 @@
                 android:layout_gravity="center_vertical"
                 android:text="Pdf"
                 android:textColor="@color/colorPrimary"
-                android:textSize="13dp"
+                android:textSize="13sp"
                 style="@style/medium_font"/>
         </LinearLayout>
 

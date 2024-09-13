@@ -94,7 +94,7 @@ public class AllotParkingFragment extends BottomSheetDialogFragment implements V
         bottomSheetDialog.setOnShowListener(dialog -> {
             BottomSheetDialog dialogc = (BottomSheetDialog) dialog;
             // When using AndroidX the resource can be found at com.google.android.material.R.id.design_bottom_sheet
-            FrameLayout bottomSheet =  dialogc.findViewById(R.id.design_bottom_sheet);
+            FrameLayout bottomSheet =  dialogc.findViewById(com.google.android.material.R.id.design_bottom_sheet);
 
             BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
             bottomSheetBehavior.setPeekHeight(Resources.getSystem().getDisplayMetrics().heightPixels);

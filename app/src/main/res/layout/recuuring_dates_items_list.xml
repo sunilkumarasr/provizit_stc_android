@@ -61,14 +61,14 @@
                    android:layout_gravity="center"
                    android:gravity="center"
                    android:orientation="horizontal">
-                    <ImageView
+                    <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/imgResedule"
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:src="@drawable/ic_resc"
                         android:layout_marginLeft="3dp"
                         android:layout_marginRight="3dp"/>
-                    <ImageView
+                    <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/imgCancel"
                         android:layout_width="25dp"
                         android:layout_height="25dp"

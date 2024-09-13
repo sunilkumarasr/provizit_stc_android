@@ -192,6 +192,7 @@ public class NavigationActivity extends AppCompatActivity implements View.OnClic
         binding.linearlayoutHome.setOnClickListener(this);
         binding.frameLayoutNotifications.setOnClickListener(this);
         binding.imgReports.setOnClickListener(this);
+        binding.imgBusy.setOnClickListener(this);
         binding.empImg.setOnClickListener(this);
         binding.empName.setOnClickListener(this);
     }
@@ -282,6 +283,12 @@ public class NavigationActivity extends AppCompatActivity implements View.OnClic
                 view.startAnimation(animation);
                 Intent intent1 = new Intent(getApplicationContext(), ReportsNewActivity.class);
                 startActivity(intent1);
+                overridePendingTransition(R.anim.enter, R.anim.exit);
+                break;
+            case R.id.imgBusy:
+                view.startAnimation(animation);
+                Intent inten = new Intent(getApplicationContext(), BusyScheduleActivity.class);
+                startActivity(inten);
                 overridePendingTransition(R.anim.enter, R.anim.exit);
                 break;
             case R.id.emp_img:

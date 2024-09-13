@@ -76,6 +76,8 @@
     <string name="page_not_found">Page not found</string>
     <string name="the_page_not_found">The page you requested could not be found</string>
     <string name="gohome">GO HOME</string>
+    <string name="busy">Busy</string>
+    <string name="busySchedule">Busy Schedule</string>
 
 
     <string name="sorry">Sorry!</string>

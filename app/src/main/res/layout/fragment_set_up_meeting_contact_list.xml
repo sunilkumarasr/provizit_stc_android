@@ -31,7 +31,7 @@
                         android:id="@+id/relative_search"
                         android:layout_width="match_parent"
                         android:layout_height="40dp">
-                        <ImageView
+                        <androidx.appcompat.widget.AppCompatImageView
                             android:id="@+id/img_search"
                             android:layout_width="20dp"
                             android:layout_height="20dp"

@@ -23,7 +23,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:background="@color/colorPrimary">
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/img_back"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
@@ -129,7 +129,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:orientation="horizontal">
-                        <ImageView
+                        <androidx.appcompat.widget.AppCompatImageView
                             android:layout_width="15dp"
                             android:layout_height="15dp"
                             android:src="@drawable/company_icon"
@@ -176,7 +176,7 @@
                                 app:cardElevation="3dp"
                                 android:outlineSpotShadowColor="@color/black"
                                 android:outlineAmbientShadowColor="@color/black">
-                                <ImageView
+                                <androidx.appcompat.widget.AppCompatImageView
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:src="@drawable/accept_icc"
@@ -209,7 +209,7 @@
                                 app:cardElevation="3dp"
                                 android:outlineSpotShadowColor="@color/black"
                                 android:outlineAmbientShadowColor="@color/black">
-                                <ImageView
+                                <androidx.appcompat.widget.AppCompatImageView
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:src="@drawable/decline_icc"
@@ -244,7 +244,7 @@
                                 app:cardBackgroundColor="@color/card_hash"
                                 android:outlineSpotShadowColor="@color/black"
                                 android:outlineAmbientShadowColor="@color/black">
-                                <ImageView
+                                <androidx.appcompat.widget.AppCompatImageView
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:layout_gravity="center"
@@ -310,12 +310,12 @@
                         android:layout_marginLeft="25dp"
                         android:layout_marginRight="25dp"
                         android:orientation="horizontal">
-                        <ImageView
+                        <androidx.appcompat.widget.AppCompatImageView
                             android:layout_width="25dp"
                             android:layout_height="25dp"
                             android:src="@drawable/ic_pdfshow"
                             android:layout_gravity="center_vertical"
-                            android:layout_marginRight="15dp"
+                            android:layout_marginEnd="15dp"
                             android:layout_marginTop="10dp"
                             android:layout_marginBottom="10dp"/>
                         <TextView

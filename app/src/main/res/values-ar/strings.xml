@@ -76,7 +76,8 @@
     <string name="page_not_found">الصفحة غير موجودة</string>
     <string name="the_page_not_found">الصفحة المطلوبة لا يمكن العثور عليه</string>
     <string name="gohome">اذهب للمنزل</string>
-
+    <string name="busy">مصروف</string>
+    <string name="busySchedule">مصروف شیڈول</string>
 
     <string name="sorry">أعتذر!</string>
     <string name="is_not_available_at_this_time">غير متوفر في هذا الوقت</string>

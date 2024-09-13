@@ -223,7 +223,7 @@
                             android:orientation="horizontal"
                             android:gravity="center"
                             android:padding="10dp">
-                            <ImageView
+                            <androidx.appcompat.widget.AppCompatImageView
                                 android:layout_width="15dp"
                                 android:layout_height="15dp"
                                 android:src="@drawable/ic_success"/>
@@ -248,7 +248,7 @@
                             android:orientation="horizontal"
                             android:gravity="center"
                             android:padding="10dp">
-                            <ImageView
+                            <androidx.appcompat.widget.AppCompatImageView
                                 android:layout_width="15dp"
                                 android:layout_height="15dp"
                                 android:src="@drawable/ic_cancel"/>

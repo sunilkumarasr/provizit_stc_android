@@ -171,7 +171,7 @@
                         android:layout_marginTop="10dp"
                         android:orientation="horizontal">
 
-                        <ImageView
+                        <androidx.appcompat.widget.AppCompatImageView
                             android:visibility="gone"
                             android:id="@+id/outlookimg_reccurence"
                             android:layout_width="20dp"
@@ -417,10 +417,10 @@
                             android:text="+0"
                             android:textAlignment="center"
                             android:textColor="#FFFFFF"
-                            android:textSize="8sp"
+                            android:textSize="11sp"
                             android:visibility="gone" />
 
-                        <ImageView
+                        <androidx.appcompat.widget.AppCompatImageView
                             android:visibility="gone"
                             android:id="@+id/img_reccurence"
                             android:layout_width="20dp"

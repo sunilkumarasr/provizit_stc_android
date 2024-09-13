@@ -51,7 +51,7 @@
                     android:textColorHint="@color/colorPrimary"
                     android:textSize="10dp" />
 
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/img_m_e_search"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
@@ -87,7 +87,7 @@
                         android:textColorHint="@color/colorPrimary"
                         android:textSize="10dp" />
 
-                    <ImageView
+                    <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/img_down_from"
                         android:layout_width="15dp"
                         android:layout_height="15dp"
@@ -118,7 +118,7 @@
                         android:textColorHint="@color/colorPrimary"
                         android:textSize="10dp" />
 
-                    <ImageView
+                    <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/img_down_to"
                         android:layout_width="15dp"
                         android:layout_height="15dp"
@@ -142,7 +142,7 @@
                     android:layout_weight="1"
                     android:layout_marginRight="8dp"
                     android:background="@drawable/round_gray_line">
-                    <ImageView
+                    <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="30dp"
                         android:layout_height="25dp"
                         android:layout_gravity="center_vertical"
@@ -194,14 +194,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
                     android:layout_weight="1">
-                    <ImageView
+                    <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="30dp"
                         android:layout_height="25dp"
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="5dp"
                         android:src="@drawable/ic_calender1"/>
-                    <ImageView
+                    <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="30dp"
                         android:layout_height="25dp"
                         android:layout_gravity="center_vertical"
@@ -234,7 +234,7 @@
                             android:textSize="12dp"
                             style="@style/medium_font"
                             android:textColor="@color/colorPrimary"/>
-                        <ImageView
+                        <androidx.appcompat.widget.AppCompatImageView
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             android:layout_gravity="center"
