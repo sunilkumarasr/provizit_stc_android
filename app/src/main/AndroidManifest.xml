@@ -168,6 +168,7 @@
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".Activities.DeepLinkingActivity"
             android:exported="true">
@@ -187,15 +188,14 @@
                     android:scheme="https" />
             </intent-filter>
         </activity>
+
         <activity
             android:name="com.microsoft.identity.client.BrowserTabActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
-
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-
                 <data
                     android:host="com.provizit.ksa"
                     android:path="/RNy5oraIA7QxAEY9MB/Z5j/wWgo="

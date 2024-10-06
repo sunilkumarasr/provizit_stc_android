@@ -23,6 +23,8 @@
     <string name="is_here_to_see_you_for">is here to see you</string>
     <string name="badge_no">Badge No: </string>
     <string name="time">Time: </string>
+    <string name="time_">Time</string>
+    <string name="duration">Duration</string>
     <string name="start_time">Start Time</string>
     <string name="end_time">End Time</string>
     <string name="date">Date: </string>
@@ -78,6 +80,9 @@
     <string name="gohome">GO HOME</string>
     <string name="busy">Busy</string>
     <string name="busySchedule">Busy Schedule</string>
+    <string name="add">Add</string>
+    <string name="delete">Delete</string>
+    <string name="are_you_sure_do_you_want_to_delete">Are you sure do you want to delete this meeting?</string>
 
 
     <string name="sorry">Sorry!</string>

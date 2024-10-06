@@ -23,6 +23,8 @@
     <string name="is_here_to_see_you_for">هنا لرؤيتك</string>
     <string name="badge_no">"رقم الشارة</string>
     <string name="time">:زمن </string>
+    <string name="time_">زمن</string>
+    <string name="duration">دورانیہ</string>
     <string name="start_time">وقت البدء</string>
     <string name="end_time">وقت النهاية</string>
     <string name="date">تاريخ: </string>
@@ -78,6 +80,11 @@
     <string name="gohome">اذهب للمنزل</string>
     <string name="busy">مصروف</string>
     <string name="busySchedule">مصروف شیڈول</string>
+    <string name="add">شامل کریں۔</string>
+    <string name="delete">حذف کریں۔</string>
+    <string name="are_you_sure_do_you_want_to_delete">کیا آپ واقعی اس میٹنگ کو حذف کرنا چاہتے ہیں؟</string>
+
+
 
     <string name="sorry">أعتذر!</string>
     <string name="is_not_available_at_this_time">غير متوفر في هذا الوقت</string>

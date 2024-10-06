@@ -7,6 +7,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.provizit.AESUtil;
+import com.provizit.AdapterAndModel.BusySchedules.BusySchedulesModel;
 import com.provizit.AdapterAndModel.HostSlots.HostSlotsModel;
 import com.provizit.Conversions;
 import com.provizit.MVVM.RequestModels.ActionNotificationModelRequest;
@@ -566,6 +567,22 @@ public class DataManger {
         String bearer = "Bearer" + newEncrypt;
         Call<Model1> call = apiService.getEmployees(bearer,newEncrypt,comp_id);
         call.enqueue((Callback<Model1>) cb);
+    }
+
+    public void getbusyScheduledetails(Callback<BusySchedulesModel> cb, Context context, String comp_id, String emp_id, String type) {
+        API apiService = retrofitSecurity.create(API.class);
+        String newEncrypt = Conversions.encrypt(context,false);
+        String bearer = "Bearer" + newEncrypt;
+        Call<BusySchedulesModel> call = apiService.getbusyScheduledetails(bearer,newEncrypt,comp_id,emp_id,type);
+        call.enqueue((Callback<BusySchedulesModel>) cb);
+    }
+
+    public void actionbusySchedule(Callback<BusySchedulesModel> cb, Context context, JsonObject jsonObject) {
+        API apiService = retrofitSecurity.create(API.class);
+        String newEncrypt = Conversions.encrypt(context,false);
+        String bearer = "Bearer" + newEncrypt;
+        Call<BusySchedulesModel> call = apiService.actionbusySchedule(bearer,newEncrypt,jsonObject);
+        call.enqueue((Callback<BusySchedulesModel>) cb);
     }
 
 

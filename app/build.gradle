@@ -117,7 +117,6 @@ dependencies {
     //loading
     implementation 'com.github.ybq:Android-SpinKit:1.4.0'
 
-//    implementation 'com.microsoft.identity.client:msal:4.5.0'
     implementation 'com.microsoft.identity.client:msal:2.0.0'
 
     //placeholder loading

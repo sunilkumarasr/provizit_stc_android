@@ -20,17 +20,18 @@
             android:gravity="center"
             android:padding="12dp"
             android:text="@string/assign"
-            android:textColor="#ffffff"/>
+            android:textColor="#ffffff" />
+
         <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-            app:boxBackgroundColor="#ffffff"
-             android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="10dp"
             android:layout_marginBottom="3dp"
-            android:hint="@string/department">
+            android:hint="@string/department"
+            app:boxBackgroundColor="#ffffff">
 
             <AutoCompleteTextView
                 android:id="@+id/department_spinner"
@@ -47,73 +48,76 @@
                 android:textSize="12dp" />
 
         </com.google.android.material.textfield.TextInputLayout>
+
         <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-            app:boxBackgroundColor="#ffffff"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="5dp"
             android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="10dp"
             android:layout_marginBottom="8dp"
             android:hint="@string/employee"
-            >
+            app:boxBackgroundColor="#ffffff">
+
             <AutoCompleteTextView
                 android:id="@+id/emp_spinner"
                 android:layout_width="match_parent"
-                android:drawableRight="@drawable/ic_arrow_drop_down_black_24dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:singleLine="true"
                 android:cursorVisible="false"
+                android:drawableRight="@drawable/ic_arrow_drop_down_black_24dp"
                 android:drawablePadding="5dp"
                 android:enabled="false"
                 android:inputType="none"
-                android:padding="10dp"
                 android:maxHeight="100dp"
+                android:padding="10dp"
+                android:singleLine="true"
                 android:textSize="12dp" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
 
-<View
-    android:layout_width="match_parent"
-    android:layout_height="0.5dp"
-    android:layout_marginTop="5dp"
-    android:background="#868686"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginTop="5dp"
+            android:background="#868686" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:orientation="horizontal"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/cancel"
+                style="@style/medium_font"
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="?attr/selectableItemBackground"
-                android:layout_height="wrap_content"
-                style="@style/medium_font"
                 android:padding="10dp"
-                android:textAlignment="center"
                 android:text="@string/cancel"
-                android:textColor="@color/colorPrimaryDark"/>
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimaryDark" />
+
             <View
                 android:layout_width="0.5dp"
                 android:layout_height="match_parent"
-                android:background="#868686"/>
+                android:background="#868686" />
+
             <TextView
-                android:textAlignment="center"
                 android:id="@+id/assign"
-                android:layout_width="match_parent"
-                android:layout_weight="1"
-                android:background="?attr/selectableItemBackground"
                 style="@style/medium_font"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
+                android:layout_weight="1"
+                android:background="?attr/selectableItemBackground"
                 android:padding="10dp"
                 android:text="@string/assign"
-                android:textColor="@color/colorPrimaryDark"/>
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimaryDark" />
 
         </LinearLayout>
 

@@ -3,7 +3,10 @@ package com.provizit.MVVM;
 import android.content.Context;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import com.google.gson.JsonObject;
+import com.provizit.AdapterAndModel.BusySchedules.BusySchedulesModel;
 import com.provizit.AdapterAndModel.HostSlots.HostSlotsModel;
 import com.provizit.MVVM.RequestModels.ActionNotificationModelRequest;
 import com.provizit.MVVM.RequestModels.CheckSetupModelRequest;
@@ -1069,6 +1072,52 @@ public class ApiRepository {
     }
 
 
+    //getbusySchedules
+    public void getbusyScheduledetails(BusySchedulesResponse logresponse, Context context,String comp_id, String emp_id, String type){
+        DataManger dataManager = DataManger.getDataManager();
+        dataManager.getbusyScheduledetails(new Callback<BusySchedulesModel>() {
+            @Override
+            public void onResponse(Call<BusySchedulesModel> call, Response<BusySchedulesModel> response) {
+                if (response.isSuccessful()){
+                    logresponse.onResponse(response.body());
+                    Log.e(TAG, "onResp"+"getbusySchedules0" );
+                }else {
+                    Log.e(TAG, "onResp"+"getbusySchedules1" );
+                    logresponse.onFailure(new Throwable(response.message()));
+                }
+            }
+            @Override
+            public void onFailure(Call<BusySchedulesModel> call, Throwable t) {
+                Log.e(TAG, "onResp"+"getbusySchedules2" );
+                Log.e(TAG, "getbusySchedules2"+t.getMessage() );
+                logresponse.onFailure(new Throwable(t));
+            }
+        },context,comp_id, emp_id, type);
+    }
+
+    //deleteactionbusySchedule
+    public void actionbusySchedule(BusySchedulesResponse logresponse, Context context, JsonObject jsonObject){
+        DataManger dataManager = DataManger.getDataManager();
+        dataManager.actionbusySchedule(new Callback<BusySchedulesModel>() {
+            @Override
+            public void onResponse(@NonNull Call<BusySchedulesModel> call, @NonNull Response<BusySchedulesModel> response) {
+                if (response.isSuccessful()){
+                    logresponse.onResponse(response.body());
+                    Log.e(TAG, "onResp"+"appuserlogin0" );
+                }else {
+                    Log.e(TAG, "onResp"+"appuserlogin1" );
+                    logresponse.onFailure(new Throwable(response.message()));
+                }
+            }
+            @Override
+            public void onFailure(Call<BusySchedulesModel> call, Throwable t) {
+                Log.e(TAG, "onResp"+"appuserlogin2" );
+                logresponse.onFailure(new Throwable(t));
+            }
+        },context,jsonObject);
+    }
+
+
     public interface ModelResponse{
         void onResponse(Model loginResponse);
         void onFailure(Throwable t);
@@ -1104,6 +1153,13 @@ public class ApiRepository {
         void onResponse(Model1 model1Response);
         void onFailure(Throwable t);
     }
+
+    public interface BusySchedulesResponse{
+        void onResponse(BusySchedulesModel busySchedulesModel);
+        void onFailure(Throwable t);
+    }
+
+
 
     public interface HostSlotsModelResponse{
         void onResponse(HostSlotsModel hostSlotsModel);

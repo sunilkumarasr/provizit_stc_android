@@ -25,7 +25,7 @@
         android:layout_marginBottom="10dp"
         android:text="@string/Recurring_event_date_picker"
         android:textColor="@color/colorPrimary"
-        android:textSize="15dp"
+        android:textSize="15sp"
         android:textStyle="bold" />
 
     <TextView
@@ -86,11 +86,11 @@
         android:orientation="horizontal"
         android:weightSum="2">
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:src="@drawable/ic_calender"
-            android:tint="@color/colorPrimary"
+            app:tint="@color/colorPrimary"
             android:visibility="visible" />
 
         <Button
@@ -241,7 +241,7 @@
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
             android:layout_weight="1"
             android:background="@drawable/ripple"
             android:text="@string/update"

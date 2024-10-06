@@ -1,6 +1,7 @@
 package com.provizit.Services;
 
 import com.google.gson.JsonObject;
+import com.provizit.AdapterAndModel.BusySchedules.BusySchedulesModel;
 import com.provizit.AdapterAndModel.HostSlots.HostSlotsModel;
 import com.provizit.MVVM.RequestModels.ActionNotificationModelRequest;
 import com.provizit.MVVM.RequestModels.CheckSetupModelRequest;
@@ -213,5 +214,11 @@ public interface API {
 
     @GET("company/getEmployees")
     Call<Model1> getEmployees(@Header("Authorization") String Bearer, @Header("DeviceId") String header, @Query("comp_id") String comp_id);
+
+    @GET("company/getbusyScheduledetails")
+    Call<BusySchedulesModel> getbusyScheduledetails(@Header("Authorization") String Bearer, @Header("DeviceId") String header, @Query("cid") String comp_id, @Query("id") String emp_id, @Query("type") String type);
+
+    @POST("company/actionbusySchedule")
+    Call<BusySchedulesModel> actionbusySchedule(@Header("Authorization") String Bearer, @Header("DeviceId") String header, @Body JsonObject jsonBody);
 
 }

@@ -10,6 +10,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.google.gson.JsonObject;
+import com.provizit.AdapterAndModel.BusySchedules.BusySchedulesModel;
 import com.provizit.AdapterAndModel.HostSlots.HostSlotsModel;
 import com.provizit.Config.ViewController;
 import com.provizit.Conversions;
@@ -92,6 +93,8 @@ public class ApiViewModel extends ViewModel {
     MutableLiveData<Model> actionmeetings_response = new MutableLiveData<>();
     MutableLiveData<Model1> getcategories_response = new MutableLiveData<>();
     MutableLiveData<Model1> getEmployees_response = new MutableLiveData<>();
+    MutableLiveData<BusySchedulesModel> getbusySchedulesdetails_response = new MutableLiveData<>();
+    MutableLiveData<BusySchedulesModel> actionbusySchedule_response = new MutableLiveData<>();
 
     ApiRepository apiRepository;
 
@@ -921,6 +924,39 @@ public class ApiViewModel extends ViewModel {
         }, context, comp_id);
     }
 
+    //BusyScheduleActivity
+    //busy Schedules
+    public void getbusyScheduledetails(Context context, String comp_id, String emp_id, String type) {
+        apiRepository.getbusyScheduledetails(new ApiRepository.BusySchedulesResponse() {
+            @Override
+            public void onResponse(BusySchedulesModel l_loginResponse) {
+                getbusySchedulesdetails_response.postValue(l_loginResponse);
+            }
+            @Override
+            public void onFailure(Throwable t) {
+                ViewController.DismissProgressBar();
+                Log.e(TAG, "onResponse: " + "failed");
+                getbusySchedulesdetails_response.postValue(null);
+            }
+        }, context, comp_id, emp_id, type);
+    }
+
+    //BusyScheduleActivity
+    //busy Schedules delete
+    public void actionbusySchedule(Context context, JsonObject jsonObject) {
+        apiRepository.actionbusySchedule(new ApiRepository.BusySchedulesResponse() {
+            @Override
+            public void onResponse(BusySchedulesModel busySchedulesModel) {
+                actionbusySchedule_response.postValue(busySchedulesModel);
+            }
+            @Override
+            public void onFailure(Throwable t) {
+                ViewController.DismissProgressBar();
+                Log.e(TAG, "onResponse: " + "failed");
+                actionbusySchedule_response.postValue(null);
+            }
+        }, context, jsonObject);
+    }
 
     //Versions Response
     public LiveData<Model1> getVersions_response() {
@@ -1151,5 +1187,17 @@ public class ApiViewModel extends ViewModel {
     public LiveData<Model1> getEmployees_response() {
         return getEmployees_response;
     }
+
+
+    //busy response
+    public LiveData<BusySchedulesModel> getbusySchedulesdetails_response() {
+        return getbusySchedulesdetails_response;
+    }
+
+    //delete busy response
+    public LiveData<BusySchedulesModel> actionbusySchedule_response() {
+        return actionbusySchedule_response;
+    }
+
 
 }
