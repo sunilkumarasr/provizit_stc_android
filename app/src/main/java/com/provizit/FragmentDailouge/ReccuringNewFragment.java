@@ -372,30 +372,56 @@ public class ReccuringNewFragment extends BottomSheetDialogFragment implements V
     //to date
     private void toDatePicker() {
 
-        //from date to one month
-        to_c = Calendar.getInstance();
-        to_c.setTimeInMillis(from_c.getTimeInMillis());
-        to_c.add(Calendar.MONTH, 1);
-        int day = to_c.get(Calendar.DAY_OF_MONTH);
-        int month = to_c.get(Calendar.MONTH);
-        int year = to_c.get(Calendar.YEAR);
-        // date picker dialog
-        DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(),
-                (view, year1, monthOfYear, dayOfMonth) -> {
+        if (bt_to_date.getText().toString().equalsIgnoreCase("")){
+            // Set minimum date based on provided year, month, and day
+            Calendar minDateCalendar = Calendar.getInstance();
+            minDateCalendar.set(Integer.parseInt(from_year), Integer.parseInt(from_month) - 1, Integer.parseInt(from_day)); // Month is 0-indexed
 
-                    String to_date = dayOfMonth + "-" + (monthOfYear + 1) + "-" + year1;
-                    to_date_mills = to_c.getTimeInMillis();
-                    bt_to_date.setText(to_date);
-                    to_day = dayOfMonth+"";
-                    to_month = (monthOfYear+1)+"";
-                    to_year = year1+"";
+// Set up the date picker dialog
+            DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(),
+                    (view, year1, monthOfYear, dayOfMonth) -> {
 
-                    //list of dates
-                    set_datestamp();
+                        String to_date = dayOfMonth + "-" + (monthOfYear + 1) + "-" + year1;
+                        to_date_mills = minDateCalendar.getTimeInMillis();
+                        bt_to_date.setText(to_date);
+                        to_day = String.valueOf(dayOfMonth);
+                        to_month = String.valueOf(monthOfYear + 1);
+                        to_year = String.valueOf(year1);
 
-                }, year, month, day);
-        datePickerDialog.getDatePicker().setMinDate(from_date_mills - 1000);
-        datePickerDialog.show();
+                        // list of dates
+                        set_datestamp();
+
+                    }, Integer.parseInt(from_year), Integer.parseInt(from_month) - 1, Integer.parseInt(from_day));
+
+// Set minimum date in date picker
+            datePickerDialog.getDatePicker().setMinDate(minDateCalendar.getTimeInMillis());
+
+// Show the date picker dialog
+            datePickerDialog.show();
+
+        }else {
+            Calendar from_c = Calendar.getInstance();
+            from_c.set(Integer.parseInt(from_year), Integer.parseInt(from_month), Integer.parseInt(from_day));
+            Calendar to_c = Calendar.getInstance();
+            to_c.setTimeInMillis(from_c.getTimeInMillis());
+            to_c.add(Calendar.MONTH, 1);
+            DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(),
+                    (view, year1, monthOfYear, dayOfMonth) -> {
+                        String to_date = dayOfMonth + "-" + (monthOfYear + 1) + "-" + year1;
+                        to_date_mills = to_c.getTimeInMillis();
+                        bt_to_date.setText(to_date);
+                        to_day = dayOfMonth + "";
+                        to_month = (monthOfYear + 1) + "";
+                        to_year = year1 + "";
+
+                        // List of dates
+                        set_datestamp();
+
+                    }, Integer.parseInt(from_year), Integer.parseInt(from_month), Integer.parseInt(from_day)); // Use the selected year, month, and day
+
+            datePickerDialog.getDatePicker().setMinDate(from_date_mills - 1000);
+            datePickerDialog.show();
+        }
 
     }
 

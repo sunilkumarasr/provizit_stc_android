@@ -9,8 +9,8 @@ android {
         applicationId "com.provizit.ksa"
         minSdkVersion 21
         targetSdkVersion 34
-        versionCode 31
-        versionName "4.7"
+        versionCode 33
+        versionName "4.9"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }

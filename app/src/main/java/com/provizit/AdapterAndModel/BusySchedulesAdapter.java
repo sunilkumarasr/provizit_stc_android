@@ -54,10 +54,11 @@ public class BusySchedulesAdapter extends RecyclerView.Adapter<RecyclerView.View
         double fromTime = Double.parseDouble(busyArrayList.get(position).getFrom_time());
         long timestampMillis = (long) (fromTime * 1000L);
         Date time = new Date(timestampMillis);
-        SimpleDateFormat sdf = new SimpleDateFormat("EEE dd MMM yyyy, hh:mm a", Locale.getDefault());
+        SimpleDateFormat sdf = new SimpleDateFormat("EEE dd MMM yyyy, ", Locale.getDefault());
+        SimpleDateFormat timesdf = new SimpleDateFormat("hh:mm a", Locale.getDefault());
         String formattedDateTime = sdf.format(date);
-        Holder.txtFrom.setText(formattedDateTime);
-
+        String timeformattedDateTime = timesdf.format(time);
+        Holder.txtFrom.setText(formattedDateTime+timeformattedDateTime);
 
         // to date time
         double todate = Double.parseDouble(busyArrayList.get(position).getFrom_date());
@@ -66,9 +67,11 @@ public class BusySchedulesAdapter extends RecyclerView.Adapter<RecyclerView.View
         double toTime = Double.parseDouble(busyArrayList.get(position).getFrom_time());
         long totimestampMillis = (long) (toTime * 1000L);
         Date totime = new Date(totimestampMillis);
-        SimpleDateFormat tosdf = new SimpleDateFormat("EEE dd MMM yyyy, hh:mm a", Locale.getDefault());
+        SimpleDateFormat tosdf = new SimpleDateFormat("EEE dd MMM yyyy, ", Locale.getDefault());
+        SimpleDateFormat totimesdf = new SimpleDateFormat("hh:mm a", Locale.getDefault());
         String toformattedDateTime = tosdf.format(dateto);
-        Holder.txtTo.setText(toformattedDateTime);
+        String totimeformattedDateTime = totimesdf.format(totime);
+        Holder.txtTo.setText(toformattedDateTime+totimeformattedDateTime);
 
     }
 

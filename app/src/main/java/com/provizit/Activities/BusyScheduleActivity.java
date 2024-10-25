@@ -1,7 +1,5 @@
 package com.provizit.Activities;
 
-import static android.view.View.GONE;
-
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
@@ -18,38 +16,28 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
-
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.provizit.AdapterAndModel.AllotParking.AllotParkingAdapter;
 import com.provizit.AdapterAndModel.BusySchedules.BusySchedulesData;
 import com.provizit.AdapterAndModel.BusySchedulesAdapter;
 import com.provizit.Config.ViewController;
 import com.provizit.Conversions;
-import com.provizit.Fragments.UpcomingMeetingsNewFragment;
 import com.provizit.MVVM.ApiViewModel;
 import com.provizit.R;
-import com.provizit.Services.DataManger;
-import com.provizit.Utilities.CompanyData;
 import com.provizit.Utilities.DatabaseHelper;
 import com.provizit.Utilities.EmpData;
 import com.provizit.Utilities.RangeTimePickerDialog;
 import com.provizit.Utilities.daysview.DayModel;
 import com.provizit.databinding.ActivityBusyScheduleBinding;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -70,7 +58,6 @@ public class BusyScheduleActivity extends AppCompatActivity  implements View.OnC
     Button bt_to_date;
     Button bt_from_time;
     Button bt_to_time;
-
 
     private static Locale locale;
     TextView txt_occurse;
@@ -113,6 +100,10 @@ public class BusyScheduleActivity extends AppCompatActivity  implements View.OnC
     String to_year = "";
 
     String comp_id = "";
+
+    private int selectedFromHour, selectedFromMinute;
+    private int selectedToHour, selectedToMinute;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -298,16 +289,15 @@ public class BusyScheduleActivity extends AppCompatActivity  implements View.OnC
         TextView txtSubmit = dialog.findViewById(R.id.txtSubmit);
         TextView txtCancel = dialog.findViewById(R.id.txtCancel);
 
-
         currentDate();
         currentfromTimePicker();
 
         bt_from_date.setOnClickListener(v -> {
             AnimationSet animation = Conversions.animation();
             v.startAnimation(animation);
-
             fromDatePicker();
         });
+
         bt_to_date.setOnClickListener(v -> {
             AnimationSet animationp = Conversions.animation();
             v.startAnimation(animationp);
@@ -317,14 +307,15 @@ public class BusyScheduleActivity extends AppCompatActivity  implements View.OnC
         bt_from_time.setOnClickListener(v -> {
             AnimationSet animationp = Conversions.animation();
             v.startAnimation(animationp);
-            fromTimePicker();
+            //fromTimePicker();
+            FromTimePickerDialog();
         });
         bt_to_time.setOnClickListener(v -> {
             AnimationSet animationp = Conversions.animation();
             v.startAnimation(animationp);
-            toTimePicker();
+           // toTimePicker();
+            ToTimePickerDialog();
         });
-
 
         txtSubmit.setOnClickListener(v -> {
             AnimationSet animationp = Conversions.animation();
@@ -503,16 +494,17 @@ public class BusyScheduleActivity extends AppCompatActivity  implements View.OnC
             }
     }
 
-    //from time picker
+    // From Time Picker
     private void fromTimePicker() {
         final Calendar mcurrentTime = Calendar.getInstance();
         Fhour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
         Fminute = mcurrentTime.get(Calendar.MINUTE);
-        FShour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
-        FSminute = mcurrentTime.get(Calendar.MINUTE);
+        FShour = Fhour;
+        FSminute = Fminute;
 
         final RangeTimePickerDialog mTimePicker;
-        if (Fhour < 15) {
+        // Set the minute to the nearest 15-minute interval
+        if (Fminute < 15) {
             Fminute = 15;
             FSminute = 15;
         } else if (Fminute < 30) {
@@ -522,127 +514,164 @@ public class BusyScheduleActivity extends AppCompatActivity  implements View.OnC
             Fminute = 45;
             FSminute = 45;
         } else {
-            Fhour = Fhour + 1;
-            FShour = FShour + 1;
+            Fhour += 1;
+            FShour += 1;
             Fminute = 0;
             FSminute = 0;
         }
+
         if (SelectedFromHour != 0) {
             FShour = SelectedFromHour;
             FSminute = SelectedFromMin;
         }
+
         mTimePicker = new RangeTimePickerDialog(BusyScheduleActivity.this, (timePicker, selectedHour, selectedMinute) -> {
-            String time = "";
             SelectedFromHour = selectedHour;
             SelectedFromMin = selectedMinute;
-            if (selectedHour > 12 && selectedHour != 24) {
-                time = String.format("%02d", selectedHour - 12) + ":" + String.format("%02d", selectedMinute) + " PM";
-            } else if (selectedHour == 12) {
-                time = String.format("%02d", selectedHour) + ":" + String.format("%02d", selectedMinute) + " PM";
-            } else if (selectedHour == 24) {
-                time = String.format("%02d", selectedHour) + ":" + String.format("%02d", selectedMinute) + " AM";
-            } else {
-                time = String.format("%02d", selectedHour) + ":" + String.format("%02d", selectedMinute) + " AM";
-            }
-//                    meeting_st.setText(selectedHour + ":" + selectedMinute);
+            String time = formatTime(selectedHour, selectedMinute);
             Froms_time = Conversions.gettimestamp(SelectedFromDate, selectedHour + ":" + selectedMinute);
-            SelectedFromSTime = selectedHour + ":" + selectedMinute;
-            String myTime = SelectedFromSTime;
-            Froms_hour = selectedHour;
-            Froms_min = selectedMinute;
-            SimpleDateFormat df = new SimpleDateFormat("HH:mm");
-            Date d = null;
-            try {
-                d = df.parse(myTime);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(d);
-            String Stime = df.format(cal.getTime());
-            System.out.println("Shfgdhsj " + Conversions.millitotime((Conversions.gettimestamp(SelectedFromDate, Stime) + Conversions.timezone()) * 1000, false));
-            bt_from_time.setText(Conversions.millitotime((Conversions.gettimestamp(SelectedFromDate, Stime) + Conversions.timezone()) * 1000, false));
-            cal.add(Calendar.HOUR_OF_DAY, Fromd_hour);
-            cal.add(Calendar.MINUTE, Fromd_min);
-            String newTime = df.format(cal.getTime());
-            Frome_time = Conversions.gettimestamp(SelectedFromDate, newTime);
-            Log.e("d_hour_",Fromd_hour+"");
-            Log.e("d_min_",Fromd_min+"");
-        }, FShour, FSminute, true);//true = 24 hour time
+            bt_from_time.setText(Conversions.millitotime(Froms_time * 1000, false));
+        }, FShour, FSminute, true);
+
         mTimePicker.setTitle("Select Time");
         mTimePicker.setMin(Fhour, Fminute);
         mTimePicker.show();
     }
 
-    //to time picker
+    // To Time Picker
     private void toTimePicker() {
         final Calendar mcurrentTime = Calendar.getInstance();
-        int hour = mcurrentTime.get(Fhour);
-        int minute = mcurrentTime.get(Fminute);
-        int Shour  = mcurrentTime.get(FShour);
-        int Sminute = mcurrentTime.get(FSminute);
+        int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+        int minute = mcurrentTime.get(Calendar.MINUTE);
+
+        // Ensure "To Time" starts from the selected "From Time"
+        int Shour = SelectedFromHour;
+        int Sminute = SelectedFromMin;
 
         final RangeTimePickerDialog mTimePicker;
-        if (minute < 15) {
-            minute = 15;
+        // Set the minute to the nearest 15-minute interval
+        if (Sminute < 15) {
             Sminute = 15;
-        } else if (minute < 30) {
-            minute = 30;
+        } else if (Sminute < 30) {
             Sminute = 30;
-        } else if (minute < 45) {
-            minute = 45;
+        } else if (Sminute < 45) {
             Sminute = 45;
         } else {
-            hour = hour + 1;
-            Shour = Shour + 1;
-            minute = 0;
+            Shour += 1;
             Sminute = 0;
         }
+
         if (SelectedToHour != 0) {
             Shour = SelectedToHour;
             Sminute = SelectedToMin;
         }
+
         mTimePicker = new RangeTimePickerDialog(BusyScheduleActivity.this, (timePicker, selectedHour, selectedMinute) -> {
-            String time = "";
+            // Ensure "To Time" is after "From Time"
+            if (selectedHour < SelectedFromHour || (selectedHour == SelectedFromHour && selectedMinute <= SelectedFromMin)) {
+                Toast.makeText(BusyScheduleActivity.this, "To Time must be after From Time", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             SelectedToHour = selectedHour;
             SelectedToMin = selectedMinute;
-            if (selectedHour > 12 && selectedHour != 24) {
-                time = String.format("%02d", selectedHour - 12) + ":" + String.format("%02d", selectedMinute) + " PM";
-            } else if (selectedHour == 12) {
-                time = String.format("%02d", selectedHour) + ":" + String.format("%02d", selectedMinute) + " PM";
-            } else if (selectedHour == 24) {
-                time = String.format("%02d", selectedHour) + ":" + String.format("%02d", selectedMinute) + " AM";
-            } else {
-                time = String.format("%02d", selectedHour) + ":" + String.format("%02d", selectedMinute) + " AM";
-            }
-//                    meeting_st.setText(selectedHour + ":" + selectedMinute);
+            String time = formatTime(selectedHour, selectedMinute);
             Tos_time = Conversions.gettimestamp(SelectedToDate, selectedHour + ":" + selectedMinute);
-            SelectedToSTime = selectedHour + ":" + selectedMinute;
-            String myTime = SelectedToSTime;
-            Tos_hour = selectedHour;
-            Tos_min = selectedMinute;
-            SimpleDateFormat df = new SimpleDateFormat("HH:mm");
-            Date d = null;
-            try {
-                d = df.parse(myTime);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(d);
-            String Stime = df.format(cal.getTime());
-            System.out.println("Shfgdhsj " + Conversions.millitotime((Conversions.gettimestamp(SelectedToDate, Stime) + Conversions.timezone()) * 1000, false));
-            bt_to_time.setText(Conversions.millitotime((Conversions.gettimestamp(SelectedToDate, Stime) + Conversions.timezone()) * 1000, false));
-            cal.add(Calendar.HOUR_OF_DAY, Tod_hour);
-            cal.add(Calendar.MINUTE, Tod_min);
-            String newTime = df.format(cal.getTime());
-            Toe_time = Conversions.gettimestamp(SelectedFromDate, newTime);
-            Log.e("d_hour_",Tod_hour+"");
-            Log.e("d_min_",Tod_min+"");
-        }, Shour, Sminute, true);//true = 24 hour time
+            bt_to_time.setText(Conversions.millitotime(Tos_time * 1000, false));
+        }, Shour, Sminute, true);
+
         mTimePicker.setTitle("Select Time");
-        mTimePicker.setMin(hour, minute);
+        mTimePicker.setMin(Shour, Sminute);  // Set the minimum time to "From Time"
         mTimePicker.show();
     }
+
+    // Helper function to format time
+    private String formatTime(int hour, int minute) {
+        if (hour > 12 && hour != 24) {
+            return String.format("%02d", hour - 12) + ":" + String.format("%02d", minute) + " PM";
+        } else if (hour == 12) {
+            return String.format("%02d", hour) + ":" + String.format("%02d", minute) + " PM";
+        } else if (hour == 24) {
+            return String.format("%02d", hour - 12) + ":" + String.format("%02d", minute) + " AM";
+        } else {
+            return String.format("%02d", hour) + ":" + String.format("%02d", minute) + " AM";
+        }
+    }
+
+    //new
+    // From Time Picker
+    private void FromTimePickerDialog() {
+        final Calendar calendar = Calendar.getInstance();
+        int currentHour = calendar.get(Calendar.HOUR_OF_DAY);
+        int currentMinute = calendar.get(Calendar.MINUTE);
+
+        // Round the current minute to the nearest 15-minute interval
+        currentMinute = (currentMinute + 7) / 15 * 15;
+
+        // If rounded up past the hour, increase the hour by 1 and reset minute to 0
+        if (currentMinute == 60) {
+            currentMinute = 0;
+            currentHour = (currentHour + 1) % 24;
+        }
+
+        TimePickerDialog timePickerDialog = new TimePickerDialog(BusyScheduleActivity.this,
+                new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        // Round the selected minute to the nearest 15-minute interval
+                        int roundedMinute = (minute / 15) * 15;
+
+                        selectedFromHour = hourOfDay;  // Store the selected "From Hour"
+                        selectedFromMinute = roundedMinute;  // Store the selected "From Minute"
+
+                        String time = String.format("%02d:%02d", selectedFromHour, selectedFromMinute);
+                        bt_from_time.setText(time);  // Update the button text with the selected time
+                        Toast.makeText(BusyScheduleActivity.this, "Selected time: " + time, Toast.LENGTH_SHORT).show();
+                    }
+                }, currentHour, currentMinute, true);
+
+        timePickerDialog.show();
+    }
+
+    // To Time Picker
+    private void ToTimePickerDialog() {
+        final Calendar calendar = Calendar.getInstance();
+        int currentHour = selectedFromHour;  // Use the previously selected "From Time" as the starting hour
+        int currentMinute = selectedFromMinute;  // Use the previously selected "From Time" as the starting minute
+
+        // Round the current minute to the nearest 15-minute interval
+        currentMinute = (currentMinute + 7) / 15 * 15;
+
+        // If rounded up past the hour, increase the hour by 1 and reset minute to 0
+        if (currentMinute == 60) {
+            currentMinute = 0;
+            currentHour = (currentHour + 1) % 24;
+        }
+
+        TimePickerDialog timePickerDialog = new TimePickerDialog(BusyScheduleActivity.this,
+                new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        // Round the selected minute to the nearest 15-minute interval
+                        int roundedMinute = (minute / 15) * 15;
+
+                        // Ensure that the "To Time" is after the "From Time"
+                        if (hourOfDay < selectedFromHour || (hourOfDay == selectedFromHour && roundedMinute <= selectedFromMinute)) {
+                            Toast.makeText(BusyScheduleActivity.this, "To Time must be after From Time", Toast.LENGTH_SHORT).show();
+                            return;  // Do not set the time if invalid
+                        }
+
+                        selectedToHour = hourOfDay;  // Store the selected "To Hour"
+                        selectedToMinute = roundedMinute;  // Store the selected "To Minute"
+
+                        String time = String.format("%02d:%02d", selectedToHour, selectedToMinute);
+                        bt_to_time.setText(time);  // Update the button text with the selected time
+                        Toast.makeText(BusyScheduleActivity.this, "Selected time: " + time, Toast.LENGTH_SHORT).show();
+                    }
+                }, currentHour, currentMinute, true);
+
+        timePickerDialog.show();
+    }
+
 
 }
