@@ -15,11 +15,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.AnimationSet;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
-
-import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -44,7 +39,6 @@ import com.provizit.Utilities.CompanyData;
 import com.provizit.Utilities.CompanyDetails;
 import com.provizit.Utilities.DatabaseHelper;
 import com.provizit.Utilities.EmpData;
-import com.provizit.Utilities.RoleDetails;
 import com.provizit.databinding.ActivityLoginMicrosoftAdactivityBinding;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -64,7 +58,6 @@ public class LoginMicrosoftADActivity extends AppCompatActivity implements View.
     String REDIRECT_URI = "msauth://com.provizit.ksa/RNy5oraIA7QxAEY9MB%2FZ5j%2FwWgo%3D";
     String CLIENT_ID = "3e4a6142-7057-4e08-a278-114688ab51ef";
     String Company_ID = "";
-
 
     String username = "";
     String LoginType = "";
@@ -317,7 +310,6 @@ public class LoginMicrosoftADActivity extends AppCompatActivity implements View.
         }
     }
 
-
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.next) {
@@ -334,7 +326,6 @@ public class LoginMicrosoftADActivity extends AppCompatActivity implements View.
             }
         }
     }
-
 
     private void microsoft_ad( String clientid, String tenantid, String clientsecret) {
 
@@ -415,13 +406,9 @@ public class LoginMicrosoftADActivity extends AppCompatActivity implements View.
                 }
         );
 
-
-
     }
 
-
     private void otp_send() {
-
         JsonObject gsonObject = new JsonObject();
         JSONObject jsonObj_ = new JSONObject();
         try {
@@ -446,6 +433,5 @@ public class LoginMicrosoftADActivity extends AppCompatActivity implements View.
         startActivity(intent);
         finish();
     }
-
 
 }

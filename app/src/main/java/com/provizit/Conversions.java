@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AlphaAnimation;
@@ -12,12 +11,9 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.DecelerateInterpolator;
 import android.view.inputmethod.InputMethodManager;
-
-
 import com.provizit.Activities.ErrorActivity;
 import com.provizit.Services.DataManger;
 import com.provizit.Utilities.Agenda;
-
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -25,10 +21,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
-
 import static android.content.Context.MODE_PRIVATE;
 
 public class Conversions {
+
     private static Locale locale;
     public static ArrayList<Agenda> agenda;
 

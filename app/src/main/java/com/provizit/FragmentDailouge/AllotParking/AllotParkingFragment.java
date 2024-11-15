@@ -42,6 +42,8 @@ import com.provizit.Utilities.AllotInvited;
 import com.provizit.Utilities.CompanyData;
 import com.provizit.Utilities.Invited;
 import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -237,14 +239,21 @@ public class AllotParkingFragment extends BottomSheetDialogFragment implements V
                     e.printStackTrace();
                 }
 
-                Log.e(TAG, "onClick:invitesallot: "+allotinvites );
 
-                listner.onSelected(allotinvites,"",pSlot);
-                dismiss();
+                for (int i = 0; i < SetupMeetingActivity.invitedArrayList.size(); i++) {
+                    if (!SetupMeetingActivity.invitedArrayList.get(i).getCat_id().equalsIgnoreCase("") && !SetupMeetingActivity.invitedArrayList.get(i).getLot_id().equalsIgnoreCase("") || SetupMeetingActivity.invitedArrayList.get(i).getAuto_allot()==true || pSlot==true){
+                        listner.onSelected(allotinvites, "", pSlot);
+                        dismiss();
+                    }else {
+                        Toast.makeText(getActivity(),"Please select data",Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+
 
                 break;
             case R.id.bt_cancel:
-                listner.onSelected(allotinvites,"",false);
+                //listner.onSelected(allotinvites,"",false);
                 dismiss();
                 break;
         }

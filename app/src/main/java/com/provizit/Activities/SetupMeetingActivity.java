@@ -464,7 +464,6 @@ public class SetupMeetingActivity extends AppCompatActivity {
 //            sFragment.show(fm, "Dialog Fragment");
 //            sFragment.setArguments(bundle);
 
-
             Bundle bundle = new Bundle();
             bundle.putString("recurrence_type", recurrence_type);
             FragmentManager fm = getSupportFragmentManager();
@@ -700,11 +699,12 @@ public class SetupMeetingActivity extends AppCompatActivity {
         pSlotCheckBox.setOnClickListener(view -> {
             AnimationSet animationp = Conversions.animation();
             view.startAnimation(animationp);
-//            pSlotCheckBox.setChecked(false);
+            //pSlotCheckBox.setChecked(false);
 
             if (!pSlotCheckBox.isChecked()) {
                 allotparkingRemove();
             }else {
+                pSlotCheckBox.setChecked(false);
                 pSlots = false;
                 if (invitedArrayList.isEmpty()) {
                     pSlotCheckBox.setChecked(false);
@@ -714,14 +714,15 @@ public class SetupMeetingActivity extends AppCompatActivity {
                     AllotParkingFragment sFragment = new AllotParkingFragment();
                     // Show DialogFragment
                     sFragment.onItemsSelectedListner((allotInvites , lastname , allowCheck) -> {
+
                         pSlots = allowCheck;
                         pSlotCheckBox.isChecked();
                         pSlotCheckBox.setChecked(true);
+
                     });
                     sFragment.show(fm, "Dialog Fragment");
                 }
             }
-
         });
 
         meetingRoomSpinner.setOnItemClickListener((parent, view, index, id) -> {
@@ -2744,6 +2745,7 @@ public class SetupMeetingActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+
 //        if (pSlots == true) {
 //            invites = new JSONArray();
 //            invites = AllotParkingFragment.allotinvites;
@@ -2840,6 +2842,7 @@ public class SetupMeetingActivity extends AppCompatActivity {
             jsonObj_.put("invites", invites);
             jsonObj_.put("pdfs", pdfs);
             jsonObj_.put("category", category_item);
+
 
             if (recurrence_status.equalsIgnoreCase("true")) {
                 jsonObj_.put("recurrence", true);
