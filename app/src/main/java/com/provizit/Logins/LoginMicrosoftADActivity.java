@@ -27,6 +27,7 @@ import com.microsoft.identity.client.exception.MsalException;
 import com.provizit.AESUtil;
 import com.provizit.Activities.NavigationActivity;
 import com.provizit.Config.ConnectionReceiver;
+import com.provizit.Config.Preferences;
 import com.provizit.Config.ViewController;
 import com.provizit.Conversions;
 import com.provizit.MVVM.ApiViewModel;
@@ -206,6 +207,9 @@ public class LoginMicrosoftADActivity extends AppCompatActivity implements View.
                                 boolean b1 = myDb.insertEmp(id, empData);
                                 boolean b3 = myDb.insertRole(items.getRoleDetails());
                                 boolean b2 = myDb.insertTokenDetails("email", username.trim(), items.getLink(), 1);
+
+                                //meetingroom Trd
+                                Preferences.saveStringValue(getApplicationContext(), Preferences.trd_access, empData.getTrd_access().toString());
 
                             }else {
                                 ViewController.DismissProgressBar();

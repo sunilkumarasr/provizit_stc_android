@@ -29,6 +29,7 @@ public class CompanyData implements Serializable {
     private Boolean cstatus;
     private Boolean cview_status;
     private Boolean eview_status;
+    private Boolean trd_access;
 
 
     private String total_counts;
@@ -770,5 +771,13 @@ public class CompanyData implements Serializable {
 
     public void setRe_meetings(ArrayList<ReMeetings> re_meetings) {
         this.re_meetings = re_meetings;
+    }
+
+    public Boolean getTrd_access() {
+        return trd_access;
+    }
+
+    public void setTrd_access(Boolean trd_access) {
+        this.trd_access = trd_access;
     }
 }

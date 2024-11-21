@@ -123,6 +123,8 @@ public class NavigationActivity extends AppCompatActivity implements View.OnClic
 
         initView();
 
+
+
     }
 
     private void initView() {

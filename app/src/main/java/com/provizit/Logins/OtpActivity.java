@@ -34,6 +34,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.provizit.Activities.NavigationActivity;
+import com.provizit.Config.Preferences;
 import com.provizit.Config.ViewController;
 import com.provizit.Conversions;
 import com.provizit.Config.ConnectionReceiver;
@@ -343,6 +344,10 @@ public class OtpActivity extends AppCompatActivity {
                         boolean b3 = myDb.insertRole(items.getRoleDetails());
                         System.out.println("location" + empData.getLocation());
                         boolean b2 = myDb.insertTokenDetails("email", binding.email.getText().toString(), items.getLink(), 1);
+
+                        //meetingroom Trd
+                        Preferences.saveStringValue(getApplicationContext(), Preferences.trd_access, items.getEmpData().getTrd_access().toString());
+
 
                         FirebaseMessaging.getInstance().getToken()
                                 .addOnCompleteListener(new OnCompleteListener<String>() {

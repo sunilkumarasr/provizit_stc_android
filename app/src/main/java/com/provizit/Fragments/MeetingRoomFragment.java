@@ -38,6 +38,7 @@ import com.provizit.Calendar.CalendarAdapter;
 import com.provizit.Calendar.MyCalendar;
 import com.provizit.Calendar.RecyclerTouchListener;
 import com.provizit.Calendar.myCalendarData;
+import com.provizit.Config.Preferences;
 import com.provizit.Conversions;
 import com.provizit.Logins.ForgotActivity;
 import com.provizit.MVVM.ApiViewModel;
@@ -567,11 +568,17 @@ public class MeetingRoomFragment extends Fragment implements  WeekView.EventClic
 
                             for (int j = 0; j < FilterMeetingrooms.size(); j++) {
                                 if (FilterMeetingrooms.get(j).getActive().equals(true)){
-                                    meetingrooms.add(FilterMeetingrooms.get(j));
-                                    Log.e("FilterMeetingrooms_list", j + "");
+
+                                    String trd_access = Preferences.loadStringValue(getActivity(), Preferences.trd_access, "");
+                                    if (trd_access.equalsIgnoreCase("true")){
+                                        meetingrooms.add(FilterMeetingrooms.get(j));
+                                    }else {
+                                        if (FilterMeetingrooms.get(j).getTrd_access().equals("false")){
+                                            meetingrooms.add(FilterMeetingrooms.get(j));
+                                        }
+                                    }
                                 }
                             }
-
 
                             customAdapter1 = new MeetingRoomFragmentCustomAdapter(getActivity(), R.layout.row, R.id.lbl_name, meetingrooms, 0, "",true);
                             meeting_room.setText(meetingrooms.get(0).getName());

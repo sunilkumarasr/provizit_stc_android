@@ -86,6 +86,7 @@ import com.provizit.AdapterAndModel.HostSlots.HostSlotsData;
 import com.provizit.AdapterAndModel.MultipleEmailAddressAdapter;
 import com.provizit.AdapterAndModel.MultiplePhoneNumberAdapter;
 import com.provizit.Config.Customthree;
+import com.provizit.Config.Preferences;
 import com.provizit.Config.ViewController;
 import com.provizit.Conversions;
 import com.provizit.DurationAdapter;
@@ -2609,8 +2610,16 @@ public class SetupMeetingActivity extends AppCompatActivity {
                         meetingrooms.add(0,companyData);
                         for (int j = 0; j < FilterMeetingrooms.size(); j++) {
                             if (FilterMeetingrooms.get(j).getActive().equals(true)){
-                                meetingrooms.add(FilterMeetingrooms.get(j));
-                                Log.e("FilterMeetingrooms_list", j + "");
+
+                                String trd_access = Preferences.loadStringValue(getApplicationContext(), Preferences.trd_access, "");
+                                if (trd_access.equalsIgnoreCase("true")){
+                                    meetingrooms.add(FilterMeetingrooms.get(j));
+                                }else {
+                                    if (FilterMeetingrooms.get(j).getTrd_access().equals("false")){
+                                        meetingrooms.add(FilterMeetingrooms.get(j));
+                                    }
+                                }
+
                             }
                         }
 
