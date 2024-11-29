@@ -1745,9 +1745,11 @@ public class SetupMeetingActivity extends AppCompatActivity {
                 CategoryList = response.getItems();
 
                 if (CategoryList != null && CategoryList.size() > 0) {
+
                     String[] Categorys = new String[CategoryList.size()];
 
                     for (int i = 0; i < CategoryList.size(); i++) {
+
                         Categorys[i] = CategoryList.get(i).get_id().get$oid();
                         if (CategoryList.get(i).getCat_type().equalsIgnoreCase("true")) {
                             Categorys[i] = CategoryList.get(i).getName() + " (Confidential)";
@@ -1758,6 +1760,7 @@ public class SetupMeetingActivity extends AppCompatActivity {
                         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // The drop down view
                         category_spinner.setAdapter(spinnerArrayAdapter);
                         category_spinner.setSelection(1);
+
                     }
 
                     ArrayList<CompanyData> finalCategoryList = CategoryList;
@@ -2612,14 +2615,13 @@ public class SetupMeetingActivity extends AppCompatActivity {
                             if (FilterMeetingrooms.get(j).getActive().equals(true)){
 
                                 String trd_access = Preferences.loadStringValue(getApplicationContext(), Preferences.trd_access, "");
-                                if (trd_access.equalsIgnoreCase("true")){
+                                if (trd_access.equals("true")){
                                     meetingrooms.add(FilterMeetingrooms.get(j));
                                 }else {
-                                    if (FilterMeetingrooms.get(j).getTrd_access().equals("false")){
+                                    if (FilterMeetingrooms.get(j).getActive().equals(true) && FilterMeetingrooms.get(j).getTrd_access().equals(false)){
                                         meetingrooms.add(FilterMeetingrooms.get(j));
                                     }
                                 }
-
                             }
                         }
 

@@ -570,39 +570,44 @@ public class MeetingRoomFragment extends Fragment implements  WeekView.EventClic
                                 if (FilterMeetingrooms.get(j).getActive().equals(true)){
 
                                     String trd_access = Preferences.loadStringValue(getActivity(), Preferences.trd_access, "");
-                                    if (trd_access.equalsIgnoreCase("true")){
+                                    if (trd_access.equals("true")){
                                         meetingrooms.add(FilterMeetingrooms.get(j));
                                     }else {
-                                        if (FilterMeetingrooms.get(j).getTrd_access().equals("false")){
-                                            meetingrooms.add(FilterMeetingrooms.get(j));
+                                        if (FilterMeetingrooms.get(j).getActive().equals(true) && FilterMeetingrooms.get(j).getTrd_access().equals(false)){
+                                           meetingrooms.add(FilterMeetingrooms.get(j));
                                         }
                                     }
                                 }
                             }
 
-                            customAdapter1 = new MeetingRoomFragmentCustomAdapter(getActivity(), R.layout.row, R.id.lbl_name, meetingrooms, 0, "",true);
-                            meeting_room.setText(meetingrooms.get(0).getName());
-                            m_room = meetingrooms.get(0).get_id().get$oid();
-                            m_room1 = 0;
-                            if (M_SUGGETION == 1){
-                                m_room = sharedPreferences1.getString("SetupMeetingMRoomID","");
-                                meeting_room.setText(sharedPreferences1.getString("SetupMeetingMRoom",""));
-                            }
-                            aString = new ArrayList<>();
-                            aString.add("Capacity ("+meetingrooms.get(0).getCapacity()+")");
-                            ArrayList<Boolean> amenitiesB = new ArrayList<>();
-                            amenitiesB =  meetingrooms.get(0).getAmenities();
-                            for(int i = 0;i<amenitiesB.size();i++){
-                                if(amenitiesB.get(i) != null && amenitiesB.get(i)){
-                                    aString.add(amenities.get(i).getName());
+                            if (meetingrooms.size() > 0) {
+                                customAdapter1 = new MeetingRoomFragmentCustomAdapter(getActivity(), R.layout.row, R.id.lbl_name, meetingrooms, 0, "",true);
+                                meeting_room.setText(meetingrooms.get(0).getName());
+                                m_room = meetingrooms.get(0).get_id().get$oid();
+                                m_room1 = 0;
+                                if (M_SUGGETION == 1){
+                                    m_room = sharedPreferences1.getString("SetupMeetingMRoomID","");
+                                    meeting_room.setText(sharedPreferences1.getString("SetupMeetingMRoom",""));
                                 }
+                                aString = new ArrayList<>();
+                                aString.add("Capacity ("+meetingrooms.get(0).getCapacity()+")");
+                                ArrayList<Boolean> amenitiesB = new ArrayList<>();
+                                amenitiesB =  meetingrooms.get(0).getAmenities();
+                                for(int i = 0;i<amenitiesB.size();i++){
+                                    if(amenitiesB.get(i) != null && amenitiesB.get(i)){
+                                        aString.add(amenities.get(i).getName());
+                                    }
+                                }
+                                AmenitiesAdapter amenitiesAdapter = new AmenitiesAdapter(getActivity(), aString);
+                                recycler_amenitiesView.setAdapter(amenitiesAdapter);
+                                meeting_room.setThreshold(1);//will start working from first character
+                                meeting_room.setAdapter(customAdapter1);//setting the adapter data into the AutoCompleteTextView
+                                meeting_room.setEnabled(true);
+                                getrmslots(m_room,s_time,e_time);
+                            } else {
+                                meeting_room.setText("No rooms available");
                             }
-                            AmenitiesAdapter amenitiesAdapter = new AmenitiesAdapter(getActivity(), aString);
-                            recycler_amenitiesView.setAdapter(amenitiesAdapter);
-                            meeting_room.setThreshold(1);//will start working from first character
-                            meeting_room.setAdapter(customAdapter1);//setting the adapter data into the AutoCompleteTextView
-                            meeting_room.setEnabled(true);
-                            getrmslots(m_room,s_time,e_time);
+
                         }
                     }
 

@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:gravity="center">
+    android:gravity="center"
+    android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
         android:visibility="gone"
@@ -54,8 +56,6 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_above="@+id/mStatus"
-                        android:layout_below="@+id/outlook_type"
                         android:gravity="center"
                         android:orientation="vertical">
 
@@ -94,7 +94,6 @@
                         android:layout_height="match_parent"
                         android:weightSum="1"
                         android:layout_marginRight="5dp"
-                        android:layout_toStartOf="@+id/imgs"
                         android:orientation="vertical"
                         android:layout_centerVertical="true"
                         android:layout_alignParentStart="true">
@@ -178,7 +177,6 @@
                             android:layout_height="20dp"
                             android:layout_marginTop="10dp"
                             android:gravity="center"
-                            android:layout_below="@+id/count"
                             android:src="@drawable/recurring_active"/>
 
                     </RelativeLayout>

@@ -2,12 +2,12 @@ package com.provizit.FragmentDailouge.AllotParking;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
-
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.FragmentActivity;
@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,25 +24,17 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.Toast;
-
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.provizit.Activities.SetupMeetingActivity;
 import com.provizit.AdapterAndModel.AllotParking.AllotParkingAdapter;
 import com.provizit.Conversions;
-import com.provizit.CustomItemListener;
-import com.provizit.Logins.ForgotActivity;
 import com.provizit.MVVM.ApiViewModel;
 import com.provizit.R;
-import com.provizit.Services.Model;
-import com.provizit.Services.Model1;
 import com.provizit.Utilities.AllotInvited;
-import com.provizit.Utilities.CompanyData;
 import com.provizit.Utilities.Invited;
 import org.json.JSONArray;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -74,7 +65,7 @@ public class AllotParkingFragment extends BottomSheetDialogFragment implements V
     boolean pSlot = false;
 
     @Override
-    public void onAttach(Activity activity) {
+    public void onAttach(@NonNull Activity activity) {
         myContext=(FragmentActivity) activity;
         super.onAttach(activity);
     }
@@ -90,6 +81,7 @@ public class AllotParkingFragment extends BottomSheetDialogFragment implements V
         this.listner = listner;
     }
 
+    @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         BottomSheetDialog bottomSheetDialog=(BottomSheetDialog)super.onCreateDialog(savedInstanceState);
@@ -112,10 +104,7 @@ public class AllotParkingFragment extends BottomSheetDialogFragment implements V
         View view = inflater.inflate(R.layout.fragment_allot_parking, container, false);
 
 
-
-
         inits(view);
-
 
 
         bt_allot.setOnClickListener(this);
@@ -254,7 +243,7 @@ public class AllotParkingFragment extends BottomSheetDialogFragment implements V
                         dismiss();
 
                     }else {
-                        Toast.makeText(getActivity(),"Please select data",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(),"Please add a parking slot for a visitor.",Toast.LENGTH_SHORT).show();
                     }
 
                 }
@@ -284,7 +273,6 @@ public class AllotParkingFragment extends BottomSheetDialogFragment implements V
             allotParkingAdapter.updateList(temp);
         }
     }
-
 
     private void checkAllCheckboxes(boolean status) {
         for (int i = 0; i < allotParkingAdapter.getItemCount(); i++) {
