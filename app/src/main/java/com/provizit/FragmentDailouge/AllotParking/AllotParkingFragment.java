@@ -111,6 +111,9 @@ public class AllotParkingFragment extends BottomSheetDialogFragment implements V
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_allot_parking, container, false);
 
+
+
+
         inits(view);
 
 
@@ -133,6 +136,7 @@ public class AllotParkingFragment extends BottomSheetDialogFragment implements V
         allot_invites_list = new ArrayList<>();
         allot_invites_list.clear();
         allotinvites = new JSONArray();
+
 
         card_view_progress = view.findViewById(R.id.card_view_progress);
         edit_search = view.findViewById(R.id.edit_search);
@@ -229,9 +233,8 @@ public class AllotParkingFragment extends BottomSheetDialogFragment implements V
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.bt_allot:
-
+                allotinvites = new JSONArray();
                 try {
-                    allotinvites = new JSONArray();
                     for (int i = 0; i < allot_invites_list.size(); i++) {
                         allotinvites.put(allot_invites_list.get(i).getAllotInvites());
                     }
@@ -239,17 +242,22 @@ public class AllotParkingFragment extends BottomSheetDialogFragment implements V
                     e.printStackTrace();
                 }
 
-
                 for (int i = 0; i < SetupMeetingActivity.invitedArrayList.size(); i++) {
-                    if (!SetupMeetingActivity.invitedArrayList.get(i).getCat_id().equalsIgnoreCase("") && !SetupMeetingActivity.invitedArrayList.get(i).getLot_id().equalsIgnoreCase("") || SetupMeetingActivity.invitedArrayList.get(i).getAuto_allot()==true || pSlot==true){
+                    if ((SetupMeetingActivity.invitedArrayList.get(i).getCat_id() != null &&
+                            !SetupMeetingActivity.invitedArrayList.get(i).getCat_id().equalsIgnoreCase("")) &&
+                            (SetupMeetingActivity.invitedArrayList.get(i).getLot_id() != null &&
+                                    !SetupMeetingActivity.invitedArrayList.get(i).getLot_id().equalsIgnoreCase("")) ||
+                            SetupMeetingActivity.invitedArrayList.get(i).getAuto_allot() == true ||
+                            pSlot == true) {
+
                         listner.onSelected(allotinvites, "", pSlot);
                         dismiss();
+
                     }else {
                         Toast.makeText(getActivity(),"Please select data",Toast.LENGTH_SHORT).show();
                     }
 
                 }
-
 
                 break;
             case R.id.bt_cancel:

@@ -255,7 +255,6 @@ public class ReccuringNewFragment extends BottomSheetDialogFragment implements V
         }
     }
 
-
     //auto get current date and time
     private void currentDate() {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
@@ -322,8 +321,6 @@ public class ReccuringNewFragment extends BottomSheetDialogFragment implements V
 
     }
 
-
-
     //from date
     private void fromDatePicker() {
         from_c = Calendar.getInstance();
@@ -367,7 +364,6 @@ public class ReccuringNewFragment extends BottomSheetDialogFragment implements V
         datePickerDialog.getDatePicker().setMinDate(Calendar.getInstance().getTimeInMillis() - 1000);
         datePickerDialog.show();
     }
-
 
     //to date
     private void toDatePicker() {
@@ -542,7 +538,6 @@ public class ReccuringNewFragment extends BottomSheetDialogFragment implements V
         }
     }
 
-
     //get time
     public static String getTimeStamp(Boolean is12hour) {
         Date date = new Date();
@@ -637,7 +632,6 @@ public class ReccuringNewFragment extends BottomSheetDialogFragment implements V
         mTimePicker.show();
     }
 
-
     //time picker
     private void timePicker() {
         final Calendar mcurrentTime = Calendar.getInstance();
@@ -706,7 +700,6 @@ public class ReccuringNewFragment extends BottomSheetDialogFragment implements V
 //            mTimePicker.setMin(hour, minute);
         mTimePicker.show();
     }
-
 
     private void days() {
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 7));
