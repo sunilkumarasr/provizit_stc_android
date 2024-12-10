@@ -197,6 +197,7 @@ public class SetupMeetingActivity extends AppCompatActivity {
     CheckBox SelfMeetingSetupCheckBox;
     AutoCompleteTextView department_spinner,emp_spinner;
     String AssignID = "";
+    Boolean hostSide_trd = false;
     ArrayList<CompanyData> employees;
     ArrayList<CompanyData> departments;
     DepartmentAdapter departmentAdapter;
@@ -1892,6 +1893,8 @@ public class SetupMeetingActivity extends AppCompatActivity {
         emp_spinner.setOnItemClickListener((parent, view, position, id) -> {
 
             AssignID = employees.get(position).get_id().get$oid();
+            hostSide_trd = employees.get(position).getTrd_access();
+            getmeetingrooms(empData.getLocation());
 
 //            Toast.makeText(getApplicationContext(), Assignemail, Toast.LENGTH_LONG).show();
 //            Invited invited = new Invited();
@@ -2615,13 +2618,14 @@ public class SetupMeetingActivity extends AppCompatActivity {
                             if (FilterMeetingrooms.get(j).getActive().equals(true)){
 
                                 String trd_access = Preferences.loadStringValue(getApplicationContext(), Preferences.trd_access, "");
-                                if (trd_access.equals("true")){
+                                if (trd_access.equals("true") || hostSide_trd){
                                     meetingrooms.add(FilterMeetingrooms.get(j));
                                 }else {
                                     if (FilterMeetingrooms.get(j).getActive().equals(true) && FilterMeetingrooms.get(j).getTrd_access().equals(false)){
                                         meetingrooms.add(FilterMeetingrooms.get(j));
                                     }
                                 }
+
                             }
                         }
 
