@@ -347,7 +347,7 @@ public class OtpActivity extends AppCompatActivity {
 
                         //meetingroom Trd
                         Preferences.saveStringValue(getApplicationContext(), Preferences.trd_access, items.getEmpData().getTrd_access().toString());
-
+                        Preferences.saveStringValue(getApplicationContext(), Preferences.Cancel_access, items.getEmpData().getCancel_access().toString());
 
                         FirebaseMessaging.getInstance().getToken()
                                 .addOnCompleteListener(new OnCompleteListener<String>() {

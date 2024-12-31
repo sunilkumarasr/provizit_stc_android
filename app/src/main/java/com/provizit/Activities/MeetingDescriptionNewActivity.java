@@ -85,6 +85,7 @@ import com.provizit.AdapterAndModel.MeetingDetailsAgendas.MeetingDetailsAgendaAd
 import com.provizit.AdapterAndModel.MultipleEmailAddressAdapter;
 import com.provizit.AdapterAndModel.MultiplePhoneNumberAdapter;
 import com.provizit.Config.Customthree;
+import com.provizit.Config.Preferences;
 import com.provizit.Config.ViewController;
 import com.provizit.Conversions;
 import com.provizit.FragmentDailouge.ReccurenceDatesListFragment;
@@ -426,8 +427,6 @@ public class MeetingDescriptionNewActivity extends AppCompatActivity {
                 dialog_c.dismiss();
             });
             dialog_c.show();
-
-
         });
         accept.setOnClickListener(v -> {
             AnimationSet animation = Conversions.animation();
@@ -2702,7 +2701,10 @@ public class MeetingDescriptionNewActivity extends AppCompatActivity {
             reschedule.setVisibility(View.VISIBLE);
             add_guest.setVisibility(View.VISIBLE);
             assign.setVisibility(View.VISIBLE);
-            cancellation.setVisibility(View.VISIBLE);
+            String Cancel_access = Preferences.loadStringValue(getApplicationContext(), Preferences.Cancel_access, "");
+            if (Cancel_access.equalsIgnoreCase("true")){
+                cancellation.setVisibility(View.VISIBLE);
+            }
             Log.e("status_check", "1");
         }else if (empData.getEmp_id().equals(meetings.getCoordinator())){
             uploadPdf.setVisibility(View.VISIBLE);
@@ -2711,7 +2713,11 @@ public class MeetingDescriptionNewActivity extends AppCompatActivity {
             reschedule.setVisibility(View.VISIBLE);
             add_guest.setVisibility(View.VISIBLE);
             assign.setVisibility(View.VISIBLE);
-            cancellation.setVisibility(View.VISIBLE);
+            String Cancel_access = Preferences.loadStringValue(getApplicationContext(), Preferences.Cancel_access, "");
+            if (Cancel_access.equalsIgnoreCase("true")){
+                cancellation.setVisibility(View.VISIBLE);
+            }
+
             Log.e("status_check", "1.0");
         }
         else if (empData.getRoleid().equals(meetings.getApprover_roleid())) {

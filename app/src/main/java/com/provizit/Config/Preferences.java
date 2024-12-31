@@ -16,6 +16,7 @@ public class Preferences {
     public final static String contacts_list="contacts_list";
     public final static String contacts_contactsLi="contacts_contactsLi";
     public final static String trd_access="trd_access";
+    public final static String Cancel_access="Cancel_access";
     public final static String m_ID="m_ID";
     public final static String pushnotification="pushnotification";
 

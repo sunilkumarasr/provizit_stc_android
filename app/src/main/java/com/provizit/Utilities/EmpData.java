@@ -8,6 +8,7 @@ public class EmpData implements Serializable {
     private String name,designation,branch,department,email,mobile,mobilecode,roleid,rolename,location,hierarchy_indexid,hierarchy_id,approver,emp_id,emp_image1,Meeting_assistID;
 
     private Boolean trd_access;
+    public Boolean cancel_access;
 
     private ArrayList<String> pic,pics,meeting_assist;
 
@@ -157,5 +158,13 @@ public class EmpData implements Serializable {
 
     public void setTrd_access(Boolean trd_access) {
         this.trd_access = trd_access;
+    }
+
+    public Boolean getCancel_access() {
+        return cancel_access;
+    }
+
+    public void setCancel_access(Boolean cancel_access) {
+        this.cancel_access = cancel_access;
     }
 }

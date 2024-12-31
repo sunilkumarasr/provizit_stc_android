@@ -1,7 +1,6 @@
 package com.provizit.Activities;
 
 import static android.view.View.GONE;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
@@ -34,7 +33,6 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.location.Location;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Build;
@@ -65,8 +63,6 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -77,9 +73,6 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
-
-import com.google.android.datatransport.cct.internal.LogEvent;
 import com.google.gson.Gson;
 import com.provizit.AdapterAndModel.ContactsList;
 import com.provizit.AdapterAndModel.HostSlots.HostSlotsData;
@@ -91,11 +84,9 @@ import com.provizit.Config.ViewController;
 import com.provizit.Conversions;
 import com.provizit.DurationAdapter;
 import com.provizit.FragmentDailouge.AllotParking.AllotParkingFragment;
-import com.provizit.FragmentDailouge.ReccurenceFragment;
 import com.provizit.FragmentDailouge.ReccuringNewFragment;
 import com.provizit.FragmentDailouge.SetUpMeetingSelectedMailsMobileListFragment;
 import com.provizit.Config.ConnectionReceiver;
-import com.provizit.Logins.ForgotActivity;
 import com.provizit.MVVM.ApiViewModel;
 import com.provizit.R;
 import com.provizit.Services.AppointmentDetails.AppointmentDetailsModel;
@@ -123,7 +114,6 @@ import com.google.android.material.chip.ChipGroup;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.provizit.Utilities.daysview.DayModel;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -148,15 +138,12 @@ import java.util.Objects;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
 import static com.provizit.FilePath.isDownloadsDocument;
 import static com.provizit.FilePath.isExternalStorageDocument;
 import static com.provizit.FragmentDailouge.SetUpMeetingContactListFragment.isPhoneNumberValid;
 
 public class SetupMeetingActivity extends AppCompatActivity {
+
     private static final String TAG = "SetupMeetingActivity";
 
     ActionBar actionBar;
@@ -297,7 +284,6 @@ public class SetupMeetingActivity extends AppCompatActivity {
     private static final int PICK_CONTACT_REQUEST = 1;
     private String selectedPhoneNumber = "";
     private String selectedEmailAddress = "";
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
