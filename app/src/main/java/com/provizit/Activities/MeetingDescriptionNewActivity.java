@@ -403,6 +403,7 @@ public class MeetingDescriptionNewActivity extends AppCompatActivity {
                         JSONObject jsonObj_ = new JSONObject();
                         try {
                             jsonObj_.put("formtype", "delete");
+                            jsonObj_.put("c_emp_id", empData.getEmp_id());
                             jsonObj_.put("status", 1);
                             jsonObj_.put("id", meetings.get_id().get$oid());
                             jsonObj_.put("reason", reason.getText().toString());
