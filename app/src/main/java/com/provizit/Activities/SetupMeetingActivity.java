@@ -73,6 +73,8 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
+
 import com.google.gson.Gson;
 import com.provizit.AdapterAndModel.ContactsList;
 import com.provizit.AdapterAndModel.HostSlots.HostSlotsData;
@@ -904,7 +906,8 @@ public class SetupMeetingActivity extends AppCompatActivity {
                     String newTime = df.format(cal.getTime());
                     e_time = Conversions.gettimestamp(SelectedDate, newTime);
                 }, d_hour, d_min, true);//true = 24 hour time
-                mTimePicker.setMin(0, 15);
+                //1 duration selection
+                mTimePicker.setMin(0, 1);
                 mTimePicker.show();
             }
         });
@@ -1946,7 +1949,6 @@ public class SetupMeetingActivity extends AppCompatActivity {
         getmeetingrooms(empData.getLocation());
         s_date = Conversions.getdatestamp(SelectedDate);
 
-
         SelectedSTime = getTimeStamp(false);
         s_time = Conversions.gettimestamp(SelectedDate, SelectedSTime);
         meeting_st.setText(getTimeStamp(true));
@@ -2499,28 +2501,30 @@ public class SetupMeetingActivity extends AppCompatActivity {
             final Calendar mcurrentTime = Calendar.getInstance();
             int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
             int minute = mcurrentTime.get(Calendar.MINUTE);
-            int Shour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
-            int Sminute = mcurrentTime.get(Calendar.MINUTE);
-
+//            int Shour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+//            int Sminute = mcurrentTime.get(Calendar.MINUTE);
+//
             final RangeTimePickerDialog mTimePicker;
-            if (minute < 15) {
-                minute = 15;
-                Sminute = 15;
-            } else if (minute < 30) {
-                minute = 30;
-                Sminute = 30;
-            } else if (minute < 45) {
-                minute = 45;
-                Sminute = 45;
-            } else {
-                hour = hour + 1;
-                Shour = Shour + 1;
-                minute = 0;
-                Sminute = 0;
-            }
+            //15 mins duration code
+//            if (minute < 15) {
+//                minute = 15;
+//                Sminute = 15;
+//            } else if (minute < 30) {
+//                minute = 30;
+//                Sminute = 30;
+//            } else if (minute < 45) {
+//                minute = 45;
+//                Sminute = 45;
+//            } else {
+//                hour = hour + 1;
+//                Shour = Shour + 1;
+//                minute = 0;
+//                Sminute = 0;
+//            }
+
             if (SelectedHour != 0) {
-                Shour = SelectedHour;
-                Sminute = SelectedMin;
+                hour = SelectedHour;
+                minute = SelectedMin;
             }
             mTimePicker = new RangeTimePickerDialog(SetupMeetingActivity.this, (timePicker, selectedHour, selectedMinute) -> {
                 String time = "";
@@ -2559,7 +2563,7 @@ public class SetupMeetingActivity extends AppCompatActivity {
                 e_time = Conversions.gettimestamp(SelectedDate, newTime);
                 Log.e("d_hour_",d_hour+"");
                 Log.e("d_min_",d_min+"");
-            }, Shour, Sminute, true);//true = 24 hour time
+            }, hour, minute, true);//true = 24 hour time
             mTimePicker.setTitle("Select Time");
             mTimePicker.setMin(hour, minute);
             mTimePicker.show();
@@ -3355,16 +3359,19 @@ public class SetupMeetingActivity extends AppCompatActivity {
         final Calendar mcurrentTime = Calendar.getInstance();
         int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
         int minute = mcurrentTime.get(Calendar.MINUTE);
-        if (minute < 15) {
-            minute = 15;
-        } else if (minute < 30) {
-            minute = 30;
-        } else if (minute < 45) {
-            minute = 45;
-        } else {
-            hour = hour + 1;
-            minute = 0;
-        }
+
+//        current time showing 15 duration
+//        if (minute < 15) {
+//            minute = 15;
+//        } else if (minute < 30) {
+//            minute = 30;
+//        } else if (minute < 45) {
+//            minute = 45;
+//        } else {
+//            hour = hour + 1;
+//            minute = 0;
+//        }
+
         mcurrentTime.setTime(date);
         mcurrentTime.set(Calendar.HOUR_OF_DAY, hour);// for 6 hour
         mcurrentTime.set(Calendar.MINUTE, minute);// for 6 hour
