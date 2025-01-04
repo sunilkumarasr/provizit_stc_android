@@ -719,6 +719,7 @@ public class ApiRepository {
             }
             @Override
             public void onFailure(Call<Model1> call, Throwable t) {
+                Log.e(TAG, "onRespgetrmslots2_"+t.getMessage() );
                 Log.e(TAG, "onResp"+"getrmslots2" );
                 loginResponse.onFailure(new Throwable(t));
             }
