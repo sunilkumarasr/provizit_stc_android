@@ -388,6 +388,7 @@ public class MeetingRoomFragment extends Fragment implements  WeekView.EventClic
                                 e1.setTimeInMillis((companyData.get(i).getEnd() + Conversions.timezone()) * 1000);
                                 WeekViewEvent event = new WeekViewEvent(companyData.get(i).getStart(), companyData.get(i).getSubject(), s1, e1);
                                 System.out.println("sflslksdjg" + s1.getTime());
+                                Log.e("companyData_",companyData.get(i).getSubject()+"");
                                 mNewEvents.add(event);
 
                                 // Refresh the week view. onMonthChange will be called again.
@@ -574,7 +575,7 @@ public class MeetingRoomFragment extends Fragment implements  WeekView.EventClic
                                         meetingrooms.add(FilterMeetingrooms.get(j));
                                     }else {
                                         if (FilterMeetingrooms.get(j).getActive().equals(true) && FilterMeetingrooms.get(j).getTrd_access().equals(false)){
-                                           meetingrooms.add(FilterMeetingrooms.get(j));
+                                            meetingrooms.add(FilterMeetingrooms.get(j));
                                         }
                                     }
                                 }
@@ -661,7 +662,7 @@ public class MeetingRoomFragment extends Fragment implements  WeekView.EventClic
 
         @Override
         public void onBindViewHolder( AmenitiesAdapter.MyviewHolder holder, final int position) {
-                holder.amenities.setText(Amenities.get(position));
+            holder.amenities.setText(Amenities.get(position));
         }
 
         @Override

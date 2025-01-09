@@ -2,6 +2,8 @@ package com.provizit.Utilities;
 
 import android.provider.CallLog;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -16,7 +18,7 @@ public class CompanyData implements Serializable {
     private String comp_id;
     private String location;
     private String name,company,caddress,nation;
-    private String host;
+    private CommonObject host;
     private String cat_type;
     private String desc;
     private String supertype;
@@ -268,11 +270,12 @@ public class CompanyData implements Serializable {
         this.company = company;
     }
 
-    public String getHost() {
+
+    public CommonObject getHostDetails() {
         return host;
     }
 
-    public void setHost(String host) {
+    public void setHostDetails(CommonObject host) {
         this.host = host;
     }
 

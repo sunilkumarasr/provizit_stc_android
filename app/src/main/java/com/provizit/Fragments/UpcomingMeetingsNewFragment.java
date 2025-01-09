@@ -1599,7 +1599,7 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
 //                            .into(Holder.pic);
 //                }
 
-                Holder.outlookSubject.setText(Conversions.Capitalize(meetings1s.get(position).getHost()));
+                Holder.outlookSubject.setText(Conversions.Capitalize(meetings1s.get(position).getHostDetails().getName()));
 
 //                if (empData.getEmp_id().equals(meetings1s.get(position).getEmp_id())) {
 //                    Holder.host.setText(" Me");
