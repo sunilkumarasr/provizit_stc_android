@@ -15,6 +15,8 @@ public class Inviteeitem implements Serializable {
     private ArrayList<CommonObject> amenities;
      private ArrayList<String> pic,pics;
     private CommonObject _id;
+    ArrayList<Invited> invites;
+
 
     public ArrayList<CommonObject> getAmenities() {
         return amenities;
@@ -117,5 +119,14 @@ public class Inviteeitem implements Serializable {
 
     public CommonObject get_id() {
         return _id;
+    }
+
+
+    public ArrayList<Invited> getInvites() {
+        return invites;
+    }
+
+    public void setInvites(ArrayList<Invited> invites) {
+        this.invites = invites;
     }
 }

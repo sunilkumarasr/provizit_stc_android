@@ -70,6 +70,7 @@
     <string name="autoAllotParking">تخصيص مواقف السيارات</string>
     <string name="OnPremises">داخل المقر</string>
     <string name="UploadPDF">أرفاق PDF</string>
+    <string name="PDF">PDF</string>
     <string name="invitees">المدعوون</string>
     <string name="ViewMore">عرض المزيد</string>
     <string name="forgot_password">هل نسيت كلمة السر</string>
@@ -265,6 +266,7 @@
     <string name="update_Required">مطلوب التحديث</string>
     <string name="update_info">يرجى تحديث التطبيق الخاص بك للحصول على تجربة أفضل</string>
     <string name="update_now">تحديث الان</string>
+    <string name="added">تمت الإضافة</string>
 
     <!--    logout-->
     <string name="logout_note">هل أنت متأكد من تسجيل الخروج؟</string>

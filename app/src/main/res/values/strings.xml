@@ -69,6 +69,7 @@
     <string name="autoAllotParking">Auto Allot Parking</string>
     <string name="OnPremises">On Premises</string>
     <string name="UploadPDF">Upload PDF</string>
+    <string name="PDF">PDF</string>
     <string name="invitees">Invitees</string>
     <string name="ViewMore">ViewMore</string>
     <string name="forgot_password">Forgot Password</string>
@@ -268,6 +269,7 @@
     <string name="update_Required">Update Required</string>
     <string name="update_info">Please update your app for enhanced experience</string>
     <string name="update_now">Update Now</string>
+    <string name="added">Added</string>
 
     <!--    logout-->
     <string name="logout_note">Are you sure you want to logout?</string>

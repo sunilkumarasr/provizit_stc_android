@@ -71,6 +71,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipDrawable;
 import com.google.android.material.chip.ChipGroup;
@@ -84,6 +85,8 @@ import com.provizit.AdapterAndModel.HostSlots.HostSlotsModel;
 import com.provizit.AdapterAndModel.MeetingDetailsAgendas.MeetingDetailsAgendaAdapter;
 import com.provizit.AdapterAndModel.MultipleEmailAddressAdapter;
 import com.provizit.AdapterAndModel.MultiplePhoneNumberAdapter;
+import com.provizit.AdapterAndModel.PDFList.PDFListDetailPageAdapter;
+import com.provizit.AdapterAndModel.PDFList.PDFListSetUpMeetingAdapter;
 import com.provizit.Config.Customthree;
 import com.provizit.Config.Preferences;
 import com.provizit.Config.ViewController;
@@ -129,6 +132,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
@@ -147,7 +151,7 @@ public class MeetingDescriptionNewActivity extends AppCompatActivity {
     public static final int RESULT_CODE = 12;
     ImageView img_back;
     TextView txtTitle, txt_date_time;
-    TextView name, company, subject, txt_category, location, time, o_time, r_time, invitee_count, description, cabin, date;
+    TextView name, company, subject, txt_category, location, time, o_time, r_time, invitee_count, description, cabin, date, pdfName;
     LinearLayout main_time_date, linear_original_suggested_time;
     public static CompanyData meetings;
 
@@ -189,8 +193,8 @@ public class MeetingDescriptionNewActivity extends AppCompatActivity {
     MeetingDetailsAgendaAdapter agendaAdapter;
     LinearLayout leanear_stamp;
     CardView cardview_note;
-    TextView v_name, E_desi, email, mobile, host,coordinatorName, invitee_text, txt_stamp, assignedto, title1, pdfName;
-    LinearLayout pdf;
+    TextView v_name, E_desi, email, mobile, host,coordinatorName, invitee_text, txt_stamp, assignedto, title1;
+    LinearLayout pdfLayout;
     FloatingActionButton fab, uploadPdf;
     TextView agendaText;
     ArrayList<Pdfs> pdfsArrayList;
@@ -243,8 +247,7 @@ public class MeetingDescriptionNewActivity extends AppCompatActivity {
         invitee_details = findViewById(R.id.invitee_details);
         v_name = findViewById(R.id.v_name);
         resend = findViewById(R.id.iResend);
-        pdf = findViewById(R.id.pdf);
-        pdfName = findViewById(R.id.pdfName);
+        pdfLayout = findViewById(R.id.pdfLayout);
         uploadPdf = findViewById(R.id.uploadPdf);
         E_desi = findViewById(R.id.E_desi);
         email = findViewById(R.id.email);
@@ -265,6 +268,7 @@ public class MeetingDescriptionNewActivity extends AppCompatActivity {
         accept = findViewById(R.id.accept);
         decline = findViewById(R.id.decline);
         name = findViewById(R.id.visitor_name);
+        pdfName = findViewById(R.id.pdfName);
         img_reccurence_list = findViewById(R.id.img_reccurence_list);
         fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -361,11 +365,12 @@ public class MeetingDescriptionNewActivity extends AppCompatActivity {
                 overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
             }
         });
-        pdf.setOnClickListener(v -> {
+        pdfLayout.setOnClickListener(v -> {
             AnimationSet animationp = Conversions.animation();
             v.startAnimation(animationp);
             if (empData.getEmp_id().equals(meetings.getEmp_id())) {
-                PdfClick();
+                //PdfClick();
+                PdfshowBottomSheetDialog();
             } else {
                 int pdfSize = meetings.getPdfs().size();
                 String pdf_url = DataManger.IMAGE_URL + "/uploads/" + sharedPreferences1.getString("company_id", null) + "/pdfs/" + meetings.getPdfs().get(pdfSize - 1).getValue();
@@ -404,6 +409,7 @@ public class MeetingDescriptionNewActivity extends AppCompatActivity {
                         try {
                             jsonObj_.put("formtype", "delete");
                             jsonObj_.put("c_emp_id", empData.getEmp_id());
+                            jsonObj_.put("emp_id", empData.getEmp_id());
                             jsonObj_.put("status", 1);
                             jsonObj_.put("id", meetings.get_id().get$oid());
                             jsonObj_.put("reason", reason.getText().toString());
@@ -562,6 +568,7 @@ public class MeetingDescriptionNewActivity extends AppCompatActivity {
         //meeting details
         getmeetingdetails(meetingsId);
 
+
         apiViewModel.gethostslots_response().observe(this, new Observer<HostSlotsModel>() {
             @Override
             public void onChanged(HostSlotsModel response) {
@@ -621,9 +628,9 @@ public class MeetingDescriptionNewActivity extends AppCompatActivity {
                     if (statuscode.equals(failurecode)) {
                     } else if (statuscode.equals(not_verified)) {
                     } else if (statuscode.equals(successcode)) {
+                        int colorInt = ContextCompat.getColor(getApplicationContext(), R.color.Accept);
+                        ViewController.snackbar(MeetingDescriptionNewActivity.this,getApplicationContext().getString(R.string.added), colorInt);
                         Intent intent = new Intent(MeetingDescriptionNewActivity.this, NavigationActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
                     }
                 }else {
@@ -789,8 +796,9 @@ public class MeetingDescriptionNewActivity extends AppCompatActivity {
                             Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 
                             final TextView submit;
-                            final TextView v_name, E_desi, email, mobile, cancel, company1, title;
+                            final TextView v_name, E_desi, email, mobile, cancel, company1, title, txtPDF;
                             final CircleImageView emp_img;
+                            final LinearLayout linearPDF;
 
                             cancel = dialog.findViewById(R.id.cancel);
                             emp_img = dialog.findViewById(R.id.emp_img);
@@ -800,6 +808,8 @@ public class MeetingDescriptionNewActivity extends AppCompatActivity {
                             mobile = dialog.findViewById(R.id.mobile);
                             company1 = dialog.findViewById(R.id.company);
                             v_name = dialog.findViewById(R.id.v_name);
+                            linearPDF = dialog.findViewById(R.id.linearPDF);
+                            txtPDF = dialog.findViewById(R.id.txtPDF);
                             v_name.setText(inviteDetails.getName());
                             mobile.setText(inviteDetails.getMobile());
                             email.setText(inviteDetails.getEmail());
@@ -813,8 +823,17 @@ public class MeetingDescriptionNewActivity extends AppCompatActivity {
                             if (inviteDetails.getSupertype().equals("employee")) {
                                 title.setText("Employee Details");
                                 company1.setText(DatabaseHelper.companyname);
-
                             }
+
+//                            if (inviteDetails.getInvites() != null) {
+//                                for (int i = 0; i < inviteDetails.getInvites().size(); i++) {
+//                                    if (!inviteDetails.getInvites().get(i).getPdfs().isEmpty()){
+//                                        linearPDF.setVisibility(View.VISIBLE);
+//                                        txtPDF.setText(getString(R.string.PDF) + " (" + inviteDetails.getInvites().get(i).getPdfs().size() + ") ");
+//                                    }
+//                                }
+//                            }
+
                             E_desi.setText(inviteDetails.getDesignation());
                             cancel.setOnClickListener(new View.OnClickListener() {
                                 @Override
@@ -880,7 +899,6 @@ public class MeetingDescriptionNewActivity extends AppCompatActivity {
                 }
             }
         });
-
 
     }
 
@@ -2277,6 +2295,15 @@ public class MeetingDescriptionNewActivity extends AppCompatActivity {
                 holder.txt_p_slot.setText("   -   ");
             }
 
+            //PDF
+            if (invited.get(position).getPdfs() != null) {
+                if (!invited.get(position).getPdfs().isEmpty()) {
+                    holder.linearPDF.setVisibility(View.VISIBLE);
+                    holder.txtPDF.setText(getString(R.string.PDF) + " (" + invited.get(position).getPdfs().size() + ") ");
+                } else {
+                    holder.linearPDF.setVisibility(View.GONE);
+                }
+            }
 
             //assign title showing
             if (invited.get(position).isAssign()) {
@@ -2284,7 +2311,6 @@ public class MeetingDescriptionNewActivity extends AppCompatActivity {
             } else {
                 holder.txtAssigned.setVisibility(GONE);
             }
-
 
             holder.card_view.setOnClickListener(v -> {
                 AnimationSet animationp = Conversions.animation();
@@ -2317,7 +2343,8 @@ public class MeetingDescriptionNewActivity extends AppCompatActivity {
 
         public class MyviewHolder extends RecyclerView.ViewHolder {
             CardView card_view;
-            TextView txtAssigned, txt_name, txt_email, txt_phone, txt_p_slot;
+            TextView txtAssigned, txt_name, txt_email, txt_phone, txt_p_slot, txtPDF;
+            LinearLayout linearPDF;
 
             public MyviewHolder(View view) {
                 super(view);
@@ -2327,6 +2354,8 @@ public class MeetingDescriptionNewActivity extends AppCompatActivity {
                 txt_email = view.findViewById(R.id.txt_email);
                 txt_phone = view.findViewById(R.id.txt_phone);
                 txt_p_slot = view.findViewById(R.id.txt_p_slot);
+                txtPDF = view.findViewById(R.id.txtPDF);
+                linearPDF = view.findViewById(R.id.linearPDF);
             }
         }
 
@@ -2461,19 +2490,10 @@ public class MeetingDescriptionNewActivity extends AppCompatActivity {
     }
 
     protected void pickPdf() {
-        if (permissionsGrantedPickPdf()) {
-            Intent intent = new Intent();
-            intent.setAction(Intent.ACTION_GET_CONTENT);
-            intent.setType("application/pdf");
-            startActivityForResult(intent, 9811);
-        } else {
-            ActivityCompat.requestPermissions(MeetingDescriptionNewActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 101);
-
-        }
-    }
-
-    private Boolean permissionsGrantedPickPdf() {
-        return ContextCompat.checkSelfPermission(MeetingDescriptionNewActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        intent.setType("application/pdf");
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+        startActivityForResult(intent, 9811);
     }
 
     @Override
@@ -2481,33 +2501,47 @@ public class MeetingDescriptionNewActivity extends AppCompatActivity {
         switch (requestCode) {
             case 9811:
                 if (resultCode == RESULT_OK) {
-                    Uri uri = data.getData();
-                    String uriString = uri.toString();
-                    String path = uri.getPath();
-                    String displayName = null;
-                    Uri image = data.getData();
-                    Context context = getApplicationContext();
-                    try {
-                        uploadFile(image);
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    } catch (RemoteException e) {
-                        e.printStackTrace();
-                    }
-                    Log.v("mediaPath", "test");
-                    if (uriString.startsWith("content://")) {
-                        Cursor cursor = null;
-                        try {
-                            cursor = getContentResolver().query(uri, null, null, null, null);
-                            if (cursor != null && cursor.moveToFirst()) {
-                                displayName = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
-                                Log.e("Filename", displayName);
+//                    Uri uri = data.getData();
+//                    String uriString = uri.toString();
+//                    String path = uri.getPath();
+//                    String displayName = null;
+//                    Uri image = data.getData();
+//                    Context context = getApplicationContext();
+//                    try {
+//                        uploadFile(image);
+//                    } catch (FileNotFoundException e) {
+//                        e.printStackTrace();
+//                    } catch (RemoteException e) {
+//                        e.printStackTrace();
+//                    }
+//                    Log.v("mediaPath", "test");
+//                    if (uriString.startsWith("content://")) {
+//                        Cursor cursor = null;
+//                        try {
+//                            cursor = getContentResolver().query(uri, null, null, null, null);
+//                            if (cursor != null && cursor.moveToFirst()) {
+//                                displayName = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+//                                Log.e("Filename", displayName);
+//                            }
+//                        } finally {
+//                            cursor.close();
+//                        }
+//                    } else if (uriString.startsWith("file://")) {
+////                        displayName = myFile.getName();
+//                    }
+                    if (data != null) {
+                        // Handle multiple files
+                        if (data.getClipData() != null) {
+                            int count = data.getClipData().getItemCount();
+                            for (int i = 0; i < count; i++) {
+                                Uri fileUri = data.getClipData().getItemAt(i).getUri();
+                                processFile(fileUri); // Process each file
                             }
-                        } finally {
-                            cursor.close();
+                        } else if (data.getData() != null) {
+                            // Handle single file
+                            Uri fileUri = data.getData();
+                            processFile(fileUri);
                         }
-                    } else if (uriString.startsWith("file://")) {
-//                        displayName = myFile.getName();
                     }
                 }
                 break;
@@ -2522,80 +2556,129 @@ public class MeetingDescriptionNewActivity extends AppCompatActivity {
 
     }
 
+    private void processFile(Uri fileUri) {
+        try {
+            uploadFile(fileUri);
+        } catch (FileNotFoundException | RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void uploadFile(Uri fileUri) throws FileNotFoundException, RemoteException {
-        String PDFPATH = FileUtilsClass.getRealPath(MeetingDescriptionNewActivity.this, fileUri);
-        System.out.println("Floder " + this.getExternalCacheDir().getAbsolutePath());
-        System.out.println("PDfPAth " + fileUri.getPath());
-        System.out.println("PDfPAth " + fileUri);
-        System.out.println("PDfPAth " + PDFPATH);
+//        String PDFPATH = FileUtilsClass.getRealPath(MeetingDescriptionNewActivity.this, fileUri);
+//        System.out.println("Floder " + this.getExternalCacheDir().getAbsolutePath());
+//        System.out.println("PDfPAth " + fileUri.getPath());
+//        System.out.println("PDfPAth " + fileUri);
+//        System.out.println("PDfPAth " + PDFPATH);
+//        if (PDFPATH == null || PDFPATH.equals("")) {
+//            PDFPATH = FileUtilsClass.getFilePathFromURI(MeetingDescriptionNewActivity.this, fileUri);
+//        }
+//        File src = new File(PDFPATH);
+//        ContentResolver resolver = this.getContentResolver();
+//        ContentProviderClient providerClient = resolver.acquireContentProviderClient(fileUri);
+//        ParcelFileDescriptor descriptor = providerClient.openFile(fileUri, "r");
+//        ParcelFileDescriptor parcelFileDescriptor =
+//                resolver.openFileDescriptor(fileUri, "r", null);
+//        FileInputStream inputStream = new FileInputStream(descriptor.getFileDescriptor());
+//        //File file = new File(PDFPATH);
+//
+//        File file = new File(this.getExternalCacheDir().getAbsolutePath(), src.getName());
+//        try (InputStream in = new FileInputStream(descriptor.getFileDescriptor())) {
+//            file.createNewFile();
+//            try (OutputStream out = new FileOutputStream(file)) {
+//                // Transfer bytes from in to out
+//                byte[] buf = new byte[1024];
+//                int len;
+//                while ((len = in.read(buf)) > 0) {
+//                    out.write(buf, 0, len);
+//                }
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        RequestBody requestBody = RequestBody.create(MediaType.parse("application/pdf"), file);
+//        MultipartBody.Part fileToUpload = MultipartBody.Part.createFormData("file",
+//                file.getName(), requestBody);
+//        JsonObject gsonObject = new JsonObject();
+//        JSONObject jsonObj_ = new JSONObject();
+//        try {
+//            jsonObj_.put("key", file.getName());
+//            jsonObj_.put("cid", sharedPreferences1.getString("company_id", null));
+//            JsonParser jsonParser = new JsonParser();
+//            gsonObject = (JsonObject) jsonParser.parse(jsonObj_.toString());
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//        RequestBody fname = RequestBody.create(MediaType.parse("text/plain"), file.getName());
+//        RequestBody c_id = RequestBody.create(MediaType.parse("text/plain"), sharedPreferences1.getString("company_id", null));
+//
+//
+//        apiViewModel.pdfupload(MeetingDescriptionNewActivity.this, fileToUpload, fname, c_id);
+
+
+        String PDFPATH = FileUtilsClass.getRealPath(this, fileUri);
         if (PDFPATH == null || PDFPATH.equals("")) {
-            PDFPATH = FileUtilsClass.getFilePathFromURI(MeetingDescriptionNewActivity.this, fileUri);
+            PDFPATH = FileUtilsClass.getFilePathFromURI(this, fileUri);
         }
         File src = new File(PDFPATH);
-        ContentResolver resolver = this.getContentResolver();
-        ContentProviderClient providerClient = resolver.acquireContentProviderClient(fileUri);
-        ParcelFileDescriptor descriptor = providerClient.openFile(fileUri, "r");
-        ParcelFileDescriptor parcelFileDescriptor =
-                resolver.openFileDescriptor(fileUri, "r", null);
-        FileInputStream inputStream = new FileInputStream(descriptor.getFileDescriptor());
-        //File file = new File(PDFPATH);
 
-        File file = new File(this.getExternalCacheDir().getAbsolutePath(), src.getName());
-        try (InputStream in = new FileInputStream(descriptor.getFileDescriptor())) {
+        // Generate a unique file name
+        String uniqueFileName = System.currentTimeMillis() + "_" + src.getName();
+        File file = new File(this.getExternalCacheDir().getAbsolutePath(), uniqueFileName);
+
+        try (ParcelFileDescriptor descriptor = getContentResolver().openFileDescriptor(fileUri, "r");
+             InputStream in = new FileInputStream(descriptor.getFileDescriptor());
+             OutputStream out = new FileOutputStream(file)) {
             file.createNewFile();
-            try (OutputStream out = new FileOutputStream(file)) {
-                // Transfer bytes from in to out
-                byte[] buf = new byte[1024];
-                int len;
-                while ((len = in.read(buf)) > 0) {
-                    out.write(buf, 0, len);
-                }
+            byte[] buf = new byte[1024];
+            int len;
+            while ((len = in.read(buf)) > 0) {
+                out.write(buf, 0, len);
             }
         } catch (IOException e) {
             e.printStackTrace();
+            return;
         }
+
+        // Add to Pdfs ArrayList
+        Pdfs pdf = new Pdfs();
+        pdf.setName(file.getName());
+        pdf.setStatus(true);
+        pdf.setValue(file.getName());
+        pdfsArrayList.add(pdf);
+
+
+
+        // Prepare upload request
         RequestBody requestBody = RequestBody.create(MediaType.parse("application/pdf"), file);
-        MultipartBody.Part fileToUpload = MultipartBody.Part.createFormData("file",
-                file.getName(), requestBody);
-        JsonObject gsonObject = new JsonObject();
-        JSONObject jsonObj_ = new JSONObject();
-        try {
-            jsonObj_.put("key", file.getName());
-            jsonObj_.put("cid", sharedPreferences1.getString("company_id", null));
-            JsonParser jsonParser = new JsonParser();
-            gsonObject = (JsonObject) jsonParser.parse(jsonObj_.toString());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        MultipartBody.Part fileToUpload = MultipartBody.Part.createFormData("file", file.getName(), requestBody);
         RequestBody fname = RequestBody.create(MediaType.parse("text/plain"), file.getName());
         RequestBody c_id = RequestBody.create(MediaType.parse("text/plain"), sharedPreferences1.getString("company_id", null));
 
-
-        apiViewModel.pdfupload(MeetingDescriptionNewActivity.this, fileToUpload, fname, c_id);
+        // Upload the file
+        apiViewModel.pdfupload(this, fileToUpload, fname, c_id);
 
         UploadPdf(file.getName());
 
     }
 
     private void UploadPdf(String filename) {
-        System.out.println("Subhasdh123456789");
         if (isHostPdfUpload) {
-            Pdfs pdfsItem = new Pdfs();
-            pdfsItem.setName(filename);
-            pdfsItem.setStatus(true);
-            pdfsItem.setValue(filename);
-            pdfsArrayList.add(pdfsItem);
+
+            JSONArray pdfs = new JSONArray();
+            if (pdfsArrayList != null && pdfsArrayList.size() != 0) {
+                try {
+                    pdfs = new JSONArray();
+                    for (int i = 0; i < pdfsArrayList.size(); i++) {
+                        pdfs.put(pdfsArrayList.get(i).getPdfs());
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
             JsonObject gsonObject = new JsonObject();
             JSONObject jsonObj_ = new JSONObject();
-            JSONArray pdfs = new JSONArray();
-            try {
-                pdfs = new JSONArray();
-                for (int i = 0; i < pdfsArrayList.size(); i++) {
-                    pdfs.put(pdfsArrayList.get(i).getPdfs());
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
             try {
                 jsonObj_.put("id", meetings.get_id().get$oid());
                 jsonObj_.put("comp_id", sharedPreferences1.getString("company_id", null));
@@ -2610,26 +2693,21 @@ public class MeetingDescriptionNewActivity extends AppCompatActivity {
             }
             updatemeetings(gsonObject);
         } else {
-            ArrayList<Pdfs> inviteePdfArraylist = new ArrayList<>();
-            if (meetings.getInvites().get(indexid).getPdfs() != null) {
-                inviteePdfArraylist = meetings.getInvites().get(indexid).getPdfs();
+
+            JSONArray pdfs = new JSONArray();
+            if (pdfsArrayList != null && pdfsArrayList.size() != 0) {
+                try {
+                    pdfs = new JSONArray();
+                    for (int i = 0; i < pdfsArrayList.size(); i++) {
+                        pdfs.put(pdfsArrayList.get(i).getPdfs());
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
-            Pdfs pdfsItem = new Pdfs();
-            pdfsItem.setName(filename);
-            pdfsItem.setStatus(true);
-            pdfsItem.setValue(filename);
-            inviteePdfArraylist.add(pdfsItem);
+
             JsonObject gsonObject = new JsonObject();
             JSONObject jsonObj_ = new JSONObject();
-            JSONArray pdfs = new JSONArray();
-            try {
-                pdfs = new JSONArray();
-                for (int i = 0; i < inviteePdfArraylist.size(); i++) {
-                    pdfs.put(inviteePdfArraylist.get(i).getPdfs());
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
             try {
                 jsonObj_.put("id", meetings.get_id().get$oid());
                 jsonObj_.put("comp_id", sharedPreferences1.getString("company_id", null));
@@ -2659,12 +2737,16 @@ public class MeetingDescriptionNewActivity extends AppCompatActivity {
     @SuppressLint("RestrictedApi")
     private void setupView() {
         assert meetings != null;
+        //host PDF
         if (meetings.getPdfStatus() != null && meetings.getPdfStatus()) {
-            pdf.setVisibility(View.VISIBLE);
-            pdfsArrayList = meetings.getPdfs();
-            pdfName.setText(pdfsArrayList.get(0).getName());
+            pdfLayout.setVisibility(View.VISIBLE);
+            //pdfsArrayList = meetings.getPdfs();
+            List<Pdfs> apiData = meetings.getPdfs();
+            pdfsArrayList.clear();
+            pdfsArrayList.addAll(apiData);
+            pdfName.setText(getString(R.string.PDF) + " (" + (pdfsArrayList.size()) +") ");
         } else {
-            pdf.setVisibility(GONE);
+            pdfLayout.setVisibility(GONE);
         }
 
 //        //create date
@@ -2966,12 +3048,69 @@ public class MeetingDescriptionNewActivity extends AppCompatActivity {
 
     }
 
+
+    private void PdfshowBottomSheetDialog() {
+        // Inflate the layout for the bottom sheet
+        View bottomSheetView = getLayoutInflater().inflate(R.layout.bottom_sheet_pdf_layout, null);
+
+        // Create the BottomSheetDialog
+        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
+
+        // Set a rounded background
+        bottomSheetDialog.setOnShowListener(dialog -> {
+            BottomSheetDialog d = (BottomSheetDialog) dialog;
+            View bottomSheetInternal = d.findViewById(com.google.android.material.R.id.design_bottom_sheet);
+            if (bottomSheetInternal != null) {
+                bottomSheetInternal.setBackgroundResource(R.drawable.rounded_top_corners);
+            }
+        });
+
+        bottomSheetDialog.setContentView(bottomSheetView);
+
+        TextView txtEmpty = bottomSheetView.findViewById(R.id.txtEmpty);
+
+        // Set click listener for cancel button
+        bottomSheetView.findViewById(R.id.imgCancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bottomSheetDialog.dismiss();
+            }
+        });
+
+        // Initialize RecyclerView
+        RecyclerView recyclerViewInvites = bottomSheetView.findViewById(R.id.recyclerView);
+        recyclerViewInvites.setHasFixedSize(true);
+        recyclerViewInvites.setLayoutManager(new GridLayoutManager(this, 1));
+
+        // Set up adapter for RecyclerView
+        PDFListDetailPageAdapter pdfListDetailPageAdapter = new PDFListDetailPageAdapter(
+                this,
+                pdfsArrayList,
+                sharedPreferences1,
+                () -> {
+                    if (pdfsArrayList.isEmpty()){
+                        // This code runs when the list becomes empty
+                        txtEmpty.setVisibility(View.VISIBLE);
+                        recyclerViewInvites.setVisibility(View.GONE);
+                    }else {
+                        //HostPdfDelete();
+                        Toast.makeText(getApplicationContext(), "successfully deleted..", Toast.LENGTH_SHORT).show();
+                    }
+
+                });
+
+        recyclerViewInvites.setAdapter(pdfListDetailPageAdapter);
+
+        // Show the BottomSheetDialog
+        bottomSheetDialog.show();
+
+    }
+
     @Override
     public void onBackPressed() {
         Intent intent2 = new Intent();
         setResult(RESULT_CODE, intent2);
         finish();
     }
-
 
 }

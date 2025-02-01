@@ -145,7 +145,7 @@
 
                     <LinearLayout
                         android:visibility="gone"
-                        android:id="@+id/pdf"
+                        android:id="@+id/pdfLayout"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="3dp"
@@ -171,13 +171,12 @@
                             android:singleLine="true"
                             app:drawableTint="@color/colorPrimary"
                             android:textColor="@color/colorPrimary"
-                            android:text="dasdasdasdas"
+                            android:text="@string/PDF"
                             android:textSize="14sp"/>
                     </LinearLayout>
 
 
                 </LinearLayout>
-
 
                 <LinearLayout
                     android:layout_width="match_parent"

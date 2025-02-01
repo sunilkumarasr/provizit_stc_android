@@ -696,7 +696,6 @@
                                 android:textSize="15sp" />
                         </com.google.android.material.textfield.TextInputLayout>
 
-
                     </LinearLayout>
 
                     <LinearLayout
@@ -734,6 +733,17 @@
                             android:layout_height="25dp"
                             android:src="@drawable/cancel_ic"
                             android:layout_gravity="center_vertical"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginEnd="5dp"/>
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:visibility="gone"
+                            android:id="@+id/pdfViewList"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:src="@drawable/view_eye"
+                            android:layout_gravity="center_vertical"
+                            app:tint="@color/gray"
                             android:layout_marginStart="5dp"
                             android:layout_marginEnd="5dp"/>
 

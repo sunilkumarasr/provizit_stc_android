@@ -20,13 +20,10 @@ public class Preferences {
     public final static String m_ID="m_ID";
     public final static String pushnotification="pushnotification";
 
-
-
     public static void saveFloatValue(Context context, String key, float value) {
         SharedPreferences.Editor editor = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE).edit();
         editor.putFloat(key, value);
         editor.apply();
-
     }
 
     public static float loadFloatValue(Context mContext, String from, float defValue) {
