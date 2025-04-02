@@ -92,10 +92,10 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
-        <activity
-            android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppBaseTheme" />
+<!--        <activity-->
+<!--            android:name="com.theartofdev.edmodo.cropper.CropImageActivity"-->
+<!--            android:screenOrientation="portrait"-->
+<!--            android:theme="@style/AppBaseTheme" />-->
         <activity
             android:name=".Activities.PrivacyPolicyActivity"
             android:exported="false"
@@ -154,9 +154,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".Activities.SelectedDateMeetingsActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".Logins.Login"
             android:screenOrientation="portrait" />
         <activity
             android:name=".Activities.SplashActivity"
