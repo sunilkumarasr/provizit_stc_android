@@ -35,7 +35,9 @@ import android.provider.ContactsContract;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
+import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -44,6 +46,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -114,6 +117,12 @@ public class NavigationActivity extends AppCompatActivity implements View.OnClic
     ArrayList<NotificationsComon> notificationslist;
     ArrayList<NotificationsComon> notificationslist_final;
     ApiViewModel apiViewModel;
+
+
+    //floating buttons
+    FloatingActionButton flotMain, flot1, flot2;
+    Animation favOpen, febClose, tabRotateForward, tabRotateBackForward;
+    boolean isOpen = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -187,6 +196,39 @@ public class NavigationActivity extends AppCompatActivity implements View.OnClic
         }
         clickEvents();
         apiInitView();
+
+
+        flotMain = (FloatingActionButton) findViewById(R.id.flotMain);
+        flot1 = (FloatingActionButton) findViewById(R.id.flot1);
+        flot2 = (FloatingActionButton) findViewById(R.id.flot2);
+
+        //aimations
+        favOpen = AnimationUtils.loadAnimation(this,R.anim.tab_open);
+        febClose = AnimationUtils.loadAnimation(this,R.anim.tab_open);
+        tabRotateForward = AnimationUtils.loadAnimation(this,R.anim.tab_rotate_forword);
+        tabRotateBackForward = AnimationUtils.loadAnimation(this,R.anim.tab_rotate_backforword);
+
+        flotMain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (isOpen){
+                    flotMain.startAnimation(tabRotateForward);
+                    flot1.startAnimation(febClose);
+                    flot2.startAnimation(febClose);
+                    flot1.setClickable(false);
+                    flot2.setClickable(false);
+                    isOpen=false;
+                }else {
+                    flotMain.startAnimation(tabRotateBackForward);
+                    flot1.startAnimation(favOpen);
+                    flot2.startAnimation(favOpen);
+                    flot1.setClickable(true);
+                    flot2.setClickable(true);
+                    isOpen=true;
+                }
+            }
+        });
+
     }
 
     private void clickEvents() {
