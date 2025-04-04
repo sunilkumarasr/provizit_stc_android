@@ -304,6 +304,15 @@ public class DataManger {
         Call<Inviteemodelclass> call = apiService.getamenities(bearer,newEncrypt);
         call.enqueue((Callback<Inviteemodelclass>) cb);
     }
+
+    public void getTrainingTitles(Callback<Model1> cb, Context context) {
+        API apiService = retrofitSecurity.create(API.class);
+        String newEncrypt = Conversions.encrypt(context,false);
+        String bearer = "Bearer" + newEncrypt;
+        Call<Model1> call = apiService.getTrainingTitles(bearer,newEncrypt);
+        call.enqueue((Callback<Model1>) cb);
+    }
+
     public void getmeetingrooms(Callback<Model1> cb, Context context, String location) {
         API apiService = retrofitSecurity.create(API.class);
         String newEncrypt = Conversions.encrypt(context,false);

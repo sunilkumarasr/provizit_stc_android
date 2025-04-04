@@ -58,7 +58,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.DatePicker;
@@ -195,7 +197,14 @@ public class MeetingDescriptionNewActivity extends AppCompatActivity {
     CardView cardview_note;
     TextView v_name, E_desi, email, mobile, host,coordinatorName, invitee_text, txt_stamp, assignedto, title1;
     LinearLayout pdfLayout;
-    FloatingActionButton fab, uploadPdf;
+    FloatingActionButton  uploadPdf;
+
+    //floating buttons
+    FloatingActionButton flotMain;
+    LinearLayout floatButton, flot1, flot2;
+    Animation favOpen, febClose, tabRotateForward, tabRotateBackForward;
+    boolean isOpen = false;
+
     TextView agendaText;
     ArrayList<Pdfs> pdfsArrayList;
     private Intent browserIntent;
@@ -270,18 +279,14 @@ public class MeetingDescriptionNewActivity extends AppCompatActivity {
         name = findViewById(R.id.visitor_name);
         pdfName = findViewById(R.id.pdfName);
         img_reccurence_list = findViewById(R.id.img_reccurence_list);
-        fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MeetingDescriptionNewActivity.this, SetupMeetingActivity.class);
-                startActivity(intent);
-                overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
-            }
-        });
+        floatButton = findViewById(R.id.floatButton);
+        flotMain = findViewById(R.id.flotMain);
+        flot1 = findViewById(R.id.flot1);
+        flot2 = findViewById(R.id.flot2);
+
         RoleDetails roledata = myDb.getRole();
         if (roledata.getSmeeting().equals("false")) {
-            fab.setVisibility(GONE);
+            floatButton.setVisibility(GONE);
         }
         visitorcountlinear = findViewById(R.id.visitorcountlinear);
         cabin = findViewById(R.id.cabin);
@@ -305,6 +310,88 @@ public class MeetingDescriptionNewActivity extends AppCompatActivity {
         iEmail = new ArrayList<>();
 
         Log.e(TAG, "onCreate:e" + empData.getEmp_id());
+
+        //aimations
+        favOpen = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.tab_open);
+        febClose = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.tab_open);
+        tabRotateForward = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.tab_rotate_forword);
+        tabRotateBackForward = AnimationUtils.loadAnimation(getApplicationContext(),R.anim.tab_rotate_backforword);
+
+        flotMain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String trd_access = Preferences.loadStringValue(getApplicationContext(), Preferences.trd_access, "");
+                if (trd_access.equals("true")){
+                    if (isOpen){
+                        flot1.setVisibility(GONE);
+                        flot2.setVisibility(View.GONE);
+                        flotMain.startAnimation(tabRotateBackForward);
+                        flot1.startAnimation(febClose);
+                        flot2.startAnimation(febClose);
+                        flot1.setClickable(false);
+                        flot2.setClickable(false);
+                        isOpen=false;
+                    }else {
+                        flot1.setVisibility(View.VISIBLE);
+                        flot2.setVisibility(View.VISIBLE);
+                        flotMain.startAnimation(tabRotateForward);
+                        flot1.startAnimation(favOpen);
+                        flot2.startAnimation(favOpen);
+                        flot1.setClickable(true);
+                        flot2.setClickable(true);
+                        isOpen=true;
+                    }
+                }else {
+                    AnimationSet animation4 = Conversions.animation();
+                    view.startAnimation(animation4);
+                    Intent intent = new Intent(MeetingDescriptionNewActivity.this, SetupMeetingActivity.class);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
+                }
+
+            }
+        });
+        flot1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AnimationSet animation4 = Conversions.animation();
+                view.startAnimation(animation4);
+
+                flot1.setVisibility(GONE);
+                flot2.setVisibility(View.GONE);
+                flotMain.startAnimation(tabRotateBackForward);
+                flot1.startAnimation(febClose);
+                flot2.startAnimation(febClose);
+                flot1.setClickable(false);
+                flot2.setClickable(false);
+                isOpen=false;
+
+                Intent intent = new Intent(MeetingDescriptionNewActivity.this, SetupTrainingActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
+            }
+        });
+        flot2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AnimationSet animation4 = Conversions.animation();
+                view.startAnimation(animation4);
+
+                flot1.setVisibility(GONE);
+                flot2.setVisibility(View.GONE);
+                flotMain.startAnimation(tabRotateBackForward);
+                flot1.startAnimation(febClose);
+                flot2.startAnimation(febClose);
+                flot1.setClickable(false);
+                flot2.setClickable(false);
+                isOpen=false;
+
+                Intent intent = new Intent(MeetingDescriptionNewActivity.this, SetupMeetingActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
+            }
+        });
 
         getsubhierarchys(empData.getLocation());
         assign.setOnClickListener(v -> {

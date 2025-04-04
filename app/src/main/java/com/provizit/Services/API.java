@@ -110,6 +110,9 @@ public interface API {
     @POST("visitor/addcovisitor")
     Call<Model> addcovisitor(@Header("Authorization") String Bearer, @Header("DeviceId") String header, @Body JsonObject jsonBody);
 
+    @GET("company/gettrainingTitles")
+    Call<Model1> getTrainingTitles(@Header("Authorization") String Bearer, @Header("DeviceId") String header);
+
     @GET("company/getmeetingrooms")
     Call<Model1> getmeetingrooms(@Header("Authorization") String Bearer, @Header("DeviceId") String header, @Query("location") String location);
 

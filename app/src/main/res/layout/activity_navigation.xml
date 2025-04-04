@@ -254,45 +254,6 @@
         </LinearLayout>
 
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginBottom="65dp"
-            android:layout_marginEnd="15dp"
-            android:orientation="vertical">
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/flot1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:src="@drawable/ic_baseline_add_24"
-                android:tint="@color/white"
-                app:borderWidth="5dp"
-                android:visibility="invisible"/>
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/flot2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:src="@drawable/ic_baseline_add_24"
-                android:tint="@color/white"
-                app:borderWidth="5dp"
-                android:visibility="invisible"/>
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/flotMain"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_baseline_add_24"
-                android:tint="@color/white"
-                app:borderWidth="5dp" />
-
-        </LinearLayout>
-
     </RelativeLayout>
 
 </layout>

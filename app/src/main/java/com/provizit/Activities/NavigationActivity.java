@@ -119,11 +119,6 @@ public class NavigationActivity extends AppCompatActivity implements View.OnClic
     ApiViewModel apiViewModel;
 
 
-    //floating buttons
-    FloatingActionButton flotMain, flot1, flot2;
-    Animation favOpen, febClose, tabRotateForward, tabRotateBackForward;
-    boolean isOpen = false;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -131,7 +126,6 @@ public class NavigationActivity extends AppCompatActivity implements View.OnClic
         setContentView(binding.getRoot());
 
         initView();
-
 
 
     }
@@ -197,37 +191,6 @@ public class NavigationActivity extends AppCompatActivity implements View.OnClic
         clickEvents();
         apiInitView();
 
-
-        flotMain = (FloatingActionButton) findViewById(R.id.flotMain);
-        flot1 = (FloatingActionButton) findViewById(R.id.flot1);
-        flot2 = (FloatingActionButton) findViewById(R.id.flot2);
-
-        //aimations
-        favOpen = AnimationUtils.loadAnimation(this,R.anim.tab_open);
-        febClose = AnimationUtils.loadAnimation(this,R.anim.tab_open);
-        tabRotateForward = AnimationUtils.loadAnimation(this,R.anim.tab_rotate_forword);
-        tabRotateBackForward = AnimationUtils.loadAnimation(this,R.anim.tab_rotate_backforword);
-
-        flotMain.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (isOpen){
-                    flotMain.startAnimation(tabRotateForward);
-                    flot1.startAnimation(febClose);
-                    flot2.startAnimation(febClose);
-                    flot1.setClickable(false);
-                    flot2.setClickable(false);
-                    isOpen=false;
-                }else {
-                    flotMain.startAnimation(tabRotateBackForward);
-                    flot1.startAnimation(favOpen);
-                    flot2.startAnimation(favOpen);
-                    flot1.setClickable(true);
-                    flot2.setClickable(true);
-                    isOpen=true;
-                }
-            }
-        });
 
     }
 
@@ -363,43 +326,6 @@ public class NavigationActivity extends AppCompatActivity implements View.OnClic
         overridePendingTransition(R.anim.enter, R.anim.exit);
     }
 
-    private void back_popup() {
-        final Dialog dialog = new Dialog(NavigationActivity.this);
-        dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setCancelable(false);
-        dialog.setContentView(R.layout.popup_back_press);
-        Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-
-        TextView title = dialog.findViewById(R.id.title);
-        TextView title_note = dialog.findViewById(R.id.title_note);
-        TextView txt_yes = dialog.findViewById(R.id.txt_yes);
-        TextView txt_no = dialog.findViewById(R.id.txt_no);
-
-        title.setText(getResources().getString(R.string.app_name));
-        title_note.setText(getResources().getString(R.string.Do_you_want_to_exit_the_application));
-        txt_yes.setText(getResources().getString(R.string.Yes));
-        txt_no.setText(getResources().getString(R.string.No));
-
-        txt_yes.setOnClickListener(v -> {
-            AnimationSet animation = Conversions.animation();
-            v.startAnimation(animation);
-            editor1.remove("m_id");
-            editor1.remove("m_action");
-            editor1.apply();
-            if (isMainActivityShown) {
-                finishAffinity();
-            }
-            dialog.dismiss();
-        });
-        txt_no.setOnClickListener(v -> {
-            AnimationSet animationp = Conversions.animation();
-            v.startAnimation(animationp);
-            dialog.dismiss();
-        });
-        dialog.show();
-    }
-
     public void setUserInteractionListener(UserInterationListener userInteractionListener) {
         this.userInteractionListener = userInteractionListener;
     }
@@ -441,7 +367,44 @@ public class NavigationActivity extends AppCompatActivity implements View.OnClic
 
     @Override
     public void onBackPressed() {
+        super.onBackPressed();
         back_popup();
+    }
+    private void back_popup() {
+        final Dialog dialog = new Dialog(NavigationActivity.this);
+        dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(false);
+        dialog.setContentView(R.layout.popup_back_press);
+        Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+
+        TextView title = dialog.findViewById(R.id.title);
+        TextView title_note = dialog.findViewById(R.id.title_note);
+        TextView txt_yes = dialog.findViewById(R.id.txt_yes);
+        TextView txt_no = dialog.findViewById(R.id.txt_no);
+
+        title.setText(getResources().getString(R.string.app_name));
+        title_note.setText(getResources().getString(R.string.Do_you_want_to_exit_the_application));
+        txt_yes.setText(getResources().getString(R.string.Yes));
+        txt_no.setText(getResources().getString(R.string.No));
+
+        txt_yes.setOnClickListener(v -> {
+            AnimationSet animation = Conversions.animation();
+            v.startAnimation(animation);
+            editor1.remove("m_id");
+            editor1.remove("m_action");
+            editor1.apply();
+            if (isMainActivityShown) {
+                finishAffinity();
+            }
+            dialog.dismiss();
+        });
+        txt_no.setOnClickListener(v -> {
+            AnimationSet animationp = Conversions.animation();
+            v.startAnimation(animationp);
+            dialog.dismiss();
+        });
+        dialog.show();
     }
 
 

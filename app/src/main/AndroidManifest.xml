@@ -3,8 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.provizit">
 
-    <uses-permission android:name="com.google.android.gms.permission.AD_ID"/>
-
+    <uses-permission android:name="com.google.android.gms.permission.AD_ID" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -46,6 +45,9 @@
         android:windowSoftInputMode="stateVisible|adjustResize"
         tools:ignore="GoogleAppIndexingWarning,UnusedAttribute"
         tools:replace="allowBackup,supportsRtl">
+        <activity
+            android:name=".Activities.SetupTrainingActivity"
+            android:exported="false" />
         <activity
             android:name=".Activities.BusyScheduleActivity"
             android:exported="false" />
@@ -91,11 +93,10 @@
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
-        </activity>
-<!--        <activity-->
-<!--            android:name="com.theartofdev.edmodo.cropper.CropImageActivity"-->
-<!--            android:screenOrientation="portrait"-->
-<!--            android:theme="@style/AppBaseTheme" />-->
+        </activity> <!-- <activity -->
+        <!-- android:name="com.theartofdev.edmodo.cropper.CropImageActivity" -->
+        <!-- android:screenOrientation="portrait" -->
+        <!-- android:theme="@style/AppBaseTheme" /> -->
         <activity
             android:name=".Activities.PrivacyPolicyActivity"
             android:exported="false"
@@ -167,7 +168,6 @@
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".Activities.DeepLinkingActivity"
             android:exported="true">
@@ -187,14 +187,15 @@
                     android:scheme="https" />
             </intent-filter>
         </activity>
-
         <activity
             android:name="com.microsoft.identity.client.BrowserTabActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data
                     android:host="com.provizit.ksa"
                     android:path="/RNy5oraIA7QxAEY9MB/Z5j/wWgo="
@@ -214,7 +215,6 @@
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
-
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"
@@ -224,7 +224,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
-
     </application>
 
 </manifest>

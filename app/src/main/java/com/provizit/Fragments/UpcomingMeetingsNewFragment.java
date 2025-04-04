@@ -3,9 +3,7 @@ package com.provizit.Fragments;
 import static android.content.Context.NOTIFICATION_SERVICE;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
-
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.Dialog;
 import android.app.NotificationManager;
 import android.content.Context;
@@ -16,7 +14,6 @@ import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
@@ -28,7 +25,6 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
 import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -47,18 +43,16 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.bumptech.glide.Glide;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.provizit.Activities.AppointmentDetailsNewActivity;
 import com.provizit.Activities.CheckInDetailsActivity;
 import com.provizit.Activities.MeetingDescriptionNewActivity;
-import com.provizit.Activities.NavigationActivity;
 import com.provizit.Activities.SelectedDateMeetingsActivity;
 import com.provizit.Activities.SetupMeetingActivity;
+import com.provizit.Activities.SetupTrainingActivity;
 import com.provizit.Activities.SlotsActivity;
 import com.provizit.Calendar.CalendarAdapter;
 import com.provizit.Calendar.MyCalendar;
@@ -79,11 +73,8 @@ import com.provizit.Utilities.DatabaseHelper;
 import com.provizit.Utilities.EmpData;
 import com.provizit.Utilities.RoleDetails;
 import com.provizit.databinding.TodayMeetingsListItemsBinding;
-
-import org.apache.poi.ss.formula.functions.T;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -92,7 +83,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
-
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -113,7 +103,11 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
     DatabaseHelper myDb;
     EmpData empData;
 
-    FloatingActionButton flot_bt;
+    //floating buttons
+    FloatingActionButton flotMain;
+    LinearLayout floatButton, flot1, flot2;
+    Animation favOpen, febClose, tabRotateForward, tabRotateBackForward;
+    boolean isOpen = false;
 
     //calanderView Top
     private List<MyCalendar> calendarList = new ArrayList<>();
@@ -205,7 +199,6 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
         Log.e(TAG, "onCreateView:em " + empData.getEmp_id());
 
 
-        flot_bt = view.findViewById(R.id.flot_bt);
         relative_appointments = view.findViewById(R.id.relative_appointments);
         img_arrow_appointment = view.findViewById(R.id.img_arrow_appointment);
         relative_today = view.findViewById(R.id.relative_today);
@@ -220,6 +213,10 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
         upcoming_text = view.findViewById(R.id.upcoming_text);
         dateUp = view.findViewById(R.id.dateUp);
         today = view.findViewById(R.id.today);
+        floatButton = view.findViewById(R.id.floatButton);
+        flotMain = view.findViewById(R.id.flotMain);
+        flot1 = view.findViewById(R.id.flot1);
+        flot2 = view.findViewById(R.id.flot2);
 
         apiViewModel = new ViewModelProvider(getActivity()).get(ApiViewModel.class);
 
@@ -351,7 +348,7 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
         SelectedDate = toDay;
         RoleDetails roledata = myDb.getRole();
         if (roledata.getSmeeting().equals("false")) {
-            flot_bt.setVisibility(GONE);
+            floatButton.setVisibility(GONE);
         }
 
         //department
@@ -416,11 +413,57 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
             }
         });
 
+
+        //aimations
+        favOpen = AnimationUtils.loadAnimation(getActivity(),R.anim.tab_open);
+        febClose = AnimationUtils.loadAnimation(getActivity(),R.anim.tab_open);
+        tabRotateForward = AnimationUtils.loadAnimation(getActivity(),R.anim.tab_rotate_forword);
+        tabRotateBackForward = AnimationUtils.loadAnimation(getActivity(),R.anim.tab_rotate_backforword);
+
+        flotMain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String trd_access = Preferences.loadStringValue(getActivity(), Preferences.trd_access, "");
+                if (trd_access.equals("true")){
+                    if (isOpen){
+                        flot1.setVisibility(GONE);
+                        flot2.setVisibility(View.GONE);
+                        flotMain.startAnimation(tabRotateBackForward);
+                        flot1.startAnimation(febClose);
+                        flot2.startAnimation(febClose);
+                        flot1.setClickable(false);
+                        flot2.setClickable(false);
+                        isOpen=false;
+                    }else {
+                        flot1.setVisibility(View.VISIBLE);
+                        flot2.setVisibility(View.VISIBLE);
+                        flotMain.startAnimation(tabRotateForward);
+                        flot1.startAnimation(favOpen);
+                        flot2.startAnimation(favOpen);
+                        flot1.setClickable(true);
+                        flot2.setClickable(true);
+                        isOpen=true;
+                    }
+                }else {
+                    AnimationSet animation4 = Conversions.animation();
+                    view.startAnimation(animation4);
+                    Intent intent = new Intent(getActivity(), SetupMeetingActivity.class);
+                    intent.putExtra("RMS_STATUS", 2);
+                    intent.putExtra("RMS_Date", SelectedDate);
+                    startActivity(intent);
+                    getActivity().overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
+                }
+
+            }
+        });
+
         //fab.setOnClickListener(this);
         relative_appointments.setOnClickListener(this);
         relative_today.setOnClickListener(this);
         relative_upcoming.setOnClickListener(this);
-        flot_bt.setOnClickListener(this);
+        flot1.setOnClickListener(this);
+        flot2.setOnClickListener(this);
         return view;
     }
 
@@ -506,9 +549,38 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
                     linear_upcoming.setVisibility(GONE);
                 }
                 break;
-            case R.id.flot_bt:
+            case R.id.flot1:
+                AnimationSet animation5 = Conversions.animation();
+                v.startAnimation(animation5);
+
+                flot1.setVisibility(GONE);
+                flot2.setVisibility(View.GONE);
+                flotMain.startAnimation(tabRotateBackForward);
+                flot1.startAnimation(febClose);
+                flot2.startAnimation(febClose);
+                flot1.setClickable(false);
+                flot2.setClickable(false);
+                isOpen=false;
+
+                Intent intenta = new Intent(getActivity(), SetupTrainingActivity.class);
+                intenta.putExtra("RMS_STATUS", 2);
+                intenta.putExtra("RMS_Date", SelectedDate);
+                startActivity(intenta);
+                getActivity().overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
+                break;
+            case R.id.flot2:
                 AnimationSet animation4 = Conversions.animation();
                 v.startAnimation(animation4);
+
+                flot1.setVisibility(GONE);
+                flot2.setVisibility(View.GONE);
+                flotMain.startAnimation(tabRotateBackForward);
+                flot1.startAnimation(febClose);
+                flot2.startAnimation(febClose);
+                flot1.setClickable(false);
+                flot2.setClickable(false);
+                isOpen=false;
+
                 Intent intent = new Intent(getActivity(), SetupMeetingActivity.class);
                 intent.putExtra("RMS_STATUS", 2);
                 intent.putExtra("RMS_Date", SelectedDate);

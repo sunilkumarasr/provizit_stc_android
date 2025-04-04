@@ -726,6 +726,29 @@ public class ApiRepository {
         },context, type, start, end, rm_id);
     }
 
+    //MeetingTrainingTitles,SetUpTrainingActivity
+    //get TrainingTitles
+    public void getTrainingTitles(Model1Response loginResponse, Context context){
+        DataManger dataManager = DataManger.getDataManager();
+        dataManager.getTrainingTitles(new Callback<Model1>() {
+            @Override
+            public void onResponse(Call<Model1> call, Response<Model1> response) {
+                if (response.isSuccessful()){
+                    loginResponse.onResponse(response.body());
+                    Log.e(TAG, "onResp"+"getTrainingTitles0" );
+                }else {
+                    Log.e(TAG, "onResp"+"getTrainingTitles1" );
+                    loginResponse.onFailure(new Throwable(response.message()));
+                }
+            }
+            @Override
+            public void onFailure(Call<Model1> call, Throwable t) {
+                Log.e(TAG, "onResp"+"getTrainingTitles2" );
+                loginResponse.onFailure(new Throwable(t));
+            }
+        },context);
+    }
+
     //MeetingRoomFragment, SetUpMeetingActivity
     //get meeting rooms
     public void getmeetingrooms(Model1Response loginResponse, Context context, String locationId){

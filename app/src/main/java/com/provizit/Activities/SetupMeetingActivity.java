@@ -2853,6 +2853,7 @@ public class SetupMeetingActivity extends AppCompatActivity {
 
             jsonObj_.put("entrypoint", e_gate);
             jsonObj_.put("formtype", "insert");
+            jsonObj_.put("train_meet", "meeting");
             jsonObj_.put("hierarchy_id", empData.getHierarchy_id());
             jsonObj_.put("hierarchy_indexid", empData.getHierarchy_indexid());
             jsonObj_.put("agenda", agenda);

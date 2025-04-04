@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+
 public class CustomAdapter extends ArrayAdapter<CompanyData> {
     Context context;
     int resource, textViewResourceId;

@@ -78,6 +78,7 @@ public class ApiViewModel extends ViewModel {
     MutableLiveData<Model1> getmeetingapprovals_response = new MutableLiveData<>();
     MutableLiveData<Model> actioncheckinout_response = new MutableLiveData<>();
     MutableLiveData<Model1> getrmslots_response = new MutableLiveData<>();
+    MutableLiveData<Model1> getTrainingTitles_response = new MutableLiveData<>();
     MutableLiveData<Model1> getmeetingrooms_response = new MutableLiveData<>();
     MutableLiveData<Model1> getmrmslots_response = new MutableLiveData<>();
     MutableLiveData<Model> updatemeetings_response = new MutableLiveData<>();
@@ -650,6 +651,25 @@ public class ApiViewModel extends ViewModel {
         }, context, type, start, end, rm_id);
     }
 
+    //MeetingTrainingTitles,SetUpTrainingActivity
+    //get TrainingTitles
+    public void getTrainingTitles(Context context) {
+        apiRepository.getTrainingTitles(new ApiRepository.Model1Response() {
+            @Override
+            public void onResponse(Model1 l_loginResponse) {
+                getTrainingTitles_response.postValue(l_loginResponse);
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                ViewController.DismissProgressBar();
+                Log.e(TAG, "onResponse: " + "failed");
+                getTrainingTitles_response.postValue(null);
+            }
+        }, context);
+    }
+
+
     //MeetingRoomFragment,SetUpMeetingActivity
     //get meeting rooms
     public void getmeetingrooms(Context context, String locationId) {
@@ -1109,10 +1129,16 @@ public class ApiViewModel extends ViewModel {
         return getrmslots_response;
     }
 
+    //get Training Titles
+    public LiveData<Model1> getTrainingTitles_response() {
+        return getTrainingTitles_response;
+    }
+
     //get meeting rooms
     public LiveData<Model1> getmeetingrooms_response() {
         return getmeetingrooms_response;
     }
+
 
     //get meeting rooms
     public LiveData<Model1> getmrmslots_response() {
