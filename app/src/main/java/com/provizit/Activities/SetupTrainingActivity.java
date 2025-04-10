@@ -154,8 +154,6 @@ public class SetupTrainingActivity extends AppCompatActivity {
     RelativeLayout relative_internet;
     RelativeLayout relative_ui;
 
-    LinearLayout linearSelfAssist;
-
     private static Locale locale;
     EditText meeting_description, m_value;
     TextView date, meeting_st, meeting_et;
@@ -182,17 +180,12 @@ public class SetupTrainingActivity extends AppCompatActivity {
 
 
     Spinner subjectSpinner;
-    String subject;
+    String subject = "";
 
-    //self invitastion
-    LinearLayout linearDepartment;
-    CheckBox SelfMeetingSetupCheckBox;
-    AutoCompleteTextView department_spinner,emp_spinner;
+    AutoCompleteTextView emp_spinner;
     String AssignID = "";
     Boolean hostSide_trd = false;
     ArrayList<CompanyData> employees;
-    ArrayList<CompanyData> departments;
-    DepartmentAdapter departmentAdapter;
     CustomAdapter employeeAdapter;
 
     private AlertDialog alertDialog_category;
@@ -349,7 +342,6 @@ public class SetupTrainingActivity extends AppCompatActivity {
         builder.setMessage("Do You Want to Delete").setTitle("Remove");
         date = findViewById(R.id.date);
         m_type = "1";
-        linearSelfAssist = findViewById(R.id.linearSelfAssist);
         setup_meeting = findViewById(R.id.setup_meeting);
         m_value = findViewById(R.id.m_value);
         m_typeDrawable = findViewById(R.id.m_typeDrawable);
@@ -368,11 +360,7 @@ public class SetupTrainingActivity extends AppCompatActivity {
         sharedPreferences1 = getSharedPreferences("EGEMSS_DATA", 0);
 
         chipgroup = (ChipGroup) findViewById(R.id.chipgroup);
-        linearDepartment = findViewById(R.id.linearDepartment);
-        SelfMeetingSetupCheckBox = findViewById(R.id.SelfMeetingSetupCheckBox);
-        department_spinner = findViewById(R.id.department_spinner);
         emp_spinner = findViewById(R.id.emp_spinner);
-        emp_spinner.setInputType(InputType.TYPE_NULL);
         m_room_info = findViewById(R.id.m_room_info);
         radioGroup = findViewById(R.id.radioGroup);
         m_typeDrawable = findViewById(R.id.m_typeDrawable);
@@ -391,7 +379,6 @@ public class SetupTrainingActivity extends AppCompatActivity {
             v.startAnimation(animationCategoryInfo);
             info_categories();
         });
-
 
         //reccurence
         img_reccurence = findViewById(R.id.img_reccurence);
@@ -631,6 +618,8 @@ public class SetupTrainingActivity extends AppCompatActivity {
                 }
             }
         });
+
+        getsearchemployees(empData.getLocation());
 
         m_room_info.setOnClickListener(v -> {
             AnimationSet animationp = Conversions.animation();
@@ -1130,25 +1119,18 @@ public class SetupTrainingActivity extends AppCompatActivity {
                 setup_meeting.setEnabled(true);
             }else {
                 if (actiontype == 0){
-                    if (roledetails.getBehalfof().equalsIgnoreCase("true")){
-                        if (SelfMeetingSetupCheckBox.isChecked() || !AssignID.equalsIgnoreCase("")){
-                            setup_meeting.setEnabled(true);
-                            gethostslots();
-                            // card_view_progress.setVisibility(View.VISIBLE);
-                            ViewController.ShowProgressBar(SetupTrainingActivity.this);
-                        }else {
-                            new AlertDialog.Builder(SetupTrainingActivity.this)
-                                    .setTitle(R.string.warning)
-                                    .setMessage(R.string.Selfmeetingsetup)
-                                    .setPositiveButton(android.R.string.ok, null)
-                                    .show();
-                            setup_meeting.setEnabled(true);
-                        }
-                    }else {
+                    if (!AssignID.equalsIgnoreCase("") && !emp_spinner.getText().toString().isEmpty()){
                         setup_meeting.setEnabled(true);
                         gethostslots();
-                        //card_view_progress.setVisibility(View.VISIBLE);
+                        // card_view_progress.setVisibility(View.VISIBLE);
                         ViewController.ShowProgressBar(SetupTrainingActivity.this);
+                    }else {
+                        new AlertDialog.Builder(SetupTrainingActivity.this)
+                                .setTitle(R.string.warning)
+                                .setMessage(R.string.selectTrainer)
+                                .setPositiveButton(android.R.string.ok, null)
+                                .show();
+                        setup_meeting.setEnabled(true);
                     }
                 }else {
                     setup_meeting.setEnabled(true);
@@ -1809,58 +1791,8 @@ public class SetupTrainingActivity extends AppCompatActivity {
 
     private void selfInvitaion() {
 
-        SelfMeetingSetupCheckBox.setOnCheckedChangeListener((compoundButton, b) -> {
-            if (SelfMeetingSetupCheckBox.isChecked()){
-                linearDepartment.setVisibility(GONE);
-            }else {
-                linearDepartment.setVisibility(View.VISIBLE);
-            }
-        });
 
-        //department
-        apiViewModel.getsubhierarchys(getApplicationContext(),empData.getLocation());
-        apiViewModel.getsubhierarchys_response().observe(this, response -> {
-            if (response != null) {
-                Integer statuscode = response.getResult();
-                Integer successcode = 200, failurecode = 401, not_verified = 404;
-                if (statuscode.equals(failurecode)) {
-                } else if (statuscode.equals(not_verified)) {
-                } else if (statuscode.equals(successcode)) {
-                    departments = new ArrayList<>();
-
-
-                    if (response.getItems().size()>0){
-                        if (empData.getMeeting_assist().size()>0){
-                            for (int i = 0; i < response.getItems().size(); i++) {
-                                for (int j = 0; j < empData.getMeeting_assist().size(); j++) {
-                                    if (response.getItems().get(i).get_id().get$oid().equalsIgnoreCase(empData.getMeeting_assist().get(j))){
-                                        departments.add(response.getItems().get(i));
-                                    }
-                                }
-                            }
-                        }else {
-                            departments = response.getItems();
-                        }
-                    }
-
-                    departmentAdapter = new DepartmentAdapter(SetupTrainingActivity.this, R.layout.row, R.id.lbl_name, departments,0,"");
-//                    department_spinner.setInputType(InputType.TYPE_NULL);
-                    department_spinner.setThreshold(0);
-                    department_spinner.setAdapter(departmentAdapter);
-                    department_spinner.clearFocus();
-
-                    department_spinner.setText("");
-                    AssignID = "";
-                }
-            }else {
-                Conversions.errroScreen(SetupTrainingActivity.this, "getsubhierarchys");
-            }
-        });
-
-        department_spinner.setOnClickListener(v -> department_spinner.showDropDown());
-        department_spinner.setOnItemClickListener((parent, view, position, id) -> getsearchemployees(empData.getLocation(), departments.get(position).get_id().get$oid()));
-
-        //host
+        //employees host
         apiViewModel.getsearchemployees_response().observe(this, response -> {
             if (response != null) {
                 Integer statuscode = response.getResult();
@@ -1872,7 +1804,7 @@ public class SetupTrainingActivity extends AppCompatActivity {
                     employees = response.getItems();
 
                     if(employees.isEmpty()){
-                        department_spinner.setText("");
+
                     }
                     else{
                         employeeAdapter = new CustomAdapter(SetupTrainingActivity.this, R.layout.row, R.id.lbl_name, employees,0,"");
@@ -1913,8 +1845,8 @@ public class SetupTrainingActivity extends AppCompatActivity {
 
     }
 
-    private void getsearchemployees(String l_id, String h_id) {
-        apiViewModel.getsearchemployees(getApplicationContext(),l_id,h_id);
+    private void getsearchemployees(String locationId) {
+        apiViewModel.getsearchemployees(getApplicationContext(),locationId,"");
     }
 
     private void allotparkingRemove() {
@@ -1937,13 +1869,7 @@ public class SetupTrainingActivity extends AppCompatActivity {
     private void currentDateSelection() {
 
         Log.e(TAG, "onCreate:ss" + "helo");
-
-        if (roledetails.getBehalfof().equalsIgnoreCase("true")) {
-            linearSelfAssist.setVisibility(View.VISIBLE);
-            if (actionBar != null) {
-                actionBar.setTitle("Self Meeting Coordinator");
-            }
-        }
+        Log.e(TAG, "roledetails:ss" + roledetails.getBehalfof()+"");
 
         date.setClickable(true);
         date.setFocusable(false);
@@ -2605,19 +2531,21 @@ public class SetupTrainingActivity extends AppCompatActivity {
                     } else if (statuscode.equals(successcode)) {
 
                         if (response != null) {
-                            ArrayList<CompanyData> trainingTitles = new ArrayList<>();
-                            trainingTitles = response.getItems();
-                            if (trainingTitles != null && trainingTitles.size() > 0) {
-                                String[] trainT = new String[trainingTitles.size()];
-                                for (int i = 0; i < trainingTitles.size(); i++) {
-                                    if (trainingTitles.get(i).getActive().equals(true)) {
-                                        trainT[i] = trainingTitles.get(i).getName();
+                            ArrayList<CompanyData> trainingTitles = response.getItems();
+                            if (trainingTitles != null && !trainingTitles.isEmpty()) {
+
+                                List<String> trainT = new ArrayList<>();
+                                for (CompanyData item : trainingTitles) {
+                                    if (Boolean.TRUE.equals(item.getActive())) {
+                                        String name = item.getName();
+                                        trainT.add(name != null ? name : "Unnamed");
                                     }
-                                    ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(SetupTrainingActivity.this, android.R.layout.simple_spinner_item, trainT);
-                                    spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // The drop down view
-                                    subjectSpinner.setAdapter(spinnerArrayAdapter);
-                                    subjectSpinner.setSelection(0);
                                 }
+
+                                ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>(SetupTrainingActivity.this, android.R.layout.simple_spinner_item, trainT);
+                                spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                subjectSpinner.setAdapter(spinnerArrayAdapter);
+                                subjectSpinner.setSelection(0);
 
                                 ArrayList<CompanyData> finalCategoryList = trainingTitles;
                                 subjectSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -2628,14 +2556,16 @@ public class SetupTrainingActivity extends AppCompatActivity {
                                         Log.e(TAG, "onItemSelected:ss " + finalCategoryList.get(position).getName());
                                         subject = finalCategoryList.get(position).getName();
                                     }
+
                                     @Override
-                                    public void onNothingSelected(AdapterView<?> parent) {
-                                    }
+                                    public void onNothingSelected(AdapterView<?> parent) {}
                                 });
 
+                            } else {
+                                Conversions.errroScreen(SetupTrainingActivity.this, "getcategories");
                             }
-                        }else {
-                            Conversions.errroScreen(SetupTrainingActivity.this, "getcategories");
+                        } else {
+                            Conversions.errroScreen(SetupTrainingActivity.this, "getTrainingTitles");
                         }
 
                     }
@@ -2900,18 +2830,15 @@ public class SetupTrainingActivity extends AppCompatActivity {
             jsonObj_.put("date", s_date);
             jsonObj_.put("desc", meeting_description.getText().toString());
 
-            if (roledetails.getBehalfof().equalsIgnoreCase("true")){
-                if (SelfMeetingSetupCheckBox.isChecked()){
-                    jsonObj_.put("emp_id", empData.getEmp_id());
-                    jsonObj_.put("coordinator", empData.getEmp_id());
-                }else {
-                    jsonObj_.put("emp_id", AssignID);
-                    jsonObj_.put("coordinator", empData.getEmp_id());
-                }
-            }else {
-                jsonObj_.put("emp_id", empData.getEmp_id());
-                jsonObj_.put("coordinator", empData.getEmp_id());
-            }
+//            if (roledetails.getBehalfof().equalsIgnoreCase("true")){
+//                jsonObj_.put("emp_id", AssignID);
+//                jsonObj_.put("coordinator", empData.getEmp_id());
+//            }else {
+//                jsonObj_.put("emp_id", empData.getEmp_id());
+//                jsonObj_.put("coordinator", empData.getEmp_id());
+//            }
+            jsonObj_.put("emp_id", AssignID);
+            jsonObj_.put("coordinator", empData.getEmp_id());
 
             jsonObj_.put("entrypoint", e_gate);
             jsonObj_.put("formtype", "insert");
@@ -3133,18 +3060,17 @@ public class SetupTrainingActivity extends AppCompatActivity {
             if (!pdfsArrayList.isEmpty()) {
                 jsonObj_.put("pdfStatus", true);
             }
-            if (roledetails.getBehalfof().equalsIgnoreCase("true")){
-                if (SelfMeetingSetupCheckBox.isChecked()){
-                    jsonObj_.put("emp_id", empData.getEmp_id());
-                    jsonObj_.put("coordinator", empData.getEmp_id());
-                }else {
-                    jsonObj_.put("emp_id", AssignID);
-                    jsonObj_.put("coordinator", empData.getEmp_id());
-                }
-            }else {
-                jsonObj_.put("emp_id", empData.getEmp_id());
-                jsonObj_.put("coordinator", empData.getEmp_id());
-            }
+
+//            if (roledetails.getBehalfof().equalsIgnoreCase("true")){
+//                jsonObj_.put("emp_id", AssignID);
+//                jsonObj_.put("coordinator", empData.getEmp_id());
+//            }else {
+//                jsonObj_.put("emp_id", empData.getEmp_id());
+//                jsonObj_.put("coordinator", empData.getEmp_id());
+//            }
+            jsonObj_.put("emp_id", AssignID);
+            jsonObj_.put("coordinator", empData.getEmp_id());
+
             if (recurrence_status.equalsIgnoreCase("true")) {
                 jsonObj_.put("recurrence", true);
                 jsonObj_.put("dates", days_s);

@@ -16,6 +16,7 @@
     <string name="assignedto">Assigned to</string>
     <string name="assign">Assign</string>
     <string name="employee">Employee</string>
+    <string name="selectEmployee">Select Employee</string>
     <string name="location">Location</string>
     <string name="fort">For:</string>
     <string name="is_here_to_see_you_for">is here to see you</string>
@@ -270,6 +271,11 @@
     <string name="update_info">Please update your app for enhanced experience</string>
     <string name="update_now">Update Now</string>
     <string name="added">Added</string>
+
+<!--    trainer-->
+    <string name="newTraining">New Training</string>
+    <string name="selectTrainer">Select Trainer*</string>
+    <string name="selectTrainerTitle">Select Trainer Title</string>
 
     <!--    logout-->
     <string name="logout_note">Are you sure you want to logout?</string>

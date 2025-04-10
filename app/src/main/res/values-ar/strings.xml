@@ -18,6 +18,7 @@
     <string name="assignedto">مخصص ل</string>
     <string name="assign">تعيين</string>
     <string name="employee">الموظف</string>
+    <string name="selectEmployee">حدد الموظف</string>
     <string name="location">موقع</string>
     <string name="fort">:غاية</string>
     <string name="is_here_to_see_you_for">هنا لرؤيتك</string>
@@ -267,6 +268,12 @@
     <string name="update_info">يرجى تحديث التطبيق الخاص بك للحصول على تجربة أفضل</string>
     <string name="update_now">تحديث الان</string>
     <string name="added">تمت الإضافة</string>
+
+    <!--    trainer-->
+    <string name="newTraining">تدريب جديد</string>
+    <string name="selectTrainer">حدد المدرب</string>
+    <string name="selectTrainerTitle">حدد عنوان المدرب</string>
+
 
     <!--    logout-->
     <string name="logout_note">هل أنت متأكد من تسجيل الخروج؟</string>

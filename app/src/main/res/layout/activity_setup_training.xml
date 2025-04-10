@@ -56,95 +56,42 @@
                     android:background="#ffffff"
                     android:orientation="vertical">
 
-                    <LinearLayout
-                        android:visibility="gone"
-                        android:id="@+id/linearSelfAssist"
+
+                    <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                        android:id="@+id/emp_spinner"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="35dp"
                         android:layout_marginTop="3dp"
-                        android:layout_marginEnd="35dp"
-                        android:orientation="vertical">
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="20dp"
+                        android:drawableEnd="@drawable/ccp_down_arrow"
+                        android:dropDownHeight="150dp"
+                        android:hint="@string/selectTrainer"
+                        android:inputType="none"
+                        android:textColor="@color/colorPrimary"
+                        android:padding="12dp"
+                        android:singleLine="true"
+                        android:textSize="15sp" />
 
-                        <CheckBox
-                            android:id="@+id/SelfMeetingSetupCheckBox"
-                            style="@style/regular_font"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="3dp"
-                            android:checked="false"
-                            android:focusableInTouchMode="false"
-                            android:text="@string/Selfmeetingsetup"
-                            android:textColor="@color/colorPrimary" />
 
-                        <LinearLayout
-                            android:id="@+id/linearDepartment"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
-
-                            <TextView
-                                style="@style/medium_font"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="8dp"
-                                android:layout_marginBottom="3dp"
-                                android:text="@string/department"
-                                android:textColor="@color/colorPrimary"
-                                android:textSize="13dp" />
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal">
-
-                                <AutoCompleteTextView
-                                    android:id="@+id/department_spinner"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center"
-                                    android:layout_weight="1"
-                                    android:cursorVisible="false"
-                                    android:drawableRight="@drawable/ic_arrow_drop_down_black_24dp"
-                                    android:drawablePadding="5dp"
-                                    android:hint="@string/department"
-                                    android:maxHeight="100dp"
-                                    android:padding="10dp"
-                                    android:singleLine="true"
-                                    android:textSize="12dp"
-                                    android:inputType="none"/>
-
-                                <AutoCompleteTextView
-                                    android:id="@+id/emp_spinner"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center"
-                                    android:layout_weight="1"
-                                    android:cursorVisible="false"
-                                    android:drawableRight="@drawable/ic_arrow_drop_down_black_24dp"
-                                    android:drawablePadding="5dp"
-                                    android:hint="@string/host_r"
-                                    android:inputType="none"
-                                    android:maxHeight="100dp"
-                                    android:padding="10dp"
-                                    android:singleLine="true"
-                                    android:textSize="12dp" />
-                            </LinearLayout>
-                        </LinearLayout>
-
-                    </LinearLayout>
-
-                    <Spinner
+                    <androidx.appcompat.widget.AppCompatSpinner
                         android:id="@+id/subjectSpinner"
                         android:layout_width="match_parent"
                         android:layout_height="45dp"
-                        android:layout_marginStart="10dp"
                         android:layout_marginTop="3dp"
+                        android:layout_marginStart="10dp"
                         android:layout_marginEnd="10dp"
                         android:padding="12dp"
                         android:singleLine="true"
                         android:textColor="@color/colorPrimary"
                         android:textSize="14sp"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginStart="25dp"
+                        android:layout_marginEnd="25dp"
+                        android:background="@color/hash"/>
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/list_view"
@@ -164,7 +111,7 @@
                         android:orientation="horizontal"
                         android:paddingStart="12dp">
 
-                        <TextView
+                        <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="25dp"
                             android:layout_height="25dp"
                             android:background="@drawable/ic_notebook" />
@@ -212,7 +159,7 @@
                         android:orientation="horizontal"
                         android:paddingStart="12dp">
 
-                        <TextView
+                        <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="25dp"
                             android:layout_height="25dp"
                             android:background="@drawable/ic_invitee" />
@@ -245,7 +192,7 @@
                             android:background="@drawable/ic_add"
                             android:visibility="gone" />
 
-                        <TextView
+                        <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/img_phone_list"
                             android:layout_width="23dp"
                             android:layout_height="22dp"
@@ -265,7 +212,7 @@
                                 android:layout_height="wrap_content"
                                 android:background="@drawable/ic_visible_opened_eye_interface_option" />
 
-                            <TextView
+                            <androidx.appcompat.widget.AppCompatTextView
                                 android:id="@+id/txt_list_count"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -289,12 +236,12 @@
                         android:orientation="horizontal"
                         android:paddingStart="12dp">
 
-                        <TextView
+                        <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="25dp"
                             android:layout_height="25dp"
                             android:background="@drawable/ic_wall_clock" />
 
-                        <TextView
+                        <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/date"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -306,7 +253,7 @@
                             android:textColor="@color/colorPrimary"
                             android:textSize="15sp" />
 
-                        <TextView
+                        <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/meeting_st"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -345,7 +292,7 @@
                             android:layout_weight="1"
                             android:orientation="vertical">
 
-                            <TextView
+                            <androidx.appcompat.widget.AppCompatTextView
                                 android:id="@+id/txtOccurs"
                                 style="@style/medium_font"
                                 android:layout_width="wrap_content"
@@ -354,7 +301,7 @@
                                 android:textColor="@color/colorPrimary"
                                 android:textSize="12sp" />
 
-                            <TextView
+                            <androidx.appcompat.widget.AppCompatTextView
                                 android:id="@+id/txtOccurence"
                                 style="@style/medium_font"
                                 android:layout_width="wrap_content"
@@ -390,7 +337,7 @@
                         android:gravity="center_vertical"
                         android:orientation="horizontal">
 
-                        <TextView
+                        <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/meeting_duration"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -403,7 +350,7 @@
                             android:textSize="15sp"
                             app:drawableStartCompat="@drawable/ic_stop_watch" />
 
-                        <CheckBox
+                        <androidx.appcompat.widget.AppCompatCheckBox
                             android:id="@+id/pSlotCheckBox"
                             style="@style/regular_font"
                             android:layout_width="match_parent"
@@ -431,7 +378,7 @@
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
 
-                            <RadioButton
+                            <androidx.appcompat.widget.AppCompatRadioButton
                                 android:id="@+id/radioButton1"
                                 style="@style/regular_font"
                                 android:layout_width="wrap_content"
@@ -443,7 +390,7 @@
                                 android:textColor="@color/colorPrimary"
                                 android:textSize="15sp" />
 
-                            <RadioButton
+                            <androidx.appcompat.widget.AppCompatRadioButton
                                 android:id="@+id/radioButton2"
                                 style="@style/regular_font"
                                 android:layout_width="wrap_content"
@@ -455,7 +402,7 @@
                                 android:textColor="@color/colorPrimary"
                                 android:textSize="15sp" />
 
-                            <RadioButton
+                            <androidx.appcompat.widget.AppCompatRadioButton
                                 android:id="@+id/radioButton3"
                                 style="@style/regular_font"
                                 android:layout_width="wrap_content"
@@ -483,7 +430,7 @@
                         android:paddingStart="12dp"
                         android:visibility="gone">
 
-                        <TextView
+                        <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/m_typeDrawable"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -525,7 +472,7 @@
                             android:layout_height="25dp"
                             android:background="@drawable/category_icc" />
 
-                        <Spinner
+                        <androidx.appcompat.widget.AppCompatSpinner
                             android:id="@+id/category_spinner"
                             android:layout_width="0dp"
                             android:layout_height="45dp"
@@ -557,7 +504,7 @@
                         android:orientation="horizontal"
                         android:paddingStart="12dp">
 
-                        <TextView
+                        <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="25dp"
                             android:layout_height="25dp"
                             android:background="@drawable/ic_meeting_room" />
@@ -577,7 +524,7 @@
                             android:textColor="@color/colorPrimary"
                             android:textSize="15sp" />
 
-                        <TextView
+                        <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/m_room_info"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -604,7 +551,7 @@
                             android:orientation="horizontal"
                             android:paddingStart="12dp">
 
-                            <TextView
+                            <androidx.appcompat.widget.AppCompatTextView
                                 android:layout_width="25dp"
                                 android:layout_height="25dp"
                                 android:background="@drawable/ic_pin" />
@@ -631,7 +578,7 @@
                             android:orientation="horizontal"
                             android:paddingStart="12dp">
 
-                            <TextView
+                            <androidx.appcompat.widget.AppCompatTextView
                                 android:layout_width="25dp"
                                 android:layout_height="25dp"
                                 android:background="@drawable/ic_log_in" />
@@ -663,14 +610,14 @@
                         android:orientation="horizontal"
                         android:paddingStart="12dp">
 
-                        <TextView
+                        <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="25dp"
                             android:layout_height="25dp"
                             android:background="@drawable/ic_menu" />
 
                         <com.google.android.material.textfield.TextInputLayout
                             style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
-                            android:layout_width="match_parent"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="5dp"
                             android:layout_weight="0.3"
@@ -704,10 +651,10 @@
                             android:paddingStart="12dp"
                             android:src="@drawable/ic_pdfupload1" />
 
-                        <TextView
+                        <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/pdfName"
                             style="@style/medium_font"
-                            android:layout_width="match_parent"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="0.1"
                             android:maxLines="2"
@@ -757,7 +704,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:drawableRight="@drawable/ic_arrow_drop_down_black_24dp"
+                            android:drawableEnd="@drawable/ic_arrow_drop_down_black_24dp"
                             android:drawablePadding="5dp"
                             android:inputType="text"
                             android:padding="12dp"
