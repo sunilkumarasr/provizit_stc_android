@@ -380,6 +380,9 @@ public class SetupTrainingActivity extends AppCompatActivity {
             info_categories();
         });
 
+        getsearchemployees(empData.getLocation());
+        selfInvitaion();
+
         //reccurence
         img_reccurence = findViewById(R.id.img_reccurence);
         linear_recorring = findViewById(R.id.linear_recorring);
@@ -618,8 +621,6 @@ public class SetupTrainingActivity extends AppCompatActivity {
                 }
             }
         });
-
-        getsearchemployees(empData.getLocation());
 
         m_room_info.setOnClickListener(v -> {
             AnimationSet animationp = Conversions.animation();
@@ -1778,7 +1779,6 @@ public class SetupTrainingActivity extends AppCompatActivity {
         });
 
         //selfinvitation
-        selfInvitaion();
 
     }
 
