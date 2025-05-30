@@ -1,94 +1,45 @@
 package com.provizit.Activities;
 
-import static android.view.View.GONE;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
-import android.Manifest;
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
-import android.content.ContentResolver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.content.res.Resources;
-import android.database.Cursor;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
-import android.net.ConnectivityManager;
-import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
-import android.view.animation.AnimationUtils;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.bumptech.glide.Glide;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.provizit.AdapterAndModel.ContactsList;
 import com.provizit.Config.ViewController;
 import com.provizit.Conversions;
-import com.provizit.FragmentDailouge.ReccurenceFragment;
-import com.provizit.FragmentDailouge.ReccuringNewFragment;
 import com.provizit.FragmentDailouge.UpdatePopUpFragment;
 import com.provizit.Fragments.MeetingRoomFragment;
 import com.provizit.Fragments.UpcomingMeetingsNewFragment;
-import com.provizit.Config.ConnectionReceiver;
-import com.provizit.Logins.ForgotActivity;
 import com.provizit.Logins.InitialActivity;
 import com.provizit.MVVM.ApiViewModel;
 import com.provizit.Config.Preferences;
-import com.provizit.MVVM.RequestModels.QrIndexModelRequest;
 import com.provizit.R;
 import com.provizit.Services.DataManger;
-import com.provizit.Services.Model1;
 import com.provizit.Services.Notifications.NotificationsComon;
-import com.provizit.Services.Notifications.Notifications_model;
 import com.provizit.UserInterationListener;
 import com.provizit.Utilities.CommonObject;
 import com.provizit.Utilities.CompanyData;
 import com.provizit.Utilities.DatabaseHelper;
 import com.provizit.Utilities.EmpData;
 import com.provizit.Utilities.Inviteeitem;
-import com.provizit.Utilities.Inviteemodelclass;
 import com.provizit.Utilities.RoleDetails;
 import com.provizit.databinding.ActivityNavigationBinding;
-import com.provizit.databinding.ActivitySplashBinding;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Objects;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 public class NavigationActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -117,7 +68,6 @@ public class NavigationActivity extends AppCompatActivity implements View.OnClic
     ArrayList<NotificationsComon> notificationslist;
     ArrayList<NotificationsComon> notificationslist_final;
     ApiViewModel apiViewModel;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -257,7 +207,6 @@ public class NavigationActivity extends AppCompatActivity implements View.OnClic
             }
         });
 
-
     }
 
     @Override
@@ -337,7 +286,6 @@ public class NavigationActivity extends AppCompatActivity implements View.OnClic
             userInteractionListener.onUserInteraction();
     }
 
-
     private void update_popup() {
         FragmentManager fm = getSupportFragmentManager();
         UpdatePopUpFragment sFragment = new UpdatePopUpFragment();
@@ -347,7 +295,6 @@ public class NavigationActivity extends AppCompatActivity implements View.OnClic
         sFragment.show(fm, "Dialog Fragment");
         sFragment.setCancelable(false);
     }
-
 
     @Override
     protected void onResume() {
@@ -405,6 +352,7 @@ public class NavigationActivity extends AppCompatActivity implements View.OnClic
             dialog.dismiss();
         });
         dialog.show();
+
     }
 
 

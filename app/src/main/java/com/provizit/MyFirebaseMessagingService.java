@@ -76,9 +76,6 @@ public class MyFirebaseMessagingService  extends FirebaseMessagingService {
 //                .build();
 //        notificationManager.notify(1, notification);
 
-
-
-
         PendingIntent pendingIntent;
         if(!Objects.equals(data.get("mid"), "")){
 //            Intent intent = new Intent(getApplicationContext(), MeetingDescriptionActivity.class);

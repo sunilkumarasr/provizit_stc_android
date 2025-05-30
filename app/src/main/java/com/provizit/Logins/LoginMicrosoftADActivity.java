@@ -139,7 +139,7 @@ public class LoginMicrosoftADActivity extends AppCompatActivity implements View.
 
                     }
                     else if (items.isAzure()) {
-                         ViewController.DismissProgressBar();
+                        ViewController.DismissProgressBar();
                         LoginType = "Azure";
                         microsoft_ad( items.getClientid(), items.getTenantid(), items.getClientsecret());
                     }else if (items.isTwofa()) {
@@ -335,7 +335,8 @@ public class LoginMicrosoftADActivity extends AppCompatActivity implements View.
 
         Company_ID = company_id;
         AUTHORITY = "https://login.microsoftonline.com/" + tenantid;
-        REDIRECT_URI = "msauth://com.provizit.ksa/RNy5oraIA7QxAEY9MB%2FZ5j%2FwWgo%3D";
+//        REDIRECT_URI = "msauth://com.provizit.ksa/RNy5oraIA7QxAEY9MB%2FZ5j%2FwWgo%3D";
+        REDIRECT_URI = "msauth://com.provizit.ksa/XOxiXP5sHpCTpS6%2B7FUGil5ZOLg%3D";
         CLIENT_ID = clientid;
 
         Log.e("AUTHORITY_",AUTHORITY);
@@ -373,7 +374,7 @@ public class LoginMicrosoftADActivity extends AppCompatActivity implements View.
                                     JSONObject jsonObj_ = new JSONObject();
                                     try {
                                         jsonObj_.put("id", company_id);
-                                        jsonObj_.put("val", "provizit@burgerizzr.com");
+                                        jsonObj_.put("val", binding.editEmail.getText().toString());
                                         String encryptPWD = DataManger.Pwd_encrypt(getApplicationContext(), id, username.trim());
                                         jsonObj_.put("adval", encryptPWD);
                                         JsonParser jsonParser = new JsonParser();

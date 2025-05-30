@@ -1,6 +1,6 @@
 {
   "client_id" : "3e4a6142-7057-4e08-a278-114688ab51ef",
-  "redirect_uri" : "msauth://com.provizit.ksa/UxP3IRhPTbETz7%2FC8mdQfs5RtS4%3D",
+  "redirect_uri" : "msauth://com.provizit.ksa/XOxiXP5sHpCTpS6%2B7FUGil5ZOLg%3D",
   "broker_redirect_uri_registered": true,
   "account_mode": "SINGLE",
   "authorities" : [

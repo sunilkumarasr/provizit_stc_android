@@ -2861,7 +2861,6 @@ public class SetupMeetingActivity extends AppCompatActivity {
             jsonObj_.put("pdfs", pdfs);
             jsonObj_.put("category", category_item);
 
-
             if (recurrence_status.equalsIgnoreCase("true")) {
                 jsonObj_.put("recurrence", true);
                 jsonObj_.put("dates", days_s);

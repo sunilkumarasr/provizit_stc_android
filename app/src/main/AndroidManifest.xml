@@ -187,22 +187,34 @@
                     android:scheme="https" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="com.microsoft.identity.client.BrowserTabActivity"
+<!--        <activity-->
+<!--            android:name="com.microsoft.identity.client.BrowserTabActivity"-->
+<!--            android:exported="true">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.VIEW" />-->
+
+<!--                <category android:name="android.intent.category.DEFAULT" />-->
+<!--                <category android:name="android.intent.category.BROWSABLE" />-->
+
+<!--                <data-->
+<!--                    android:host="com.provizit.ksa"-->
+<!--                    android:path="/RNy5oraIA7QxAEY9MB/Z5j/wWgo="-->
+<!--                    android:scheme="msauth" />-->
+<!--            </intent-filter>-->
+<!--        </activity>-->
+
+        <activity android:name="com.microsoft.identity.client.BrowserTabActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
-
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-
                 <data
                     android:host="com.provizit.ksa"
-                    android:path="/RNy5oraIA7QxAEY9MB/Z5j/wWgo="
+                    android:path="/XOxiXP5sHpCTpS6+7FUGil5ZOLg="
                     android:scheme="msauth" />
             </intent-filter>
         </activity>
-
         <service
             android:name=".MyFirebaseMessagingService"
             android:exported="false">
