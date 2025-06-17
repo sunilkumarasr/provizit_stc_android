@@ -353,7 +353,6 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:orientation="vertical">
-
                             <TextView
                                 android:id="@+id/txtOccurs"
                                 style="@style/medium_font"
@@ -362,7 +361,6 @@
                                 android:singleLine="true"
                                 android:textColor="@color/colorPrimary"
                                 android:textSize="12sp" />
-
                             <TextView
                                 android:id="@+id/txtOccurence"
                                 style="@style/medium_font"
@@ -379,7 +377,6 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="3"
                             android:orientation="vertical">
-
                             <androidx.appcompat.widget.AppCompatImageView
                                 android:id="@+id/imgDelete"
                                 android:layout_width="30dp"
@@ -389,39 +386,22 @@
                         </LinearLayout>
                     </LinearLayout>
 
-                    <LinearLayout
+                    <TextView
+                        android:id="@+id/meeting_duration"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:drawablePadding="12dp"
                         android:layout_marginStart="10dp"
                         android:layout_marginTop="3dp"
                         android:layout_marginEnd="10dp"
                         android:layout_marginBottom="3dp"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/meeting_duration"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_weight="1"
-                            android:drawablePadding="12dp"
-                            android:padding="12dp"
-                            android:singleLine="true"
-                            android:textColor="@color/colorPrimary"
-                            android:textSize="15sp"
-                            app:drawableStartCompat="@drawable/ic_stop_watch" />
-
-                        <CheckBox
-                            android:id="@+id/pSlotCheckBox"
-                            style="@style/regular_font"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="@string/AllotParking"
-                            android:textColor="@color/colorPrimary" />
-
-                    </LinearLayout>
+                        android:padding="12dp"
+                        android:singleLine="true"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="15sp"
+                        app:drawableStartCompat="@drawable/ic_stop_watch" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -699,54 +679,70 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/pdfUpload"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
                         android:layout_marginEnd="10dp"
                         android:layout_marginBottom="3dp"
-                        android:orientation="horizontal">
-
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:paddingStart="12dp"
-                            android:src="@drawable/ic_pdfupload1" />
-
-                        <TextView
-                            android:id="@+id/pdfName"
-                            style="@style/medium_font"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_gravity="center_vertical">
+                        <LinearLayout
+                            android:id="@+id/pdfUpload"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="0.1"
-                            android:maxLines="2"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginStart="10dp"
-                            android:text="@string/UploadPDF"
-                            android:textColor="@color/colorPrimary"
-                            android:textSize="@dimen/text_size" />
+                            android:layout_weight="1"
+                            android:orientation="horizontal">
 
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:visibility="gone"
-                            android:id="@+id/pdfClear"
-                            android:layout_width="25dp"
-                            android:layout_height="25dp"
-                            android:src="@drawable/cancel_ic"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginStart="5dp"
-                            android:layout_marginEnd="5dp"/>
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:paddingStart="12dp"
+                                android:src="@drawable/ic_pdfupload1" />
 
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:visibility="gone"
-                            android:id="@+id/pdfViewList"
-                            android:layout_width="25dp"
-                            android:layout_height="25dp"
-                            android:src="@drawable/view_eye"
-                            android:layout_gravity="center_vertical"
-                            app:tint="@color/gray"
-                            android:layout_marginStart="5dp"
-                            android:layout_marginEnd="5dp"/>
+                            <TextView
+                                android:id="@+id/pdfName"
+                                style="@style/medium_font"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.1"
+                                android:maxLines="2"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginStart="10dp"
+                                android:text="@string/UploadPDF"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="@dimen/text_size" />
 
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:visibility="gone"
+                                android:id="@+id/pdfClear"
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:src="@drawable/cancel_ic"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginStart="5dp"
+                                android:layout_marginEnd="5dp"/>
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:visibility="gone"
+                                android:id="@+id/pdfViewList"
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:src="@drawable/view_eye"
+                                android:layout_gravity="center_vertical"
+                                app:tint="@color/gray"
+                                android:layout_marginStart="5dp"
+                                android:layout_marginEnd="5dp"/>
+
+                        </LinearLayout>
+                        <CheckBox
+                            android:id="@+id/pSlotCheckBox"
+                            style="@style/regular_font"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/AllotParking"
+                            android:textColor="@color/colorPrimary" />
                     </LinearLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
