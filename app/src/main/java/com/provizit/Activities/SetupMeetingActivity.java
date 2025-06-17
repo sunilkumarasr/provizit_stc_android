@@ -2,7 +2,6 @@ package com.provizit.Activities;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
@@ -24,7 +23,6 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.BroadcastReceiver;
-import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -45,7 +43,6 @@ import android.os.RemoteException;
 import android.provider.ContactsContract;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
-import android.provider.OpenableColumns;
 import android.text.Editable;
 import android.text.Html;
 import android.text.InputType;
@@ -75,15 +72,12 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
-
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.gson.Gson;
 import com.provizit.AdapterAndModel.ContactsList;
 import com.provizit.AdapterAndModel.HostSlots.HostSlotsData;
 import com.provizit.AdapterAndModel.MultipleEmailAddressAdapter;
 import com.provizit.AdapterAndModel.MultiplePhoneNumberAdapter;
-import com.provizit.AdapterAndModel.PDFList.PDFListDetailPageAdapter;
 import com.provizit.AdapterAndModel.PDFList.PDFListSetUpMeetingAdapter;
 import com.provizit.Config.Customthree;
 import com.provizit.Config.Preferences;
@@ -1519,21 +1513,25 @@ public class SetupMeetingActivity extends AppCompatActivity {
 
                     meeting_details = response.getItems();
 
-
+                    //pdf list
+                    if (meeting_details.getPdfStatus() != null && meeting_details.getPdfStatus()) {
+                        //pdfsArrayList = meetings.getPdfs();
+                        List<Pdfs> apiData = meeting_details.getPdfs();
+                        pdfsArrayList.clear();
+                        pdfsArrayList.addAll(apiData);
+                        pdfName.setText(getString(R.string.PDF) + " (" + (pdfsArrayList.size()) +") ");
+                    }
 
                     if (meeting_details.getAgenda().size() != 0) {
-
                         for (int i = 0; i < meeting_details.getAgenda().size(); i++) {
                             // Add all items to agendaArrayList
                             agendaArrayList.add(meeting_details.getAgenda().get(i));
-
                             // Only add items with status "0.0" to addagendaList
                             if (meeting_details.getAgenda().get(i).getStatus().equals("0.0")) {
                                 addagendaList.add(meeting_details.getAgenda().get(i));
                                 recyclerView.setVisibility(View.VISIBLE); // Show RecyclerView if there are items to display
                             }
                         }
-
                         // Set up the RecyclerView adapter with addagendaList
                         agendaAdapter = new Adapter1(SetupMeetingActivity.this, addagendaList);
                         recyclerView.setAdapter(agendaAdapter);
@@ -3863,45 +3861,54 @@ public class SetupMeetingActivity extends AppCompatActivity {
         if (PDFPATH == null || PDFPATH.equals("")) {
             PDFPATH = FileUtilsClass.getFilePathFromURI(this, fileUri);
         }
+
         File src = new File(PDFPATH);
 
-        // Generate a unique file name
-        String uniqueFileName = System.currentTimeMillis() + "_" + src.getName();
-        File file = new File(this.getExternalCacheDir().getAbsolutePath(), uniqueFileName);
+        String originalFileName = src.getName();
 
-        try (ParcelFileDescriptor descriptor = getContentResolver().openFileDescriptor(fileUri, "r");
-             InputStream in = new FileInputStream(descriptor.getFileDescriptor());
-             OutputStream out = new FileOutputStream(file)) {
-            file.createNewFile();
-            byte[] buf = new byte[1024];
-            int len;
-            while ((len = in.read(buf)) > 0) {
-                out.write(buf, 0, len);
+        //String uniqueFileName = System.currentTimeMillis() + "_" + originalFileName;
+        String uniqueFileName = originalFileName;
+        File file = new File(getExternalCacheDir().getAbsolutePath(), uniqueFileName);
+
+        try {
+            ParcelFileDescriptor descriptor = getContentResolver().openFileDescriptor(fileUri, "r");
+            if (descriptor != null) {
+                InputStream in = new FileInputStream(descriptor.getFileDescriptor());
+                OutputStream out = new FileOutputStream(file);
+                file.createNewFile();
+                byte[] buf = new byte[1024];
+                int len;
+                while ((len = in.read(buf)) > 0) {
+                    out.write(buf, 0, len);
+                }
+                in.close();
+                out.close();
+                descriptor.close();
             }
         } catch (IOException e) {
             e.printStackTrace();
             return;
         }
 
-        // Add to Pdfs ArrayList
         Pdfs pdf = new Pdfs();
-        pdf.setName(file.getName());
+        pdf.setName(originalFileName);
         pdf.setStatus(true);
-        pdf.setValue(file.getName());
+        pdf.setValue(originalFileName);
         pdfsArrayList.add(pdf);
 
-        // Prepare upload request
-        RequestBody requestBody = RequestBody.create(MediaType.parse("application/pdf"), file);
-        MultipartBody.Part fileToUpload = MultipartBody.Part.createFormData("file", file.getName(), requestBody);
+        pdfName.setText(getString(R.string.UploadPDF) + " (" + pdfsArrayList.size() + ") ");
+        pdfViewList.setVisibility(View.VISIBLE);
 
-        RequestBody fname = RequestBody.create(MediaType.parse("text/plain"), file.getName());
+        RequestBody requestBody = RequestBody.create(MediaType.parse("application/pdf"), file);
+        MultipartBody.Part fileToUpload = MultipartBody.Part.createFormData("file", originalFileName, requestBody);
+
+        RequestBody fname = RequestBody.create(MediaType.parse("text/plain"), originalFileName);
         RequestBody c_id = RequestBody.create(MediaType.parse("text/plain"), sharedPreferences1.getString("company_id", null));
 
-        pdfName.setText(getString(R.string.UploadPDF) + " (" + (pdfsArrayList.size()) +") ");
-        pdfViewList.setVisibility(VISIBLE);
+        Log.e("fname__", fname.toString());
 
-        // Upload the file
         apiViewModel.pdfupload(this, fileToUpload, fname, c_id);
+
     }
 
     private void PdfshowBottomSheetDialog() {

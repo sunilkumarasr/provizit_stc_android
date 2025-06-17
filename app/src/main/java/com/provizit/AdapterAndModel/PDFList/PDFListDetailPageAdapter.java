@@ -93,8 +93,6 @@ public class PDFListDetailPageAdapter extends RecyclerView.Adapter<PDFListDetail
                             notifyItemRemoved(position);
                             notifyItemRangeChanged(position, pdfs.size());
 
-
-
                             // Notify if the list is empty
                             if (listEmptyListener != null) {
                                 listEmptyListener.onListEmpty();
@@ -105,7 +103,6 @@ public class PDFListDetailPageAdapter extends RecyclerView.Adapter<PDFListDetail
                         .show();
             }
         });
-
 
     }
 

@@ -185,7 +185,7 @@
 
     <!--    email edit-->
     <string name="update">Update</string>
-
+    <string name="updated">Updated</string>
 
     <!--    Notifications-->
     <string name="notifications">Notifications</string>

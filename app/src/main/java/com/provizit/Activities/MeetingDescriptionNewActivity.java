@@ -716,9 +716,9 @@ public class MeetingDescriptionNewActivity extends AppCompatActivity {
                     } else if (statuscode.equals(not_verified)) {
                     } else if (statuscode.equals(successcode)) {
                         int colorInt = ContextCompat.getColor(getApplicationContext(), R.color.Accept);
-                        ViewController.snackbar(MeetingDescriptionNewActivity.this,getApplicationContext().getString(R.string.added), colorInt);
-                        Intent intent = new Intent(MeetingDescriptionNewActivity.this, NavigationActivity.class);
-                        startActivity(intent);
+                        ViewController.snackbar(MeetingDescriptionNewActivity.this,getApplicationContext().getString(R.string.updated), colorInt);
+//                        Intent intent = new Intent(MeetingDescriptionNewActivity.this, NavigationActivity.class);
+//                        startActivity(intent);
                     }
                 }else {
                     Conversions.errroScreen(MeetingDescriptionNewActivity.this, "updatemeetings");
@@ -2523,7 +2523,7 @@ public class MeetingDescriptionNewActivity extends AppCompatActivity {
         try {
             pdfs = new JSONArray();
             for (int i = 0; i < pdfsArrayList.size(); i++) {
-                pdfsArrayList.get(i).setStatus(false);
+                pdfsArrayList.get(i).setStatus(true);
                 pdfs.put(pdfsArrayList.get(i).getPdfs());
             }
         } catch (Exception e) {
@@ -2533,7 +2533,13 @@ public class MeetingDescriptionNewActivity extends AppCompatActivity {
             jsonObj_.put("id", meetings.get_id().get$oid());
             jsonObj_.put("comp_id", sharedPreferences1.getString("company_id", null));
             jsonObj_.put("formtype", "pdfs");
-            jsonObj_.put("pdfStatus", false);
+            if (pdfsArrayList.size() > 0){
+                Log.e("pdfStatus_","tr");
+                jsonObj_.put("pdfStatus", true);
+            }else {
+                Log.e("pdfStatus_","fa");
+                jsonObj_.put("pdfStatus", false);
+            }
             jsonObj_.put("pdfs", pdfs);
             JsonParser jsonParser = new JsonParser();
             gsonObject = (JsonObject) jsonParser.parse(jsonObj_.toString());
@@ -2710,7 +2716,8 @@ public class MeetingDescriptionNewActivity extends AppCompatActivity {
         File src = new File(PDFPATH);
 
         // Generate a unique file name
-        String uniqueFileName = System.currentTimeMillis() + "_" + src.getName();
+        //String uniqueFileName = System.currentTimeMillis() + "_" + src.getName();
+        String uniqueFileName = src.getName();
         File file = new File(this.getExternalCacheDir().getAbsolutePath(), uniqueFileName);
 
         try (ParcelFileDescriptor descriptor = getContentResolver().openFileDescriptor(fileUri, "r");
@@ -2754,6 +2761,9 @@ public class MeetingDescriptionNewActivity extends AppCompatActivity {
 
             JSONArray pdfs = new JSONArray();
             if (pdfsArrayList != null && pdfsArrayList.size() != 0) {
+                //main
+                pdfLayout.setVisibility(VISIBLE);
+                pdfName.setText(getString(R.string.PDF) + " (" + (pdfsArrayList.size()) +") ");
                 try {
                     pdfs = new JSONArray();
                     for (int i = 0; i < pdfsArrayList.size(); i++) {
@@ -2814,11 +2824,9 @@ public class MeetingDescriptionNewActivity extends AppCompatActivity {
     }
 
     private void getmeetingdetails(String id) {
-
         apiViewModel.getmeetingdetails(MeetingDescriptionNewActivity.this, id);
         //card_view_progress.setVisibility(View.VISIBLE);
         ViewController.ShowProgressBar(MeetingDescriptionNewActivity.this);
-
     }
 
     @SuppressLint("RestrictedApi")
@@ -3176,12 +3184,19 @@ public class MeetingDescriptionNewActivity extends AppCompatActivity {
                 sharedPreferences1,
                 () -> {
                     if (pdfsArrayList.isEmpty()){
+                        HostPdfDelete();
                         // This code runs when the list becomes empty
                         txtEmpty.setVisibility(View.VISIBLE);
                         recyclerViewInvites.setVisibility(View.GONE);
+
+                        //main
+                        pdfLayout.setVisibility(GONE);
+                        pdfName.setText(getString(R.string.PDF) + " (" + (pdfsArrayList.size()) +") ");
+
                     }else {
-                        //HostPdfDelete();
-                        Toast.makeText(getApplicationContext(), "successfully deleted..", Toast.LENGTH_SHORT).show();
+                        //main
+                        pdfName.setText(getString(R.string.PDF) + " (" + (pdfsArrayList.size()) +") ");
+                        HostPdfDelete();
                     }
 
                 });

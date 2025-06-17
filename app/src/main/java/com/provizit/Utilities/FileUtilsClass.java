@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.provider.OpenableColumns;
 import android.text.TextUtils;
 
 import java.io.File;
@@ -234,27 +235,43 @@ public class FileUtilsClass {
     }
 
     public static String getFilePathFromURI(Context context, Uri contentUri) {
-        String fileName = getFileName(contentUri);
+        String fileName = getFileName(context, contentUri); // Implement this to extract the name from the Uri
         if (!TextUtils.isEmpty(fileName)) {
-            System.out.println("fileName"+ fileName);
-            String name = Calendar.getInstance().getTimeInMillis()/1000 + "";
-            File copyFile = new File(context.getExternalCacheDir().getAbsolutePath()+ name+".pdf");
+            System.out.println("fileName: " + fileName);
+            //String name = (Calendar.getInstance().getTimeInMillis() / 1000) + "_" + fileName;
+            String name = fileName;
+            File copyFile = new File(context.getExternalCacheDir(), name);
             copy(context, contentUri, copyFile);
             return copyFile.getAbsolutePath();
         }
         return null;
     }
 
-    public static String getFileName(Uri uri) {
-        if (uri == null) return null;
-        String fileName = null;
-        String path = uri.getPath();
-        int cut = path.lastIndexOf('/');
-        if (cut != -1) {
-            fileName = path.substring(cut + 1);
+    public static String getFileName(Context context,Uri uri) {
+        String result = null;
+
+        if (uri.getScheme().equals("content")) {
+            Cursor cursor = context.getContentResolver().query(uri, null, null, null, null);
+            try {
+                if (cursor != null && cursor.moveToFirst()) {
+                    result = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+                }
+            } finally {
+                if (cursor != null) cursor.close();
+            }
         }
-        return fileName;
+
+        if (result == null) {
+            String path = uri.getPath();
+            int cut = path.lastIndexOf('/');
+            if (cut != -1) {
+                result = path.substring(cut + 1);
+            }
+        }
+
+        return result;
     }
+
 
 
     public static void copy(Context context, Uri srcUri, File dstFile) {

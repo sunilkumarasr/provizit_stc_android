@@ -906,10 +906,8 @@ public class MeetingDescriptionActivity extends AppCompatActivity {
 
 
     private void updatemeetings(JsonObject jsonObject) {
-
         apiViewModel.updatemeetings(getApplicationContext(),jsonObject);
         card_view_progress.setVisibility(View.VISIBLE);
-
     }
 
     private void iResend(JsonObject jsonObject) {

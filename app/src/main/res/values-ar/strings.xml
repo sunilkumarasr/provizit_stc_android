@@ -186,6 +186,7 @@
 
     <!--    email edit-->
     <string name="update">اپ ڈیٹ</string>
+    <string name="updated">تم التحديث</string>
 
     <!--    Notifications-->
     <string name="notifications">الاشعارات والتبيهات</string>
