@@ -144,7 +144,7 @@ public class ReccuringNewFragment extends BottomSheetDialogFragment implements V
         bt_time = view.findViewById(R.id.bt_time);
         bt_duration = view.findViewById(R.id.bt_duration);
 
-        recyclerView = view.findViewById(R.id.recycler_view);
+        recyclerView = view.findViewById(R.id.recyclerView);
         relative_daily = view.findViewById(R.id.relative_daily);
         linear_monthly = view.findViewById(R.id.linear_monthly);
         txt_occurse = view.findViewById(R.id.txt_occurse);
