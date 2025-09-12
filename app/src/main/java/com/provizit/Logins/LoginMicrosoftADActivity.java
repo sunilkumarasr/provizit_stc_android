@@ -120,6 +120,7 @@ public class LoginMicrosoftADActivity extends AppCompatActivity implements View.
 
                     CompanyData items = new CompanyData();
                     items = response.getItems();
+                    Preferences.saveStringValue(LoginMicrosoftADActivity.this, Preferences.Comp_id, items.getComp_id());
 
                     company_id = items.getCid();
                     editor1 = sharedPreferences1.edit();
@@ -178,6 +179,8 @@ public class LoginMicrosoftADActivity extends AppCompatActivity implements View.
                         items = response.getItems();
 
                         if (items.getRoleDetails().getMeeting().equals("true") || items.getRoleDetails().getApprover().equals("true") || items.getRoleDetails().getRmeeting().equals("true")) {
+                            Preferences.saveStringValue(LoginMicrosoftADActivity.this, Preferences.Comp_id, Company_ID);
+
                             SharedPreferences sharedPreferences11 = LoginMicrosoftADActivity.this.getSharedPreferences("EGEMSS_DATA", MODE_PRIVATE);
                             editor1 = sharedPreferences11.edit();
                             editor1.putString("company_id", Company_ID);
@@ -208,7 +211,11 @@ public class LoginMicrosoftADActivity extends AppCompatActivity implements View.
                                 boolean b3 = myDb.insertRole(items.getRoleDetails());
                                 boolean b2 = myDb.insertTokenDetails("email", username.trim(), items.getLink(), 1);
 
-                                //meetingroom Trd
+                                //workpermitPpprover
+                                Preferences.saveStringValue(getApplicationContext(), Preferences.workpermitPpprover, items.getEmpData().getWorkpermit_approver().toString());
+                                Preferences.saveStringValue(getApplicationContext(), Preferences.mPermitApproval, items.getEmpData().getMpermit_approval().toString());
+
+                                //meeting room Trd
                                 Preferences.saveStringValue(getApplicationContext(), Preferences.trd_access, empData.getTrd_access().toString());
 
                             }else {
@@ -352,9 +359,7 @@ public class LoginMicrosoftADActivity extends AppCompatActivity implements View.
                 new IPublicClientApplication.ApplicationCreatedListener() {
                     @Override
                     public void onCreated(IPublicClientApplication application) {
-
                         // Handle application creation success
-
                         String[] scopes = {"User.Read", "Mail.Read"};
 
                         application.acquireToken(LoginMicrosoftADActivity.this, scopes, new AuthenticationCallback() {

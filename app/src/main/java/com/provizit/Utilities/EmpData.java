@@ -5,10 +5,11 @@ import java.util.ArrayList;
 
 public class EmpData implements Serializable {
 
-    private String name,designation,branch,department,email,mobile,mobilecode,roleid,rolename,location,hierarchy_indexid,hierarchy_id,approver,emp_id,emp_image1,Meeting_assistID;
+    private String name,designation,branch,department,email,mobile,mobilecode,roleid,rolename,location,hierarchy_indexid,hierarchy_id,approver,emp_id,emp_image1,Meeting_assistID, mpermit_approval;
 
     private Boolean trd_access;
     public Boolean cancel_access;
+    public Boolean workpermit_approver;
 
     private ArrayList<String> pic,pics,meeting_assist;
 
@@ -166,5 +167,21 @@ public class EmpData implements Serializable {
 
     public void setCancel_access(Boolean cancel_access) {
         this.cancel_access = cancel_access;
+    }
+
+    public Boolean getWorkpermit_approver() {
+        return workpermit_approver;
+    }
+
+    public void setWorkpermit_approver(Boolean workpermit_approver) {
+        this.workpermit_approver = workpermit_approver;
+    }
+
+    public String getMpermit_approval() {
+        return mpermit_approval;
+    }
+
+    public void setMpermit_approval(String mpermit_approval) {
+        this.mpermit_approval = mpermit_approval;
     }
 }

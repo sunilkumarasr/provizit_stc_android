@@ -124,6 +124,9 @@
     <string name="Mobile_number_not_valid">رقم الجوال غير صالح</string>
     <string name="Wrong_address">عنوان خاطئ</string>
     <string name="are_you_sure_resend_this_meeting">هل أنت متأكد من إعادة إرسال هذا الاجتماع؟</string>
+    <string name="are_you_sure_want_to_reject">هل أنت متأكد أنك تريد الرفض؟</string>
+    <string name="are_you_sure_want_to_approve">هل أنت متأكد أنك تريد الموافقة؟</string>
+    <string name="are_you_sure_want_to_cancel">هل أنت متأكد أنك تريد الإلغاء؟</string>
     <string name="yes">نعم</string>
     <string name="no">لا</string>
     <string name="outlook">الآفاق</string>
@@ -240,8 +243,8 @@
     <string name="Create_new_contact">إنشاء اتصال جديد</string>
     <string name="Add_to_existing_contacts">أضف إلى جهات الاتصال الموجودة</string>
 
-    <string name="i_agree_with_thepolicy_under"><u>I agree with the Privacy Policy</u></string>
-    <string name="i_agree_with_thepolicy">I agree with the Privacy Policy</string>
+    <string name="i_agree_with_thepolicy_under"><u>أوافق على سياسة الخصوصية</u></string>
+    <string name="i_agree_with_thepolicy">أوافق على سياسة الخصوصية</string>
 
 
     <!--    exit app-->
@@ -275,9 +278,76 @@
     <string name="selectTrainer">حدد المدرب</string>
     <string name="selectTrainerTitle">حدد عنوان المدرب</string>
 
-
     <!--    logout-->
     <string name="logout_note">هل أنت متأكد من تسجيل الخروج؟</string>
+
+    <!--    workpermit-->
+    <string name="WorkVisitDetails">تفاصيل العمل / الزيارة</string>
+    <string name="workPermitDetails">تفاصيل تصريح العمل</string>
+    <string name="WorkPermitInformation">معلومات تصريح العمل</string>
+    <string name="contractor">مقاول</string>
+    <string name="IDNumber">شناختی نمبر</string>
+    <string name="Submit">جمع کریں</string>
+    <string name="addSubContractor">إضافة مقاول فرعي (اختياري)</string>
+    <string name="addContractor">إضافة مقاول</string>
+    <string name="Maintenance">الصيانة</string>
+    <string name="dummyTime">07 PM to 08:00PM</string>
+    <string name="dummyDate">10Jan 2025 to 15 Jan 2025</string>
+    <string name="dummyRoom">STC Meeting Room 2</string>
+    <string name="SuccessfullyCheckIn">تم تسجيل الدخول بنجاح</string>
+    <string name="SuccessfullyCheckOut">تم الخروج بنجاح</string>
+    <string name="WorkPermit">تصريح العمل</string>
+    <string name="AddMore">مزید شامل کریں</string>
+    <string name="DateOfWorkVisit">کام / دورے کی تاریخ</string>
+    <string name="From">سے</string>
+    <string name="To">تک</string>
+    <string name="HourAccess24">الوصول على مدار 24 ساعة</string>
+    <string name="WorkingHoursOnly">صرف کام کے اوقات</string>
+    <string name="TimeOfWorkVisit">کام / دورے کا وقت</string>
+    <string name="StartTime">آغاز کا وقت</string>
+    <string name="EndTime">اختتام کا وقت</string>
+    <string name="WorVisitType">نوع العمل / الزيارة :</string>
+    <string name="When">متى :</string>
+    <string name="PlaceOfWorkVisit">مكان العمل / الزيارة :</string>
+    <string name="ScopeOfWorkVisit">نطاق العمل / الزيارة :</string>
+    <string name="to">إلى :</string>
+    <string name="from_">من :</string>
+    <string name="Location">الموقع :</string>
+
+
+    <!--    Material Permit-->
+    <string name="MaterialPermit">تصريح المواد</string>
+    <string name="materialPermitDetails">تفاصيل تصريح المواد</string>
+    <string name="SupplierDetails">تفاصيل المورد</string>
+    <string name="CompanyName">اسم الشركة:</string>
+    <string name="SupplierName">اسم المورد:</string>
+    <string name="VehicleNumber">رقم لوحة السيارة:</string>
+    <string name="VehicleType">نوع المركبة:</string>
+    <string name="materialInformation">معلومات عن المواد</string>
+    <string name="materialName">اسم المادة</string>
+    <string name="SerialName">اسم المسلسل</string>
+    <string name="Quantity">كمية</string>
+    <string name="CheckIn">تسجيل دخول.</string>
+    <string name="CheckOut">تسجيل خروج</string>
+    <string name="InvalidPermit">تصريح غير صالح</string>
+    <string name="ProcessType">نوع العملية:</string>
+    <string name="RefDocument">المستند المرجعي:</string>
+    <string name="Purpose">الغرض:</string>
+    <string name="Entry">دخول</string>
+    <string name="Exit">خروج</string>
+    <string name="Return">عودة</string>
+    <string name="WaitingForApproval">في انتظار الموافقة</string>
+    <string name="ApprovalStatus">حالة الموافقة</string>
+    <string name="PermitID">معرّف التصريح</string>
+
+
+
+
+    <string name="WorkVisitPermit">ورک / وزٹ پرمٹ</string>
+    <string name="ContractorDetails">ٹھیکیدار کی تفصیلات</string>
+    <string name="SubContractor">المقاول الفرعي</string>
+    <string name="SubContractorDetails">تفاصيل المقاول الفرعي</string>
+    <string name="SubContractorDetailsOptional">ذیلی ٹھیکیدار کی تفصیلات (اختیاری)</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

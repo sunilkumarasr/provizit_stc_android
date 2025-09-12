@@ -123,6 +123,9 @@
     <string name="Mobile_number_not_valid">Mobile Number not valid</string>
     <string name="Wrong_address">Wrong address</string>
     <string name="are_you_sure_resend_this_meeting">Are you sure resend this meeting?</string>
+    <string name="are_you_sure_want_to_reject">Are you sure want to reject?</string>
+    <string name="are_you_sure_want_to_approve">Are you sure want to approve?</string>
+    <string name="are_you_sure_want_to_cancel">Are you sure want to Cancel?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="outlook">Outlook</string>
@@ -277,6 +280,73 @@
 
     <!--    logout-->
     <string name="logout_note">Are you sure you want to logout?</string>
+
+    <!--    workpermit-->
+    <string name="WorkVisitDetails">Work / Visit Details</string>
+    <string name="workPermitDetails">Work Permit Details</string>
+    <string name="WorkPermitInformation">Work Permit Information</string>
+    <string name="contractor">Contractor</string>
+    <string name="IDNumber">ID Number</string>
+    <string name="Submit">Submit</string>
+    <string name="addSubContractor">Add Sub-Contractor(Optional)</string>
+    <string name="addContractor">Add Contractor</string>
+    <string name="Maintenance">Maintenance</string>
+    <string name="dummyTime">07 PM to 08:00PM</string>
+    <string name="dummyDate">10Jan 2025 to 15 Jan 2025</string>
+    <string name="dummyRoom">STC Meeting Room 2</string>
+    <string name="SuccessfullyCheckIn">Successfully checked-In</string>
+    <string name="SuccessfullyCheckOut">Successfully checked-Out</string>
+    <string name="WorkPermit">Work Permit</string>
+    <string name="AddMore">Add More</string>
+    <string name="DateOfWorkVisit">Date of Work / Visit</string>
+    <string name="From">From</string>
+    <string name="To">To</string>
+    <string name="HourAccess24">24 hour access</string>
+    <string name="WorkingHoursOnly">Working Hours Only</string>
+    <string name="TimeOfWorkVisit">Time of Work / Visit</string>
+    <string name="StartTime">Start Time</string>
+    <string name="EndTime">End Time</string>
+    <string name="WorVisitType">Work / Visit Type :</string>
+    <string name="When">When :</string>
+    <string name="PlaceOfWorkVisit">Place Of Work / Visit :</string>
+    <string name="ScopeOfWorkVisit">Scope of Work / Visit :</string>
+    <string name="to">To :</string>
+    <string name="from_">From :</string>
+    <string name="Location">Location :</string>
+
+
+
+    <!--    Material Permit-->
+    <string name="MaterialPermit">Material Permit</string>
+    <string name="materialPermitDetails">Material Permit Details</string>
+    <string name="SupplierDetails">Supplier Details</string>
+    <string name="CompanyName">Company Name:</string>
+    <string name="SupplierName">Supplier Name:</string>
+    <string name="VehicleNumber">Vehicle Number:</string>
+    <string name="VehicleType">Vehicle Type:</string>
+    <string name="materialInformation">Material Information</string>
+    <string name="materialName">Material Name</string>
+    <string name="SerialName">Serial Name</string>
+    <string name="Quantity">Quantity</string>
+    <string name="CheckIn">Check-In</string>
+    <string name="CheckOut">Check-Out</string>
+    <string name="InvalidPermit">Invalid Permit</string>
+    <string name="ProcessType">Process Type:</string>
+    <string name="RefDocument">Ref Document:</string>
+    <string name="Purpose">Purpose:</string>
+    <string name="Entry">Entry</string>
+    <string name="Exit">Exit</string>
+    <string name="Return">Return</string>
+    <string name="WaitingForApproval">Waiting for approval</string>
+    <string name="ApprovalStatus">Approval Status</string>
+    <string name="PermitID">Permit ID</string>
+
+
+    <string name="WorkVisitPermit">Work / Visit Permit</string>
+    <string name="ContractorDetails">Contractor Details</string>
+    <string name="SubContractor">Sub-Contractor</string>
+    <string name="SubContractorDetails">Sub-Contractor Details</string>
+    <string name="SubContractorDetailsOptional">Sub-Contractor Details (optional)</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

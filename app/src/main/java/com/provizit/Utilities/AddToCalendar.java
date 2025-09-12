@@ -53,20 +53,28 @@ public class AddToCalendar extends AsyncTask<ArrayList<CompanyData>, Integer, St
                      ContentValues cv = new ContentValues();
                      cv.put("calendar_id", calIds[0]);
                      cv.put("title", meeting.get(i).getSubject());
-                     cv.put(CalendarContract.Events._ID, Long.parseLong(meeting.get(i).getRand_id().get$numberLong()));
+                     CommonObject randId = meeting.get(i).getRand_id();
+                     if (randId != null && randId.get$numberLong() != null) {
+                         long id = Long.parseLong(randId.get$numberLong());
+                         cv.put(CalendarContract.Events._ID, id);
+                     }
                      cv.put("dtstart",(meeting.get(i).getStart() + Conversions.timezone()) * 1000);
                      cv.put("hasAlarm", 1);
                      cv.put("dtend", (meeting.get(i).getEnd() + Conversions.timezone() + 1) * 1000);
-                     if(!meeting.get(i).getMtype().equals("1")){
-                         cv.put(CalendarContract.Events.EVENT_LOCATION,meeting.get(i).getMtype_val());
+
+                     if (meeting.get(i).getMtype() != null) {
+                         if(!meeting.get(i).getMtype().equals("1")){
+                             cv.put(CalendarContract.Events.EVENT_LOCATION,meeting.get(i).getMtype_val());
+                         } else{
+                             Log.e(TAG, "doInBackground:EVENT_LOCATION "+CalendarContract.Events.EVENT_LOCATION );
+                             Log.e(TAG, "doInBackground:getRoom "+meeting.get(i).getRoom().getName() );
+                             Log.e(TAG, "doInBackground:getEntry "+meeting.get(i).getEntry().getName() );
+                             // Log.e(TAG, "doInBackground:getLocations "+meeting.get(i).getLocations().getName() );
+                             cv.put(CalendarContract.Events.EVENT_LOCATION, meeting.get(i).getRoom().getName() + ", " + meeting.get(i).getEntry().getName() + ", " + meeting.get(i).getLocations().getName());
+                         }
                      }
-                     else{
-                         Log.e(TAG, "doInBackground:EVENT_LOCATION "+CalendarContract.Events.EVENT_LOCATION );
-                         Log.e(TAG, "doInBackground:getRoom "+meeting.get(i).getRoom().getName() );
-                         Log.e(TAG, "doInBackground:getEntry "+meeting.get(i).getEntry().getName() );
-                        // Log.e(TAG, "doInBackground:getLocations "+meeting.get(i).getLocations().getName() );
-                         cv.put(CalendarContract.Events.EVENT_LOCATION, meeting.get(i).getRoom().getName() + ", " + meeting.get(i).getEntry().getName() + ", " + meeting.get(i).getLocations().getName());
-                     }
+
+
                      cv.put("eventTimezone", TimeZone.getDefault().getID());
                      String[] projection = new String[]{CalendarContract.Events._ID};
                      Cursor cursor1 = activity.getContentResolver()

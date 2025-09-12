@@ -535,7 +535,7 @@ public class MeetingDescriptionNewActivity extends AppCompatActivity {
             AnimationSet animation = Conversions.animation();
             v.startAnimation(animation);
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            AlertDialog.Builder builder = new AlertDialog.Builder(MeetingDescriptionNewActivity.this);
             builder.setTitle(R.string.Resend)
                     .setMessage(R.string.are_you_sure_resend_this_meeting)
                     .setCancelable(false)

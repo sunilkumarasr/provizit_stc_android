@@ -11,7 +11,14 @@ import androidx.lifecycle.ViewModel;
 
 import com.google.gson.JsonObject;
 import com.provizit.AdapterAndModel.BusySchedules.BusySchedulesModel;
+import com.provizit.AdapterAndModel.CompanyDetailsModel;
+import com.provizit.AdapterAndModel.GetSearchEmployeesModel;
+import com.provizit.AdapterAndModel.GetdocumentsModel;
+import com.provizit.AdapterAndModel.GetsubhierarchysModel;
 import com.provizit.AdapterAndModel.HostSlots.HostSlotsModel;
+import com.provizit.AdapterAndModel.MaterialModel;
+import com.provizit.AdapterAndModel.WorkVisitTypeModel;
+import com.provizit.AdapterAndModel.WorkingDaysModal;
 import com.provizit.Config.ViewController;
 import com.provizit.Conversions;
 import com.provizit.MVVM.RequestModels.ActionNotificationModelRequest;
@@ -96,6 +103,20 @@ public class ApiViewModel extends ViewModel {
     MutableLiveData<Model1> getEmployees_response = new MutableLiveData<>();
     MutableLiveData<BusySchedulesModel> getbusySchedulesdetails_response = new MutableLiveData<>();
     MutableLiveData<BusySchedulesModel> actionbusySchedule_response = new MutableLiveData<>();
+
+    MutableLiveData<CompanyDetailsModel> getuserDetailsworkMeterial_response = new MutableLiveData<>();
+    MutableLiveData<WorkVisitTypeModel> getworktypes_response = new MutableLiveData<>();
+    MutableLiveData<WorkVisitTypeModel> getworklocation_response = new MutableLiveData<>();
+    MutableLiveData<WorkVisitTypeModel> getworkpurposes_response = new MutableLiveData<>();
+    MutableLiveData<WorkVisitTypeModel> actionworkpermita_response = new MutableLiveData<>();
+    MutableLiveData<MaterialModel> getrefdocuments_response = new MutableLiveData<>();
+    MutableLiveData<MaterialModel> getentrypurposes_response = new MutableLiveData<>();
+    MutableLiveData<MaterialModel> getexitpurposes_response = new MutableLiveData<>();
+    MutableLiveData<GetsubhierarchysModel> getsubhierarchysmaterial_response = new MutableLiveData<>();
+    MutableLiveData<MaterialModel> actionentrypermitrequest_response = new MutableLiveData<>();
+    MutableLiveData<GetSearchEmployeesModel> getsearchemployeesmaterial_response = new MutableLiveData<>();
+    MutableLiveData<GetdocumentsModel> getdocuments_response = new MutableLiveData<>();
+    MutableLiveData<WorkingDaysModal> getworkingdays_response = new MutableLiveData<>();
 
     ApiRepository apiRepository;
 
@@ -978,6 +999,197 @@ public class ApiViewModel extends ViewModel {
         }, context, jsonObject);
     }
 
+
+    //work and material
+    public void getuserDetailsworkMeterial(Context context, String type) {
+        apiRepository.getuserDetailsworkMeterial(new ApiRepository.getuserDetailsworkMeterial_ModelResponse() {
+            @Override
+            public void onResponse(CompanyDetailsModel entryPermitModel) {
+                getuserDetailsworkMeterial_response.postValue(entryPermitModel);
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                Log.e(TAG, "progress: " + t);
+            }
+        }, context, type);
+
+    }
+
+
+    public void getworktypes(Context context, String id) {
+        apiRepository.getworktypes(new ApiRepository.getworktypes_ModelResponse() {
+            @Override
+            public void onResponse(WorkVisitTypeModel entryPermitModel) {
+                getworktypes_response.postValue(entryPermitModel);
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                Log.e(TAG, "progress: " + t);
+            }
+        }, context, id);
+
+    }
+
+
+    public void getworklocation(Context context, String id) {
+        apiRepository.getworklocation(new ApiRepository.getworktypes_ModelResponse() {
+            @Override
+            public void onResponse(WorkVisitTypeModel entryPermitModel) {
+                getworklocation_response.postValue(entryPermitModel);
+            }
+            @Override
+            public void onFailure(Throwable t) {
+                Log.e(TAG, "progress: " + t);
+            }
+        }, context, id);
+
+    }
+
+
+    public void getworkpurposes(Context context, String id) {
+        apiRepository.getworkpurposes(new ApiRepository.getworktypes_ModelResponse() {
+            @Override
+            public void onResponse(WorkVisitTypeModel entryPermitModel) {
+                getworkpurposes_response.postValue(entryPermitModel);
+            }
+            @Override
+            public void onFailure(Throwable t) {
+                Log.e(TAG, "progress: " + t);
+            }
+        }, context, id);
+
+    }
+
+    public void actionworkpermita(Context context, JsonObject jsonObject) {
+        apiRepository.actionworkpermita(new ApiRepository.actionworkpermita_ModelResponse() {
+            @Override
+            public void onResponse(WorkVisitTypeModel entryPermitModel) {
+                actionworkpermita_response.postValue(entryPermitModel);
+            }
+            @Override
+            public void onFailure(Throwable t) {
+            }
+        }, context, jsonObject);
+    }
+
+
+    public void getrefdocuments(Context context, String id) {
+        apiRepository.getrefdocuments(new ApiRepository.getMaterialModel_ModelResponse() {
+            @Override
+            public void onResponse(MaterialModel model) {
+                getrefdocuments_response.postValue(model);
+            }
+            @Override
+            public void onFailure(Throwable t) {
+                Log.e(TAG, "progress: " + t);
+            }
+        }, context, id);
+
+    }
+
+    public void getentrypurposes(Context context, String id) {
+        apiRepository.getentrypurposes(new ApiRepository.getMaterialModel_ModelResponse() {
+            @Override
+            public void onResponse(MaterialModel model) {
+                getentrypurposes_response.postValue(model);
+            }
+            @Override
+            public void onFailure(Throwable t) {
+                Log.e(TAG, "progress: " + t);
+            }
+        }, context, id);
+
+    }
+
+    public void getexitpurposes(Context context, String id) {
+        apiRepository.getexitpurposes(new ApiRepository.getMaterialModel_ModelResponse() {
+            @Override
+            public void onResponse(MaterialModel model) {
+                getexitpurposes_response.postValue(model);
+            }
+            @Override
+            public void onFailure(Throwable t) {
+                Log.e(TAG, "progress: " + t);
+            }
+        }, context, id);
+
+    }
+
+
+    public void getsubhierarchysmaterial(Context context, String id, String indexid) {
+        apiRepository.getsubhierarchysmaterial(new ApiRepository.GetsubhierarchysResponse() {
+            @Override
+            public void onResponse(GetsubhierarchysModel getsubhierarchysModel) {
+                getsubhierarchysmaterial_response.postValue(getsubhierarchysModel);
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+
+            }
+        }, context, id, indexid);
+    }
+
+    public void getsearchemployeesmaterial(Context context, String l_id, String h_id, String type) {
+        apiRepository.getsearchemployeesmaterial(new ApiRepository.SearchEmployeesResponse() {
+            @Override
+            public void onResponse(GetSearchEmployeesModel getSearchEmployeesModel) {
+                getsearchemployeesmaterial_response.postValue(getSearchEmployeesModel);
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+
+            }
+        }, context, l_id, h_id, type);
+
+    }
+
+    public void actionentrypermitrequest(Context context, JsonObject jsonObject) {
+        apiRepository.actionentrypermitrequest(new ApiRepository.actionentrypermitrequest_ModelResponse() {
+            @Override
+            public void onResponse(MaterialModel entryPermitModel) {
+                actionentrypermitrequest_response.postValue(entryPermitModel);
+            }
+            @Override
+            public void onFailure(Throwable t) {
+            }
+        }, context, jsonObject);
+    }
+
+
+    public void getdocuments(Context context) {
+        apiRepository.getdocuments(new ApiRepository.SelectedId_listResponse() {
+            @Override
+            public void onResponse(GetdocumentsModel getdocumentsModel) {
+                getdocuments_response.postValue(getdocumentsModel);
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+
+            }
+        }, context);
+    }
+
+    public void getworkingdays(Context context, String comp_id) {
+        apiRepository.getworkingdays(new ApiRepository.getworkingdays_ModelResponse() {
+            @Override
+            public void onResponse(WorkingDaysModal entryPermitModel) {
+                getworkingdays_response.postValue(entryPermitModel);
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                Log.e(TAG, "progress: " + t);
+            }
+        }, context, comp_id);
+
+    }
+
+
     //Versions Response
     public LiveData<Model1> getVersions_response() {
         return getVersions_response;
@@ -1225,5 +1437,57 @@ public class ApiViewModel extends ViewModel {
         return actionbusySchedule_response;
     }
 
+    //work and material
+    public LiveData<CompanyDetailsModel> getuserDetailsworkMeterial_response(){
+        return getuserDetailsworkMeterial_response;
+    }
+
+    public LiveData<WorkVisitTypeModel> getworktypes_response(){
+        return getworktypes_response;
+    }
+
+    public LiveData<WorkVisitTypeModel> getworklocation_response(){
+        return getworklocation_response;
+    }
+
+    public LiveData<WorkVisitTypeModel> getworkpurposes_response(){
+        return getworkpurposes_response;
+    }
+
+    public LiveData<WorkVisitTypeModel> actionworkpermita_response(){
+        return actionworkpermita_response;
+    }
+
+    public LiveData<MaterialModel> getrefdocuments_response(){
+        return getrefdocuments_response;
+    }
+
+    public LiveData<MaterialModel> getentrypurposes_response(){
+        return getentrypurposes_response;
+    }
+
+    public LiveData<MaterialModel> getexitpurposes_response(){
+        return getexitpurposes_response;
+    }
+
+    public LiveData<GetsubhierarchysModel> getsubhierarchysmaterial_response() {
+        return getsubhierarchysmaterial_response;
+    }
+
+    public LiveData<MaterialModel> actionentrypermitrequest_response() {
+        return actionentrypermitrequest_response;
+    }
+
+    public LiveData<GetSearchEmployeesModel> getsearchemployeesmaterial_response() {
+        return getsearchemployeesmaterial_response;
+    }
+
+    public LiveData<GetdocumentsModel> getResponseforSelectedId_list() {
+        return getdocuments_response;
+    }
+
+    public LiveData<WorkingDaysModal> getworkingdays_response(){
+        return getworkingdays_response;
+    }
 
 }

@@ -375,6 +375,7 @@
         android:gravity="end"
         android:orientation="vertical">
 
+
         <LinearLayout
             android:id="@+id/flot1"
             android:layout_width="wrap_content"
@@ -413,6 +414,58 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="New Meeting"
+                android:textColor="@color/colorPrimary"
+                style="@style/medium_font"
+                android:textSize="14sp"
+                android:layout_marginEnd="8dp"
+                android:layout_gravity="center_vertical"/>
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_baseline_add_24"
+                android:tint="@color/white"
+                app:borderWidth="5dp"
+                app:elevation="0dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/flot3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:gravity="end"
+            android:visibility="gone"
+            android:layout_marginBottom="10dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Work Permit"
+                android:textColor="@color/colorPrimary"
+                style="@style/medium_font"
+                android:textSize="14sp"
+                android:layout_marginEnd="8dp"
+                android:layout_gravity="center_vertical"/>
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_baseline_add_24"
+                android:tint="@color/white"
+                app:borderWidth="5dp"
+                app:elevation="0dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/flot4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:gravity="end"
+            android:visibility="gone"
+            android:layout_marginBottom="10dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Material Permit"
                 android:textColor="@color/colorPrimary"
                 style="@style/medium_font"
                 android:textSize="14sp"

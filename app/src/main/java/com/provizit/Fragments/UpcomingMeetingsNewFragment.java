@@ -3,6 +3,8 @@ package com.provizit.Fragments;
 import static android.content.Context.NOTIFICATION_SERVICE;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
+import static com.provizit.Conversions.milliToDateTime;
+
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.NotificationManager;
@@ -14,6 +16,7 @@ import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
@@ -25,6 +28,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -43,17 +47,22 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.bumptech.glide.Glide;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.provizit.Activities.AppointmentDetailsNewActivity;
 import com.provizit.Activities.CheckInDetailsActivity;
+import com.provizit.Activities.MaterialPermitDetailsActivity;
+import com.provizit.Activities.MaterialPermitSetUpActivity;
 import com.provizit.Activities.MeetingDescriptionNewActivity;
 import com.provizit.Activities.SelectedDateMeetingsActivity;
 import com.provizit.Activities.SetupMeetingActivity;
 import com.provizit.Activities.SetupTrainingActivity;
 import com.provizit.Activities.SlotsActivity;
+import com.provizit.Activities.WorkPermitDetailsActivity;
+import com.provizit.Activities.WorkPermitSetUpActivity;
 import com.provizit.Calendar.CalendarAdapter;
 import com.provizit.Calendar.MyCalendar;
 import com.provizit.Calendar.RecyclerTouchListener;
@@ -73,8 +82,10 @@ import com.provizit.Utilities.DatabaseHelper;
 import com.provizit.Utilities.EmpData;
 import com.provizit.Utilities.RoleDetails;
 import com.provizit.databinding.TodayMeetingsListItemsBinding;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -83,6 +94,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -105,7 +117,7 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
 
     //floating buttons
     FloatingActionButton flotMain;
-    LinearLayout floatButton, flot1, flot2;
+    LinearLayout floatButton, flot1, flot2, flot3, flot4;
     Animation favOpen, febClose, tabRotateForward, tabRotateBackForward;
     boolean isOpen = false;
 
@@ -217,6 +229,8 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
         flotMain = view.findViewById(R.id.flotMain);
         flot1 = view.findViewById(R.id.flot1);
         flot2 = view.findViewById(R.id.flot2);
+        flot3 = view.findViewById(R.id.flot3);
+        flot4 = view.findViewById(R.id.flot4);
 
         apiViewModel = new ViewModelProvider(getActivity()).get(ApiViewModel.class);
 
@@ -415,44 +429,123 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
 
 
         //aimations
-        favOpen = AnimationUtils.loadAnimation(getActivity(),R.anim.tab_open);
-        febClose = AnimationUtils.loadAnimation(getActivity(),R.anim.tab_open);
-        tabRotateForward = AnimationUtils.loadAnimation(getActivity(),R.anim.tab_rotate_forword);
-        tabRotateBackForward = AnimationUtils.loadAnimation(getActivity(),R.anim.tab_rotate_backforword);
+        favOpen = AnimationUtils.loadAnimation(getActivity(), R.anim.tab_open);
+        febClose = AnimationUtils.loadAnimation(getActivity(), R.anim.tab_open);
+        tabRotateForward = AnimationUtils.loadAnimation(getActivity(), R.anim.tab_rotate_forword);
+        tabRotateBackForward = AnimationUtils.loadAnimation(getActivity(), R.anim.tab_rotate_backforword);
 
         flotMain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 String trd_access = Preferences.loadStringValue(getActivity(), Preferences.trd_access, "");
-                if (trd_access.equals("true")){
-                    if (isOpen){
+//                if (trd_access.equals("true")){
+//                    if (isOpen){
+//                        flot1.setVisibility(GONE);
+//                        flot2.setVisibility(View.GONE);
+//                        flot3.setVisibility(View.GONE);
+//                        flot4.setVisibility(View.GONE);
+//                        flotMain.startAnimation(tabRotateBackForward);
+//                        flot1.startAnimation(febClose);
+//                        flot2.startAnimation(febClose);
+//                        flot3.startAnimation(febClose);
+//                        flot4.startAnimation(febClose);
+//                        flot1.setClickable(false);
+//                        flot2.setClickable(false);
+//                        flot3.setClickable(false);
+//                        flot4.setClickable(false);
+//                        isOpen=false;
+//                    }else {
+//                        flot1.setVisibility(View.VISIBLE);
+//                        flot2.setVisibility(View.VISIBLE);
+//                        flot3.setVisibility(View.VISIBLE);
+//                        flot4.setVisibility(View.VISIBLE);
+//                        flotMain.startAnimation(tabRotateForward);
+//                        flot1.startAnimation(favOpen);
+//                        flot2.startAnimation(favOpen);
+//                        flot3.startAnimation(favOpen);
+//                        flot4.startAnimation(favOpen);
+//                        flot1.setClickable(true);
+//                        flot2.setClickable(true);
+//                        flot3.setClickable(true);
+//                        flot4.setClickable(true);
+//                        isOpen=true;
+//                    }
+//                }else {
+//                    AnimationSet animation4 = Conversions.animation();
+//                    view.startAnimation(animation4);
+//                    Intent intent = new Intent(getActivity(), SetupMeetingActivity.class);
+//                    intent.putExtra("RMS_STATUS", 2);
+//                    intent.putExtra("RMS_Date", SelectedDate);
+//                    startActivity(intent);
+//                    getActivity().overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
+//                }
+
+                if (trd_access.equals("true")) {
+                    if (isOpen) {
                         flot1.setVisibility(GONE);
                         flot2.setVisibility(View.GONE);
+                        flot3.setVisibility(View.GONE);
+                        flot4.setVisibility(View.GONE);
                         flotMain.startAnimation(tabRotateBackForward);
                         flot1.startAnimation(febClose);
                         flot2.startAnimation(febClose);
+                        flot3.startAnimation(febClose);
+                        flot4.startAnimation(febClose);
                         flot1.setClickable(false);
                         flot2.setClickable(false);
-                        isOpen=false;
-                    }else {
+                        flot3.setClickable(false);
+                        flot4.setClickable(false);
+                        isOpen = false;
+                    } else {
+                        //change
                         flot1.setVisibility(View.VISIBLE);
                         flot2.setVisibility(View.VISIBLE);
+                        flot3.setVisibility(View.GONE);
+                        flot4.setVisibility(View.GONE);
                         flotMain.startAnimation(tabRotateForward);
                         flot1.startAnimation(favOpen);
                         flot2.startAnimation(favOpen);
+                        flot3.startAnimation(favOpen);
+                        flot4.startAnimation(favOpen);
                         flot1.setClickable(true);
                         flot2.setClickable(true);
-                        isOpen=true;
+                        flot3.setClickable(true);
+                        flot4.setClickable(true);
+                        isOpen = true;
                     }
-                }else {
-                    AnimationSet animation4 = Conversions.animation();
-                    view.startAnimation(animation4);
-                    Intent intent = new Intent(getActivity(), SetupMeetingActivity.class);
-                    intent.putExtra("RMS_STATUS", 2);
-                    intent.putExtra("RMS_Date", SelectedDate);
-                    startActivity(intent);
-                    getActivity().overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
+                } else {
+                    if (isOpen) {
+                        flot1.setVisibility(GONE);
+                        flot2.setVisibility(View.GONE);
+                        flot3.setVisibility(View.GONE);
+                        flot4.setVisibility(View.GONE);
+                        flotMain.startAnimation(tabRotateBackForward);
+                        flot1.startAnimation(febClose);
+                        flot2.startAnimation(febClose);
+                        flot3.startAnimation(febClose);
+                        flot4.startAnimation(febClose);
+                        flot1.setClickable(false);
+                        flot2.setClickable(false);
+                        flot3.setClickable(false);
+                        flot4.setClickable(false);
+                        isOpen = false;
+                    } else {
+                        flot1.setVisibility(GONE);
+                        flot2.setVisibility(View.VISIBLE);
+                        flot3.setVisibility(View.GONE);
+                        flot4.setVisibility(View.GONE);
+                        flotMain.startAnimation(tabRotateForward);
+                        flot1.startAnimation(favOpen);
+                        flot2.startAnimation(favOpen);
+                        flot3.startAnimation(favOpen);
+                        flot4.startAnimation(favOpen);
+                        flot1.setClickable(true);
+                        flot2.setClickable(true);
+                        flot3.setClickable(true);
+                        flot4.setClickable(true);
+                        isOpen = true;
+                    }
                 }
 
             }
@@ -464,6 +557,8 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
         relative_upcoming.setOnClickListener(this);
         flot1.setOnClickListener(this);
         flot2.setOnClickListener(this);
+        flot3.setOnClickListener(this);
+        flot4.setOnClickListener(this);
         return view;
     }
 
@@ -555,12 +650,18 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
 
                 flot1.setVisibility(GONE);
                 flot2.setVisibility(View.GONE);
+                flot3.setVisibility(View.GONE);
+                flot4.setVisibility(View.GONE);
                 flotMain.startAnimation(tabRotateBackForward);
                 flot1.startAnimation(febClose);
                 flot2.startAnimation(febClose);
+                flot3.startAnimation(febClose);
+                flot4.startAnimation(febClose);
                 flot1.setClickable(false);
                 flot2.setClickable(false);
-                isOpen=false;
+                flot3.setClickable(false);
+                flot4.setClickable(false);
+                isOpen = false;
 
                 Intent intenta = new Intent(getActivity(), SetupTrainingActivity.class);
                 intenta.putExtra("RMS_STATUS", 2);
@@ -574,17 +675,68 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
 
                 flot1.setVisibility(GONE);
                 flot2.setVisibility(View.GONE);
+                flot3.setVisibility(View.GONE);
+                flot4.setVisibility(View.GONE);
                 flotMain.startAnimation(tabRotateBackForward);
                 flot1.startAnimation(febClose);
                 flot2.startAnimation(febClose);
+                flot3.startAnimation(febClose);
+                flot4.startAnimation(febClose);
                 flot1.setClickable(false);
                 flot2.setClickable(false);
-                isOpen=false;
+                flot3.setClickable(false);
+                flot4.setClickable(false);
 
                 Intent intent = new Intent(getActivity(), SetupMeetingActivity.class);
                 intent.putExtra("RMS_STATUS", 2);
                 intent.putExtra("RMS_Date", SelectedDate);
                 startActivity(intent);
+                getActivity().overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
+                break;
+            case R.id.flot3:
+                AnimationSet animationWork = Conversions.animation();
+                v.startAnimation(animationWork);
+
+                flot1.setVisibility(GONE);
+                flot2.setVisibility(View.GONE);
+                flot3.setVisibility(View.GONE);
+                flot4.setVisibility(View.GONE);
+                flotMain.startAnimation(tabRotateBackForward);
+                flot1.startAnimation(febClose);
+                flot2.startAnimation(febClose);
+                flot3.startAnimation(febClose);
+                flot4.startAnimation(febClose);
+                flot1.setClickable(false);
+                flot2.setClickable(false);
+                flot3.setClickable(false);
+                flot4.setClickable(false);
+                isOpen = false;
+
+                Intent intentWork = new Intent(getActivity(), WorkPermitSetUpActivity.class);
+                startActivity(intentWork);
+                getActivity().overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
+                break;
+            case R.id.flot4:
+                AnimationSet animationMaterial = Conversions.animation();
+                v.startAnimation(animationMaterial);
+
+                flot1.setVisibility(GONE);
+                flot2.setVisibility(View.GONE);
+                flot3.setVisibility(View.GONE);
+                flot4.setVisibility(View.GONE);
+                flotMain.startAnimation(tabRotateBackForward);
+                flot1.startAnimation(febClose);
+                flot2.startAnimation(febClose);
+                flot3.startAnimation(febClose);
+                flot4.startAnimation(febClose);
+                flot1.setClickable(false);
+                flot2.setClickable(false);
+                flot3.setClickable(false);
+                flot4.setClickable(false);
+                isOpen = false;
+
+                Intent intentMaterial = new Intent(getActivity(), MaterialPermitSetUpActivity.class);
+                startActivity(intentMaterial);
                 getActivity().overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
                 break;
         }
@@ -776,7 +928,7 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
                                     String soort_stamp = model.getItems().get(j).getA_time().get$numberLong();
                                     model.getItems().get(j).setSort_stamp(soort_stamp);
                                     toDayMeetings_Appointments.add(model.getItems().get(j));
-                                    Log.e("ppointments_getItems" , model.getItems().get(j).getSupertype());
+                                    Log.e("ppointments_getItems", model.getItems().get(j).getSupertype());
                                 }
                             } else {
 //                                toDayMeetings_Appointments = model.getItems();
@@ -785,7 +937,7 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
                             }
                         }
 
-                        getvisitorslist(s_time, e_time);
+                        getworkpermitapprovals(s_time, e_time);
                     }
                 }
             }
@@ -797,6 +949,93 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
                 System.out.println("asdf2" + t);
             }
         }, getActivity(), "", "host", "", empData.getEmp_id());
+    }
+
+    //Work Permit Requests
+    private void getworkpermitapprovals(String s_time, String e_time) {
+        //card_view_progress.setVisibility(VISIBLE);
+        DataManger dataManager = DataManger.getDataManager();
+        dataManager.getworkpermitapprovals(new Callback<Model1>() {
+            @Override
+            public void onResponse(Call<Model1> call, Response<Model1> response) {
+                Model1 model = response.body();
+                if (model != null) {
+                    Integer statuscode = model.getResult();
+                    Integer successcode = 200, failurecode = 401, not_verified = 404;
+                    if (statuscode.equals(successcode)) {
+
+
+                        List<CompanyData> items = model.getItems();
+
+                        if (items != null && !items.isEmpty()) {
+                            // Copy start date to date
+                            for (CompanyData companyData : items) {
+                                companyData.setDate(companyData.getStarts().get(0));
+                            }
+
+                            // Add all updated items to meetings list
+                            toDayMeetings_Appointments.addAll(items);
+                        }
+
+                        getmaterialpermitapprovals(s_time, e_time);
+                    } else {
+                        getmaterialpermitapprovals(s_time, e_time);
+                    }
+                } else {
+                    ViewController.DismissProgressBar();
+                    Conversions.errroScreen(getActivity(), model.getResult() + "");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Model1> call, Throwable t) {
+                //card_view_progress.setVisibility(GONE);
+                ViewController.DismissProgressBar();
+                System.out.println("asdf2" + t);
+            }
+        }, getActivity(), "upcoming", empData.getEmp_id(), empData.getEmail(), s_time, e_time);
+    }
+
+    //Material Permit Requests
+    private void getmaterialpermitapprovals(String s_time, String e_time) {
+        //card_view_progress.setVisibility(VISIBLE);
+        DataManger dataManager = DataManger.getDataManager();
+        dataManager.getmaterialpermitapprovals(new Callback<Model1>() {
+            @Override
+            public void onResponse(Call<Model1> call, Response<Model1> response) {
+                Model1 model = response.body();
+                if (model != null) {
+                    Integer statuscode = model.getResult();
+                    Integer successcode = 200, failurecode = 401, not_verified = 404;
+                    if (statuscode.equals(successcode)) {
+
+                        List<CompanyData> items = model.getItems();
+
+                        if (items != null && !items.isEmpty()) {
+                            for (CompanyData companyData : items) {
+                                companyData.setDate(companyData.getStart());
+                            }
+
+                            toDayMeetings_Appointments.addAll(items);
+                        }
+
+                        getvisitorslist(s_time, e_time);
+                    } else {
+                        getvisitorslist(s_time, e_time);
+                    }
+                } else {
+                    ViewController.DismissProgressBar();
+                    Conversions.errroScreen(getActivity(), model.getResult() + "");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Model1> call, Throwable t) {
+                //card_view_progress.setVisibility(GONE);
+                ViewController.DismissProgressBar();
+                System.out.println("asdf2" + t);
+            }
+        }, getActivity(), "upcoming", empData.getEmp_id(), s_time, e_time);
     }
 
     //Today Meetings and Upcoming CheckIn
@@ -822,14 +1061,14 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
 
                                     if (toDayMeetings_Appointments.size() > model.getItems().size()) {
                                         toDayMeetings_Appointments.get(i).setSort_stamp(soort_stamp);
-                                        Log.e("ppointments_getItems1" , model.getItems().get(i).getSupertype());
+                                        Log.e("ppointments_getItems1", model.getItems().get(i).getSupertype());
                                     }
 
                                 }
 
                                 if (model.getItems().get(i).getHistory().get(0).getHstatus() == 0 || model.getItems().get(i).getHistory().get(0).getHstatus() == 2) {
                                     toDayMeetings_Appointments.add(model.getItems().get(i));
-                                    Log.e("ppointments_getItems2" , model.getItems().get(i).getSupertype());
+                                    Log.e("ppointments_getItems2", model.getItems().get(i).getSupertype());
                                 } else {
                                     toDayMeetings.add(model.getItems().get(i));
                                 }
@@ -949,7 +1188,8 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
 //                        }
                     }
                 }
-                 getmeetingapprovals(s_time, e_time);
+                getworkpermits(s_time, e_time);
+
             }
 
             @Override
@@ -976,7 +1216,7 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
                     } else if (statuscode.equals(not_verified)) {
                     } else if (statuscode.equals(successcode)) {
                         toDayMeetings_Appointments.addAll(model.getItems());
-                        Log.e("ppointments_getItems3" , model.getItems()+"");
+                        Log.e("ppointments_getItems3", model.getItems() + "");
                     }
                 }
 
@@ -1008,29 +1248,122 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
             @Override
             public void onResponse(Call<Model1> call, Response<Model1> response) {
                 Model1 model = response.body();
-                Log.e("meetings_model_",model+"");
-                Log.e("meetings_size_1",meetings.size()+"");
+                Log.e("meetings_model_", model + "");
+                Log.e("meetings_size_1", meetings.size() + "");
                 if (model != null) {
                     Integer statuscode = model.getResult();
                     Integer successcode = 200, failurecode = 401, not_verified = 404;
-                    Log.e("meetings_statuscode_",statuscode+"");
+                    Log.e("meetings_statuscode_", statuscode + "");
                     if (statuscode.equals(successcode)) {
                         meetings.addAll(model.getItems());
-                        Log.e("meetings_size_2",meetings.size()+"");
-                        getmeetingapprovals(s_time, e_time);
-                    }else {
-                        getmeetingapprovals(s_time, e_time);
+                        Log.e("meetings_size_2", meetings.size() + "");
+                        getworkpermitapprovals(s_time, e_time);
+                    } else {
+                        getworkpermitapprovals(s_time, e_time);
                     }
-                }else {
-                    Conversions.errroScreen(getActivity(),model.getResult()+"");
+                } else {
+                    ViewController.DismissProgressBar();
+                    Conversions.errroScreen(getActivity(), model.getResult() + "");
                 }
             }
+
             @Override
-            public void onFailure(Call<Model1> call,  Throwable t) {
+            public void onFailure(Call<Model1> call, Throwable t) {
+                ViewController.DismissProgressBar();
                 System.out.println("getoutlookappointments_" + t);
-                Conversions.errroScreen(getActivity(), t.getMessage()+"");
+                Conversions.errroScreen(getActivity(), t.getMessage() + "");
             }
-        }, getActivity(), "upcoming",empData.getEmail(), s_time, e_time, sharedPreferences1.getString("company_id", null));
+        }, getActivity(), "upcoming", empData.getEmail(), s_time, e_time, sharedPreferences1.getString("company_id", null));
+    }
+
+    //self work permits
+    private void getworkpermits(String s_time, String e_time) {
+        //card_view_progress.setVisibility(VISIBLE);
+        DataManger dataManager = DataManger.getDataManager();
+        dataManager.getworkpermits(new Callback<Model1>() {
+            @Override
+            public void onResponse(Call<Model1> call, Response<Model1> response) {
+                Model1 model = response.body();
+                if (model != null) {
+                    Integer statuscode = model.getResult();
+                    Integer successcode = 200, failurecode = 401, not_verified = 404;
+                    if (statuscode.equals(successcode)) {
+
+
+                        List<CompanyData> items = model.getItems();
+
+                        if (items != null && !items.isEmpty()) {
+                            // Copy start date to date
+                            for (CompanyData companyData : items) {
+                                companyData.setDate(companyData.getStarts().get(0));
+                            }
+
+                            // Add all updated items to meetings list
+                            meetings.addAll(items);
+                        }
+
+                        getentrypermitrequests(s_time, e_time);
+                    } else {
+                        getentrypermitrequests(s_time, e_time);
+                    }
+                } else {
+                    ViewController.DismissProgressBar();
+                    Conversions.errroScreen(getActivity(), model.getResult() + "");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Model1> call, Throwable t) {
+                //card_view_progress.setVisibility(GONE);
+                ViewController.DismissProgressBar();
+                System.out.println("asdf2" + t);
+            }
+        }, getActivity(), "upcoming", empData.getEmp_id(), empData.getEmail(), s_time, e_time);
+    }
+
+    //self material permits
+    private void getentrypermitrequests(String s_time, String e_time) {
+        //card_view_progress.setVisibility(VISIBLE);
+        DataManger dataManager = DataManger.getDataManager();
+        dataManager.getentrypermitrequests(new Callback<Model1>() {
+            @Override
+            public void onResponse(Call<Model1> call, Response<Model1> response) {
+                Model1 model = response.body();
+                if (model != null) {
+                    Integer statuscode = model.getResult();
+                    Integer successcode = 200, failurecode = 401, not_verified = 404;
+                    if (statuscode.equals(successcode)) {
+
+
+                        List<CompanyData> items = model.getItems();
+
+                        if (items != null && !items.isEmpty()) {
+                            // Copy start date to date
+                            for (CompanyData companyData : items) {
+                                companyData.setDate(companyData.getStart());
+                            }
+
+                            // Add all updated items to meetings list
+                            meetings.addAll(items);
+                        }
+
+                        getmeetingapprovals(s_time, e_time);
+                    } else {
+                        getmeetingapprovals(s_time, e_time);
+                    }
+                } else {
+                    ViewController.DismissProgressBar();
+                    Conversions.errroScreen(getActivity(), model.getResult() + "");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Model1> call, Throwable t) {
+                //card_view_progress.setVisibility(GONE);
+                ViewController.DismissProgressBar();
+                System.out.println("asdf2" + t);
+            }
+        }, getActivity(), "upcoming", empData.getEmp_id(), empData.getEmail(), s_time, e_time);
     }
 
     private void getmeetingapprovals(String s_time, String e_time) {
@@ -1049,7 +1382,7 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
                     } else if (statuscode.equals(not_verified)) {
                     } else if (statuscode.equals(successcode)) {
 
-                        Log.e("outlookmeetings_size_3",outlookmeetings.size()+"");
+                        Log.e("outlookmeetings_size_3", outlookmeetings.size() + "");
 
                         meetings1 = model.getItems();
 
@@ -1063,7 +1396,7 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
 //                        }
 
                         meetings.addAll(meetings1);
-                        if (getActivity() != null) {
+                        if (getActivity() != null && !meetings.isEmpty()) {
                             new AddToCalendar(getActivity()).execute(meetings);
                         }
                         meetings = insertionSort(meetings);
@@ -1081,7 +1414,7 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
                                 if ((meetings.get(i).getDate() >= toDay && (meetings.get(i).getDate() < (toDay + (60 * 60 * 24 * 1))))) {
                                     if (meetings.get(i).getEnd() >= cal.getTimeInMillis() / 1000 - Conversions.timezone()) {
                                         if (empData.getRoleid().equalsIgnoreCase(meetings.get(i).getApprover_roleid())) {
-                                            if (meetings1.size() != 0){
+                                            if (meetings1.size() != 0) {
                                                 toDayMeetings_Appointments.add(meetings.get(i));
                                                 Log.e(TAG, "toDayMeetings_Appointments:asda" + "1");
                                             }
@@ -1089,13 +1422,15 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
                                             toDayMeetings.add(meetings.get(i));
                                             Log.e(TAG, "onResponse:asda" + "124");
                                         }
+                                    }else if (meetings.get(i).getSupertype().equalsIgnoreCase("entrypermit")){
+                                        toDayMeetings.add(meetings.get(i));
                                     }
                                     Log.e(TAG, "onResponse:asda" + "125");
                                     meetings1.remove(meetings.get(i));
-                                }else {
+                                } else {
                                     Log.e(TAG, "onResponse:asda" + "126");
                                     if (empData.getRoleid().equalsIgnoreCase(meetings.get(i).getApprover_roleid())) {
-                                        if (meetings.size() != 0){
+                                        if (meetings.size() != 0) {
                                             toDayMeetings_Appointments.add(meetings.get(i));
                                             Log.e(TAG, "toDayMeetings_Appointments:asda" + "2");
                                             meetings1.remove(meetings.get(i));
@@ -1124,7 +1459,7 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
                         }
 
 
-                        Log.e("outlookmeetings_size_2",meetings1.size()+"");
+                        Log.e("outlookmeetings_size_2", meetings1.size() + "");
                         //upcoming
                         upComingMeetingAdapter = new UpComingMeetingAdapter(getActivity(), meetings1);
                         LinearLayoutManager manager = new LinearLayoutManager(getActivity());
@@ -1276,6 +1611,8 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
                     if (itemData.getSupertype().equalsIgnoreCase("meeting")) {
 
                         binding.cardViewMeeting.setVisibility(View.VISIBLE);
+                        binding.cardviewWorkPermit.setVisibility(GONE);
+                        binding.cardviewMaterialPermit.setVisibility(View.GONE);
                         binding.cardviewCheckin.setVisibility(GONE);
                         binding.cardviewVisitor.setVisibility(GONE);
 
@@ -1314,7 +1651,7 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
                                         .error(R.drawable.ic_user)       // Image to display on error
                                         .into(binding.pic);
 
-                                Log.e("img_1", url );
+                                Log.e("img_1", url);
                             }
 
                         }
@@ -1416,6 +1753,8 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
                         }
                     } else if (itemData.getSupertype().equalsIgnoreCase("userslots")) {
                         binding.cardviewVisitor.setVisibility(VISIBLE);
+                        binding.cardviewWorkPermit.setVisibility(GONE);
+                        binding.cardviewMaterialPermit.setVisibility(View.GONE);
                         binding.cardViewMeeting.setVisibility(GONE);
                         binding.cardviewCheckin.setVisibility(GONE);
 
@@ -1445,14 +1784,109 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
                                 startActivity(intent);
                             }
                         });
-                    }else if (itemData.getSupertype().equalsIgnoreCase("exchange")) {
+                    } else if (itemData.getSupertype().equalsIgnoreCase("exchange")) {
                         Log.e(TAG, "onBindViewHolder:super: " + itemData.getSupertype());
-                    }else {
+                    } else if (itemData.getSupertype().equalsIgnoreCase("workpermits")) {
+
+                        binding.cardviewWorkPermit.setVisibility(View.VISIBLE);
+                        binding.cardviewMaterialPermit.setVisibility(View.GONE);
+                        binding.cardviewCheckin.setVisibility(View.GONE);
+                        binding.cardViewMeeting.setVisibility(GONE);
+                        binding.cardviewVisitor.setVisibility(GONE);
+
+                        binding.WorkPermitID.setText(" "+itemData.getWorkpermit_id()+" ");
+                        binding.txtWorkPermitName.setText(itemData.getContractor().name);
+                        binding.txtWorkType.setText(itemData.getWorktypeData().name);
+
+
+                        if (itemData.getStatus() == 2){
+                            binding.workPermitCancelStatus.setVisibility(VISIBLE);
+                        }
+
+                        //from date time
+//                        String fromDate = Conversions.formatToFullDateTime(itemData.getStarts().get(0));
+                        String fromDate = Conversions.formatToFullDateonly(itemData.getStarts().get(0));
+                        // 1 min add
+                        long plusOneMinInSecondsFrom = itemData.getEnds().get(0) + 60;
+                        String fromEndTIme = Conversions.millitotime((plusOneMinInSecondsFrom + Conversions.timezone()) * 1000, false);
+//                        binding.txtFrom.setText(fromDate+" - "+fromEndTIme);
+                        binding.txtFrom.setText(fromDate+" - ");
+
+                        //to date time
+                        //array past position on to date
+                        ArrayList<Long> ends = itemData.getEnds();
+                        if (ends != null && !ends.isEmpty()) {
+                            Long lastValue = ends.get(ends.size() - 1);
+                            Log.d("LastEnd", "Last end time: " + lastValue);
+                            String toDate = Conversions.formatToFullDateonly(lastValue);
+                            String toStartTIme = Conversions.millitotime((itemData.getStarts().get(0) + Conversions.timezone()) * 1000, false);
+                            // 1 min add
+                            long plusOneMinInSecondsTo = lastValue + 60;
+                            String toEndTIme = Conversions.millitotime((plusOneMinInSecondsTo + Conversions.timezone()) * 1000, false);
+//                            binding.txtTo.setText(toDate + toStartTIme+" - "+toEndTIme);
+                            binding.txtTo.setText(toDate);
+                        }
+
+                        binding.cardviewWorkPermit.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                AnimationSet animation = Conversions.animation();
+                                v.startAnimation(animation);
+                                Intent intent = new Intent(getActivity(), WorkPermitDetailsActivity.class);
+                                intent.putExtra("type", "self");
+                                intent.putExtra("id", itemData.get_id().get$oid());
+                                startActivityForResult(intent, REQUEST_CODE);
+                                getActivity().overridePendingTransition(R.anim.enter, R.anim.exit);
+                            }
+                        });
+
+                    } else if (itemData.getSupertype().equalsIgnoreCase("entrypermit")) {
+                        binding.cardviewMaterialPermit.setVisibility(View.VISIBLE);
+                        binding.cardviewWorkPermit.setVisibility(View.GONE);
+                        binding.cardviewCheckin.setVisibility(View.GONE);
+                        binding.cardViewMeeting.setVisibility(GONE);
+                        binding.cardviewVisitor.setVisibility(GONE);
+
+                        binding.txtMaterialPermitId.setText(" "+itemData.getMeterial_id()+" ");
+                        binding.txtMaterialRefDocument.setText(itemData.getRef_document());
+                        binding.txtMaterialPurpose.setText(itemData.getPurpose());
+
+                        if (itemData.getPurpose_return()){
+                            binding.txtMaterialType.setText(getActivity().getString(R.string.Entry));
+                        }else {
+                            binding.txtMaterialType.setText(getActivity().getString(R.string.Exit));
+                        }
+
+
+                        if (itemData.getStatus() == 2){
+                            binding.materialPermitCancelStatus.setVisibility(VISIBLE);
+                        }
+
+                        String fromDate = Conversions.millitodateD((itemData.getStart()+Conversions.timezone()) * 1000);
+                        String toDate = Conversions.millitodateD((itemData.getEnd()+Conversions.timezone()) * 1000);
+                        binding.txtMaterialFrom.setText(fromDate + " - ");
+                        binding.txtMaterialTo.setText(toDate);
+
+                        binding.cardviewMaterialPermit.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                AnimationSet animation = Conversions.animation();
+                                v.startAnimation(animation);
+                                Intent intent = new Intent(getActivity(), MaterialPermitDetailsActivity.class);
+                                intent.putExtra("type", "self");
+                                intent.putExtra("id", itemData.get_id().get$oid());
+                                startActivityForResult(intent, REQUEST_CODE);
+                                getActivity().overridePendingTransition(R.anim.enter, R.anim.exit);
+                            }
+                        });
+
+                    } else {
 
                         //checkin
                         Log.e(TAG, "onBindViewHolder:history: " + itemData.getHistory().get(0));
 
                         binding.cardviewCheckin.setVisibility(View.VISIBLE);
+                        binding.cardviewWorkPermit.setVisibility(GONE);
                         binding.cardViewMeeting.setVisibility(GONE);
                         binding.cardviewVisitor.setVisibility(GONE);
 
@@ -1467,7 +1901,7 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
                         }
 
 
-                        if (itemData.getHistory().get(0).getStart().equals("") && itemData.getHistory().get(0).getEnd().equals("")){
+                        if (itemData.getHistory().get(0).getStart().equals("") && itemData.getHistory().get(0).getEnd().equals("")) {
                             binding.checkinTime.setVisibility(VISIBLE);
                             //CheckIn date and time
                             long checkinTime = (Long.parseLong(itemData.getHistory().get(0).getDatetime().get$numberLong()) * 1000);
@@ -1496,8 +1930,8 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
                 }
 
 
-                if (itemData.getHistory() != null) {
-                    if (itemData.getHistory().get(0).getLivepic() != null && itemData.getHistory().get(0).getLivepic().size() != 0) {
+                if (itemData.getHistory() != null && itemData.getHistory().size() > 0) {
+                    if (itemData.getHistory().get(0).getLivepic() != null && itemData.getHistory().get(0).getLivepic().size() > 0) {
                         Glide.with(getActivity()).load(DataManger.IMAGE_URL + "/uploads/" + sharedPreferences1.getString("company_id", null) + "/" + itemData.getHistory().get(0).getLivepic().get(0))
                                 .into(binding.picCheckin);
                     }
@@ -1628,6 +2062,8 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
                 Log.e(TAG, "onBindViewHolder:super_123: " + meetings1s.get(position).getSupertype());
                 Holder.cardOutlook.setVisibility(VISIBLE);
                 Holder.cardOther.setVisibility(GONE);
+                Holder.cardviewWorkPermit.setVisibility(GONE);
+                Holder.cardviewMaterialPermit.setVisibility(GONE);
 
 //                if (empData.getEmp_id().equalsIgnoreCase(meetings1s.get(position).getEmp_id())) {
 //                } else {
@@ -1738,10 +2174,111 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
 //                    }
 //                });
 
+            } else if (meetings1s.get(position).getSupertype().equalsIgnoreCase("workpermits")) {
+
+                Holder.cardviewWorkPermit.setVisibility(VISIBLE);
+                Holder.cardviewMaterialPermit.setVisibility(GONE);
+                Holder.cardOther.setVisibility(GONE);
+
+
+                //cancel
+                if (meetings1s.get(position).getStatus() ==  2){
+                    Holder.workPermitCancelStatus.setVisibility(VISIBLE);
+                }
+
+
+                Holder.WorkPermitID.setText(" "+meetings1s.get(position).getWorkpermit_id()+" ");
+                Holder.txtWorkPermitName.setText(meetings1s.get(position).getContractor().name);
+                Holder.txtWorkType.setText(meetings1s.get(position).getWorktypeData().name);
+
+                //from date time
+//                String fromDate = Conversions.formatToFullDateTime(meetings1s.get(position).getStarts().get(0));
+                String fromDate = Conversions.formatToFullDateonly(meetings1s.get(position).getStarts().get(0));
+                // 1 min add
+                long plusOneMinInSecondsFrom = meetings1s.get(position).getEnds().get(0) + 60;
+                String fromEndTIme = Conversions.millitotime((plusOneMinInSecondsFrom + Conversions.timezone()) * 1000, false);
+//                Holder.txtFrom.setText(fromDate+" - "+fromEndTIme);
+                Holder.txtFrom.setText(fromDate+" - ");
+
+                //to date time
+                //array past position on to date
+                ArrayList<Long> ends = meetings1s.get(position).getEnds();
+                if (ends != null && !ends.isEmpty()) {
+                    Long lastValue = ends.get(ends.size() - 1);
+                    Log.d("LastEnd", "Last end time: " + lastValue);
+                    String toDate = Conversions.formatToFullDateonly(lastValue);
+                    String toStartTIme = Conversions.millitotime((meetings1s.get(position).getStarts().get(0) + Conversions.timezone()) * 1000, false);
+                    // 1 min add
+                    long plusOneMinInSecondsTo = lastValue + 60;
+                    String toEndTIme = Conversions.millitotime((plusOneMinInSecondsTo + Conversions.timezone()) * 1000, false);
+//                    Holder.txtTo.setText(toDate + toStartTIme+" - "+toEndTIme);
+                    Holder.txtTo.setText(toDate);
+                }
+
+
+                Holder.cardviewWorkPermit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        AnimationSet animation = Conversions.animation();
+                        v.startAnimation(animation);
+                        Intent intent = new Intent(getActivity(), WorkPermitDetailsActivity.class);
+                        intent.putExtra("type", "self");
+                        intent.putExtra("id", meetings1s.get(position).get_id().get$oid());
+                        startActivityForResult(intent, REQUEST_CODE);
+                        getActivity().overridePendingTransition(R.anim.enter, R.anim.exit);
+                    }
+                });
+
+
+            } else if (meetings1s.get(position).getSupertype().equalsIgnoreCase("entrypermit")) {
+
+                Holder.cardviewMaterialPermit.setVisibility(VISIBLE);
+                Holder.cardOther.setVisibility(GONE);
+                Holder.cardviewWorkPermit.setVisibility(GONE);
+
+
+                Holder.txtMaterialPermitId.setText(" "+meetings1s.get(position).getMeterial_id()+" ");
+                Holder.txtMaterialRefDocument.setText(meetings1s.get(position).getRef_document());
+                Holder.txtMaterialPurpose.setText(meetings1s.get(position).getPurpose());
+
+
+                if (meetings1s.get(position).getPurpose_return()){
+                    Holder.txtMaterialType.setText(getActivity().getString(R.string.Entry));
+                }else {
+                    Holder.txtMaterialType.setText(getActivity().getString(R.string.Exit));
+                }
+
+
+                //cancel
+                if (meetings1s.get(position).getStatus() ==  2){
+                    Holder.materialPermitCancelStatus.setVisibility(VISIBLE);
+                }
+
+                String fromDate = Conversions.millitodateD((meetings1s.get(position).getStart()+Conversions.timezone()) * 1000);
+                String toDate = Conversions.millitodateD((meetings1s.get(position).getEnd()+Conversions.timezone()) * 1000);
+                Holder.txtMaterialFrom.setText(fromDate);
+                Holder.txtMaterialTo.setText(toDate);
+
+
+                Holder.cardviewMaterialPermit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        AnimationSet animation = Conversions.animation();
+                        v.startAnimation(animation);
+                        Intent intent = new Intent(getActivity(), MaterialPermitDetailsActivity.class);
+                        intent.putExtra("type", "self");
+                        intent.putExtra("id", meetings1s.get(position).get_id().get$oid());
+                        startActivityForResult(intent, REQUEST_CODE);
+                        getActivity().overridePendingTransition(R.anim.enter, R.anim.exit);
+                    }
+                });
+
             }else {
 
                 Holder.cardOther.setVisibility(VISIBLE);
                 Holder.cardOutlook.setVisibility(GONE);
+                Holder.cardviewWorkPermit.setVisibility(GONE);
+                Holder.cardviewMaterialPermit.setVisibility(GONE);
 
                 if (empData.getEmp_id().equalsIgnoreCase(meetings1s.get(position).getEmp_id())) {
                 } else {
@@ -1750,7 +2287,6 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
                             Holder.host.setTypeface(null, Typeface.BOLD);
                             Holder.subject.setTypeface(null, Typeface.BOLD);
                             Holder.viziter.setTypeface(null, Typeface.BOLD);
-                        } else {
                         }
                     }
                 }
@@ -1789,7 +2325,6 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
                 String time = simple.format(result) + "";
                 Holder.date.setText(time);
 
-
                 //meeting time
                 Holder.meeting_time.setText(time + " " + s_time1 + " To " + e_time);
 
@@ -1802,7 +2337,6 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
                 //create date and time
                 long longtime = (Long.parseLong(String.valueOf(Long.parseLong(meetings1s.get(position).getCreated_time().get$numberLong()) * 1000)));
                 Holder.create_time.setText(ViewController.Create_date_month_year_hr_mm_am_pm(longtime) + "");
-
 
                 Holder.host_title.setText(getResources().getString(R.string.host));
                 if (meetings1s.get(position).getEmployee().getPic() != null && meetings1s.get(position).getEmployee().getPic().size() != 0) {
@@ -1870,13 +2404,13 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
 
             }
 
-
         }
 
         @Override
         public int getItemCount() {
             //count
             upcoming_count_text.setText("(" + meetings1s.size() + ")");
+
             if (meetings1s.size() > 3) {
                 //3 above
             } else {
@@ -1889,7 +2423,7 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
 
             //outlook
             CardView cardOutlook;
-            TextView outlookMeetingTime,outlookCreateTime,txtName,outlookSubject;
+            TextView outlookMeetingTime, outlookCreateTime, txtName, outlookSubject;
 
             //other
             CardView cardOther;
@@ -1897,6 +2431,15 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
             CircleImageView pic;
             ImageView img_reccurence;
             RelativeLayout mStatusColor;
+
+
+            //workpermit
+            CardView cardviewWorkPermit;
+            TextView WorkPermitID,  workPermitCancelStatus, txtWorkPermitName, txtWorkType, txtFrom, txtTo;
+
+            //Material Permit
+            CardView cardviewMaterialPermit;
+            TextView txtMaterialPermitId, txtMaterialRefDocument, txtMaterialPurpose, txtMaterialType, txtMaterialFrom, txtMaterialTo, materialPermitCancelStatus;
 
             public ViewHolderUpcoming(@NonNull View view) {
                 super(view);
@@ -1923,6 +2466,25 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
                 host = view.findViewById(R.id.host);
                 count = view.findViewById(R.id.count);
                 host_title = view.findViewById(R.id.host_title);
+
+                //work permit
+                cardviewWorkPermit = view.findViewById(R.id.cardviewWorkPermit);
+                workPermitCancelStatus = view.findViewById(R.id.workPermitCancelStatus);
+                WorkPermitID = view.findViewById(R.id.WorkPermitID);
+                txtWorkPermitName = view.findViewById(R.id.txtWorkPermitName);
+                txtWorkType = view.findViewById(R.id.txtWorkType);
+                txtFrom = view.findViewById(R.id.txtFrom);
+                txtTo = view.findViewById(R.id.txtTo);
+
+                //material permit
+                cardviewMaterialPermit = view.findViewById(R.id.cardviewMaterialPermit);
+                txtMaterialPermitId = view.findViewById(R.id.txtMaterialPermitId);
+                txtMaterialRefDocument = view.findViewById(R.id.txtMaterialRefDocument);
+                txtMaterialPurpose = view.findViewById(R.id.txtMaterialPurpose);
+                txtMaterialType = view.findViewById(R.id.txtMaterialType);
+                txtMaterialFrom = view.findViewById(R.id.txtMaterialFrom);
+                txtMaterialTo = view.findViewById(R.id.txtMaterialTo);
+                materialPermitCancelStatus = view.findViewById(R.id.materialPermitCancelStatus);
             }
         }
     }
@@ -1954,7 +2516,6 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
 
     private class AppointmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         ArrayList<CompanyData> appointment_ArrayList;
-        ;
         private Context context;
 
         public AppointmentAdapter(Context context, ArrayList<CompanyData> appointment_ArrayList) {
@@ -1977,13 +2538,17 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
             Log.d("abc_", appointment_ArrayList.get(position).getSupertype());
 
             try {
-                if (appointment_ArrayList.get(position).getSupertype().equalsIgnoreCase("meeting"))  {
+                if (appointment_ArrayList.get(position).getSupertype().equalsIgnoreCase("meeting")) {
                     Holder.cardview_meeting.setVisibility(View.VISIBLE);
+                    Holder.cardviewMaterialPermit.setVisibility(View.GONE);
+                    Holder.cardviewWorkPermit.setVisibility(View.GONE);
                     Holder.cardview_appointment.setVisibility(View.GONE);
                     Holder.cardview_checkin.setVisibility(GONE);
+
+
                     Log.d("abc_getName", appointment_ArrayList.get(position).getEmployee().getName());
 
-                    if (appointment_ArrayList.get(position).getApprover_statistics().size() != 0){
+                    if (appointment_ArrayList.get(position).getApprover_statistics().size() != 0) {
                         if (appointment_ArrayList.get(position).getApprover_statistics().get(0).getView_status() != null && appointment_ArrayList.get(position).getApprover_statistics().get(0).getView_status() == false) {
                             Holder.host_today.setTypeface(null, Typeface.BOLD);
                             Holder.viziter_today.setTypeface(null, Typeface.BOLD);
@@ -2108,7 +2673,7 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
                         intent.putExtra("m_id", appointment_ArrayList.get(position).get_id().get$oid());
                         startActivityForResult(intent, REQUEST_CODE);
                         getActivity().overridePendingTransition(R.anim.enter, R.anim.exit);
-                        Log.e("m_id_a",appointment_ArrayList.get(position).get_id().get$oid());
+                        Log.e("m_id_a", appointment_ArrayList.get(position).get_id().get$oid());
                     });
 
                     if (empData.getRoleid().equals(appointment_ArrayList.get(position).getApprover_roleid())) {
@@ -2117,6 +2682,8 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
 
                 } else if (appointment_ArrayList.get(position).getSupertype().equalsIgnoreCase("outside")) {
                     Holder.cardview_appointment.setVisibility(View.VISIBLE);
+                    Holder.cardviewMaterialPermit.setVisibility(View.GONE);
+                    Holder.cardviewWorkPermit.setVisibility(View.GONE);
                     Holder.cardview_meeting.setVisibility(GONE);
                     Holder.cardview_checkin.setVisibility(GONE);
 
@@ -2182,6 +2749,8 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
                     Log.e(TAG, "onBindViewHolder:history: " + appointment_ArrayList.get(position).getHistory().get(0).getHstatus());
                     if (appointment_ArrayList.get(position).getHistory().get(0).getHstatus() == 0 || appointment_ArrayList.get(position).getHistory().get(0).getHstatus() == 2) {
                         Holder.cardview_checkin.setVisibility(VISIBLE);
+                        Holder.cardviewMaterialPermit.setVisibility(View.GONE);
+                        Holder.cardviewWorkPermit.setVisibility(View.GONE);
                         Holder.cardview_meeting.setVisibility(View.GONE);
                         Holder.cardview_appointment.setVisibility(View.GONE);
 
@@ -2213,7 +2782,6 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
                     //CheckIn date and time
                     long checkinTime = (Long.parseLong(appointment_ArrayList.get(position).getHistory().get(0).getDatetime().get$numberLong()) * 1000);
                     Holder.checkin_time.setText(ViewController.Create_date_month_year_hr_mm_am_pm(checkinTime) + "");
-
 
                     //create date and time
                     long longtime = (Long.parseLong(String.valueOf(Long.parseLong(appointment_ArrayList.get(position).getCreated_time().get$numberLong()) * 1000)));
@@ -2324,9 +2892,9 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
 //                        LinearLayout linear_accept;
 //                        LinearLayout linear_decline;
 //                        cancel = dialog.findViewById(R.id.cancel);
-////                      tomeet = dialog.findViewById(R.id.tomeet);
+//                        tomeet = dialog.findViewById(R.id.tomeet);
 //                        pic = dialog.findViewById(R.id.pic);
-////                      department = dialog.findViewById(R.id.department);
+//                        department = dialog.findViewById(R.id.department);
 //                        purpose = dialog.findViewById(R.id.purpose);
 //                        company = dialog.findViewById(R.id.company);
 //                        email = dialog.findViewById(R.id.email);
@@ -2343,8 +2911,8 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
 //                        company.setText(appointment_ArrayList.get(position).getCompany());
 //                        mobile.setText(appointment_ArrayList.get(position).getMobile());
 //                        email.setText(appointment_ArrayList.get(position).getEmail());
-////                      tomeet.setText(meeting.get(position).getEmployee().getName());
-////                      department.setText(meeting.get(position).getHierarchys().getName());
+//                        tomeet.setText(meeting.get(position).getEmployee().getName());
+//                        department.setText(meeting.get(position).getHierarchys().getName());
 //                        if (appointment_ArrayList.get(position).getHistory().get(0).getLivepic() != null && appointment_ArrayList.get(position).getHistory().get(0).getLivepic().size() != 0) {
 //                            Glide.with(getActivity()).load(DataManger.IMAGE_URL + "/uploads/" + sharedPreferences1.getString("company_id", null) + "/" + appointment_ArrayList.get(position).getHistory().get(0).getLivepic().get(0))
 //                                    .into(pic);
@@ -2419,7 +2987,7 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
 //                            }
 //                        });
 //                        dialog.show();
-////
+//
 //
 //                    }
 //                });
@@ -2430,6 +2998,89 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
                             AnimationSet animation = Conversions.animation();
                             v.startAnimation(animation);
                             Assignpopup(position, "");
+                        }
+                    });
+
+                }  else if (appointment_ArrayList.get(position).getSupertype().equalsIgnoreCase("workpermits")) {
+
+                    Holder.cardviewWorkPermit.setVisibility(View.VISIBLE);
+                    Holder.cardviewMaterialPermit.setVisibility(View.GONE);
+                    Holder.cardview_meeting.setVisibility(View.GONE);
+                    Holder.cardview_appointment.setVisibility(View.GONE);
+                    Holder.cardview_checkin.setVisibility(GONE);
+
+                    Holder.txtWorkPermitId.setText(" "+appointment_ArrayList.get(position).getWorkpermit_id()+" ");
+                    Holder.txtWorkPermitName.setText(appointment_ArrayList.get(position).getContractor().name);
+                    Holder.txtWorkType.setText(appointment_ArrayList.get(position).getWorktypeData().name);
+
+                    //from date time
+                    String fromDate = Conversions.formatToFullDateonly(appointment_ArrayList.get(position).getStarts().get(0));
+                    // 1 min add
+                    long plusOneMinInSecondsFrom = appointment_ArrayList.get(position).getEnds().get(0) + 60;
+                    String fromEndTIme = Conversions.millitotime((plusOneMinInSecondsFrom + Conversions.timezone()) * 1000, false);
+//                    Holder.txtFrom.setText(fromDate+" - "+fromEndTIme);
+                    Holder.txtFrom.setText(fromDate+" - ");
+
+                    //to date time
+                    //array past position on to date
+                    ArrayList<Long> ends = appointment_ArrayList.get(position).getEnds();
+                    if (ends != null && !ends.isEmpty()) {
+                        Long lastValue = ends.get(ends.size() - 1);
+                        Log.d("LastEnd", "Last end time: " + lastValue);
+                        String toDate = Conversions.formatToFullDateonly(lastValue);
+                        String toStartTIme = Conversions.millitotime((appointment_ArrayList.get(position).getStarts().get(0) + Conversions.timezone()) * 1000, false);
+                        // 1 min add
+                        long plusOneMinInSecondsTo = lastValue + 60;
+                        String toEndTIme = Conversions.millitotime((plusOneMinInSecondsTo + Conversions.timezone()) * 1000, false);
+//                        Holder.txtTo.setText(toDate + toStartTIme+" - "+toEndTIme);
+                        Holder.txtTo.setText(toDate);
+                    }
+
+                    Holder.cardviewWorkPermit.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            AnimationSet animation = Conversions.animation();
+                            v.startAnimation(animation);
+                            Intent intent = new Intent(getActivity(), WorkPermitDetailsActivity.class);
+                            intent.putExtra("type", "others");
+                            intent.putExtra("id", appointment_ArrayList.get(position).get_id().get$oid());
+                            startActivityForResult(intent, REQUEST_CODE);
+                            getActivity().overridePendingTransition(R.anim.enter, R.anim.exit);
+                        }
+                    });
+
+                } else if (appointment_ArrayList.get(position).getSupertype().equalsIgnoreCase("entrypermit")) {
+                    Holder.cardviewMaterialPermit.setVisibility(View.VISIBLE);
+                    Holder.cardviewWorkPermit.setVisibility(View.GONE);
+                    Holder.cardview_meeting.setVisibility(View.GONE);
+                    Holder.cardview_appointment.setVisibility(View.GONE);
+                    Holder.cardview_checkin.setVisibility(GONE);
+
+                    Holder.txtMaterialPermitId.setText(" "+appointment_ArrayList.get(position).getMeterial_id()+" ");
+                    Holder.txtMaterialRefDocument.setText(appointment_ArrayList.get(position).getRef_document());
+                    Holder.txtMaterialPurpose.setText(appointment_ArrayList.get(position).getPurpose());
+
+                    if (appointment_ArrayList.get(position).getPurpose_return()){
+                        Holder.txtMaterialType.setText(getActivity().getString(R.string.Entry));
+                    }else {
+                        Holder.txtMaterialType.setText(getActivity().getString(R.string.Exit));
+                    }
+
+                    String fromDate = Conversions.millitodateD((appointment_ArrayList.get(position).getStart()+Conversions.timezone()) * 1000);
+                    String toDate = Conversions.millitodateD((appointment_ArrayList.get(position).getEnd()+Conversions.timezone()) * 1000);
+                    Holder.txtMaterialFrom.setText(fromDate +" - ");
+                    Holder.txtMaterialTo.setText(toDate);
+
+                    Holder.cardviewMaterialPermit.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            AnimationSet animation = Conversions.animation();
+                            v.startAnimation(animation);
+                            Intent intent = new Intent(getActivity(), MaterialPermitDetailsActivity.class);
+                            intent.putExtra("type", "others");
+                            intent.putExtra("id", appointment_ArrayList.get(position).get_id().get$oid());
+                            startActivityForResult(intent, REQUEST_CODE);
+                            getActivity().overridePendingTransition(R.anim.enter, R.anim.exit);
                         }
                     });
 
@@ -2482,12 +3133,20 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
             ImageView accept;
 
 
-            //checkin
+            //checkIn
             CardView cardview_checkin;
             CircleImageView pic_checkin;
             TextView subject_checkin, product_checkin, host_title_checkin, host_checkin, s_time_checkin, checkin_time, create_time;
             ImageView assign_checkin, checkout_checkin, decline_checkin, accept_checkin;
             RelativeLayout m_type_checkin;
+
+            //work Permit
+            CardView cardviewWorkPermit;
+            TextView txtWorkPermitId, txtWorkPermitName, txtWorkType, txtFrom, txtTo;
+
+            //Material Permit
+            CardView cardviewMaterialPermit;
+            TextView txtMaterialPermitId, txtMaterialRefDocument, txtMaterialPurpose, txtMaterialType, txtMaterialFrom, txtMaterialTo;
 
             public ViewHolder1(@NonNull View itemView) {
                 super(itemView);
@@ -2539,6 +3198,24 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
                 checkout_checkin = itemView.findViewById(R.id.checkout_checkin);
                 decline_checkin = itemView.findViewById(R.id.decline_checkin);
                 accept_checkin = itemView.findViewById(R.id.accept_checkin);
+
+
+                //work permit
+                cardviewWorkPermit = itemView.findViewById(R.id.cardviewWorkPermit);
+                txtWorkPermitId = itemView.findViewById(R.id.txtWorkPermitId);
+                txtWorkPermitName = itemView.findViewById(R.id.txtWorkPermitName);
+                txtWorkType = itemView.findViewById(R.id.txtWorkType);
+                txtFrom = itemView.findViewById(R.id.txtFrom);
+                txtTo = itemView.findViewById(R.id.txtTo);
+
+                //material permit
+                cardviewMaterialPermit = itemView.findViewById(R.id.cardviewMaterialPermit);
+                txtMaterialPermitId = itemView.findViewById(R.id.txtMaterialPermitId);
+                txtMaterialRefDocument = itemView.findViewById(R.id.txtMaterialRefDocument);
+                txtMaterialPurpose = itemView.findViewById(R.id.txtMaterialPurpose);
+                txtMaterialType = itemView.findViewById(R.id.txtMaterialType);
+                txtMaterialFrom = itemView.findViewById(R.id.txtMaterialFrom);
+                txtMaterialTo = itemView.findViewById(R.id.txtMaterialTo);
 
             }
         }
@@ -2826,13 +3503,15 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE && resultCode == RESULT_CODE) {
 
-//            //notification page to back activity refresh
+//            notification page to back activity refresh
 //            Intent intent = new Intent(getActivity(), NavigationActivity.class);
 //            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
 //            getContext().startActivity(intent);
 
         }
     }
+
+    //7893009632
 
 
 }

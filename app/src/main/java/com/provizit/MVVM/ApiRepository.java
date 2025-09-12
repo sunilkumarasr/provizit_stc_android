@@ -7,7 +7,14 @@ import androidx.annotation.NonNull;
 
 import com.google.gson.JsonObject;
 import com.provizit.AdapterAndModel.BusySchedules.BusySchedulesModel;
+import com.provizit.AdapterAndModel.CompanyDetailsModel;
+import com.provizit.AdapterAndModel.GetSearchEmployeesModel;
+import com.provizit.AdapterAndModel.GetdocumentsModel;
+import com.provizit.AdapterAndModel.GetsubhierarchysModel;
 import com.provizit.AdapterAndModel.HostSlots.HostSlotsModel;
+import com.provizit.AdapterAndModel.MaterialModel;
+import com.provizit.AdapterAndModel.WorkVisitTypeModel;
+import com.provizit.AdapterAndModel.WorkingDaysModal;
 import com.provizit.MVVM.RequestModels.ActionNotificationModelRequest;
 import com.provizit.MVVM.RequestModels.CheckSetupModelRequest;
 import com.provizit.MVVM.RequestModels.NotificationsStatusChangeModelRequest;
@@ -1142,6 +1149,262 @@ public class ApiRepository {
     }
 
 
+    public void getuserDetailsworkMeterial(getuserDetailsworkMeterial_ModelResponse logresponse, Context context, String type) {
+        DataManger dataManger = DataManger.getDataManager();
+        dataManger.getuserDetailsworkMeterial(new Callback<CompanyDetailsModel>() {
+            @Override
+            public void onResponse(Call<CompanyDetailsModel> call, Response<CompanyDetailsModel> response) {
+                if (response.isSuccessful()) {
+                    logresponse.onResponse(response.body());
+                } else {
+                    logresponse.onFailure(new Throwable(response.message()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CompanyDetailsModel> call, Throwable t) {
+                logresponse.onFailure(new Throwable(t));
+            }
+        }, context, type);
+    }
+
+    public void getworktypes(getworktypes_ModelResponse logresponse, Context context, String id) {
+        DataManger dataManger = DataManger.getDataManager();
+        dataManger.getworktypes(new Callback<WorkVisitTypeModel>() {
+            @Override
+            public void onResponse(Call<WorkVisitTypeModel> call, Response<WorkVisitTypeModel> response) {
+                if (response.isSuccessful()) {
+                    logresponse.onResponse(response.body());
+                } else {
+                    logresponse.onFailure(new Throwable(response.message()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<WorkVisitTypeModel> call, Throwable t) {
+                logresponse.onFailure(new Throwable(t));
+            }
+        }, context, id);
+    }
+
+
+    public void getworklocation(getworktypes_ModelResponse logresponse, Context context, String id) {
+        DataManger dataManger = DataManger.getDataManager();
+        dataManger.getworklocation(new Callback<WorkVisitTypeModel>() {
+            @Override
+            public void onResponse(Call<WorkVisitTypeModel> call, Response<WorkVisitTypeModel> response) {
+                if (response.isSuccessful()) {
+                    logresponse.onResponse(response.body());
+                } else {
+                    logresponse.onFailure(new Throwable(response.message()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<WorkVisitTypeModel> call, Throwable t) {
+                logresponse.onFailure(new Throwable(t));
+            }
+        }, context, id);
+    }
+
+    public void getworkpurposes(getworktypes_ModelResponse logresponse, Context context, String id) {
+        DataManger dataManger = DataManger.getDataManager();
+        dataManger.getworkpurposes(new Callback<WorkVisitTypeModel>() {
+            @Override
+            public void onResponse(Call<WorkVisitTypeModel> call, Response<WorkVisitTypeModel> response) {
+                if (response.isSuccessful()) {
+                    logresponse.onResponse(response.body());
+                } else {
+                    logresponse.onFailure(new Throwable(response.message()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<WorkVisitTypeModel> call, Throwable t) {
+                logresponse.onFailure(new Throwable(t));
+            }
+        }, context, id);
+    }
+
+    //Create work permit
+    public void actionworkpermita(actionworkpermita_ModelResponse logresponse, Context context, JsonObject jsonObject) {
+        DataManger dataManger = DataManger.getDataManager();
+        dataManger.actionworkpermita(new Callback<WorkVisitTypeModel>() {
+            @Override
+            public void onResponse(Call<WorkVisitTypeModel> call, Response<WorkVisitTypeModel> response) {
+                if (response.isSuccessful()) {
+                    logresponse.onResponse(response.body());
+
+                } else {
+                    logresponse.onFailure(new Throwable(response.message()));
+                }
+            }
+            @Override
+            public void onFailure(Call<WorkVisitTypeModel> call, Throwable t) {
+                logresponse.onFailure(new Throwable(t));
+            }
+        }, context, jsonObject);
+    }
+
+
+    public void getrefdocuments(getMaterialModel_ModelResponse logresponse, Context context, String id) {
+        DataManger dataManger = DataManger.getDataManager();
+        dataManger.getrefdocuments(new Callback<MaterialModel>() {
+            @Override
+            public void onResponse(Call<MaterialModel> call, Response<MaterialModel> response) {
+                if (response.isSuccessful()) {
+                    logresponse.onResponse(response.body());
+                } else {
+                    logresponse.onFailure(new Throwable(response.message()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MaterialModel> call, Throwable t) {
+                logresponse.onFailure(new Throwable(t));
+            }
+        }, context, id);
+    }
+
+    public void getentrypurposes(getMaterialModel_ModelResponse logresponse, Context context, String id) {
+        DataManger dataManger = DataManger.getDataManager();
+        dataManger.getentrypurposes(new Callback<MaterialModel>() {
+            @Override
+            public void onResponse(Call<MaterialModel> call, Response<MaterialModel> response) {
+                if (response.isSuccessful()) {
+                    logresponse.onResponse(response.body());
+                } else {
+                    logresponse.onFailure(new Throwable(response.message()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MaterialModel> call, Throwable t) {
+                logresponse.onFailure(new Throwable(t));
+            }
+        }, context, id);
+    }
+
+    public void getexitpurposes(getMaterialModel_ModelResponse logresponse, Context context, String id) {
+        DataManger dataManger = DataManger.getDataManager();
+        dataManger.getexitpurposes(new Callback<MaterialModel>() {
+            @Override
+            public void onResponse(Call<MaterialModel> call, Response<MaterialModel> response) {
+                if (response.isSuccessful()) {
+                    logresponse.onResponse(response.body());
+                } else {
+                    logresponse.onFailure(new Throwable(response.message()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MaterialModel> call, Throwable t) {
+                logresponse.onFailure(new Throwable(t));
+            }
+        }, context, id);
+    }
+
+
+    public void getsubhierarchysmaterial(GetsubhierarchysResponse logresponse, Context context, String id, String indexid) {
+        DataManger dataManger = DataManger.getDataManager();
+        dataManger.getsubhierarchysmaterial(new Callback<GetsubhierarchysModel>() {
+            @Override
+            public void onResponse(Call<GetsubhierarchysModel> call, Response<GetsubhierarchysModel> response) {
+                if (response.isSuccessful()) {
+                    logresponse.onResponse(response.body());
+
+                } else {
+                    logresponse.onFailure(new Throwable(response.message()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetsubhierarchysModel> call, Throwable t) {
+                logresponse.onFailure(new Throwable(t));
+            }
+        }, context, id, indexid);
+    }
+
+    public void getsearchemployeesmaterial(SearchEmployeesResponse logresponse, Context context, String l_id, String h_id, String type) {
+        DataManger dataManger = DataManger.getDataManager();
+        dataManger.getsearchemployeesmaterial(new Callback<GetSearchEmployeesModel>() {
+            @Override
+            public void onResponse(Call<GetSearchEmployeesModel> call, Response<GetSearchEmployeesModel> response) {
+                if (response.isSuccessful()) {
+                    logresponse.onResponse(response.body());
+
+                } else {
+                    logresponse.onFailure(new Throwable(response.message()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetSearchEmployeesModel> call, Throwable t) {
+                logresponse.onFailure(new Throwable(t));
+            }
+        }, context, l_id, h_id, type);
+    }
+
+    //Create Material permit
+    public void actionentrypermitrequest(actionentrypermitrequest_ModelResponse logresponse, Context context, JsonObject jsonObject) {
+        DataManger dataManger = DataManger.getDataManager();
+        dataManger.actionentrypermitrequest(new Callback<MaterialModel>() {
+            @Override
+            public void onResponse(Call<MaterialModel> call, Response<MaterialModel> response) {
+                if (response.isSuccessful()) {
+                    logresponse.onResponse(response.body());
+
+                } else {
+                    logresponse.onFailure(new Throwable(response.message()));
+                }
+            }
+            @Override
+            public void onFailure(Call<MaterialModel> call, Throwable t) {
+                logresponse.onFailure(new Throwable(t));
+            }
+        }, context, jsonObject);
+    }
+
+    public void getdocuments(SelectedId_listResponse logresponse, Context context) {
+        DataManger dataManger = DataManger.getDataManager();
+        dataManger.getdocuments(new Callback<GetdocumentsModel>() {
+            @Override
+            public void onResponse(Call<GetdocumentsModel> call, Response<GetdocumentsModel> response) {
+                if (response.isSuccessful()) {
+                    logresponse.onResponse(response.body());
+
+                } else {
+                    logresponse.onFailure(new Throwable(response.message()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetdocumentsModel> call, Throwable t) {
+                logresponse.onFailure(new Throwable(t));
+            }
+        }, context);
+    }
+
+    public void getworkingdays(getworkingdays_ModelResponse logresponse, Context context, String comp_id) {
+        DataManger dataManger = DataManger.getDataManager();
+        dataManger.getworkingdays(new Callback<WorkingDaysModal>() {
+            @Override
+            public void onResponse(Call<WorkingDaysModal> call, Response<WorkingDaysModal> response) {
+                if (response.isSuccessful()) {
+                    logresponse.onResponse(response.body());
+                } else {
+                    logresponse.onFailure(new Throwable(response.message()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<WorkingDaysModal> call, Throwable t) {
+                logresponse.onFailure(new Throwable(t));
+            }
+        }, context, comp_id);
+    }
+
+
     public interface ModelResponse{
         void onResponse(Model loginResponse);
         void onFailure(Throwable t);
@@ -1196,5 +1459,60 @@ public class ApiRepository {
         void onFailure(Throwable t);
     }
 
+
+    //work and material
+    public interface getuserDetailsworkMeterial_ModelResponse {
+        void onResponse(CompanyDetailsModel locationModel);
+
+        void onFailure(Throwable t);
+    }
+
+    public interface getworktypes_ModelResponse {
+        void onResponse(WorkVisitTypeModel workPermitModel);
+
+        void onFailure(Throwable t);
+    }
+
+    public interface actionworkpermita_ModelResponse {
+        void onResponse(WorkVisitTypeModel entryPermitModel);
+
+        void onFailure(Throwable t);
+    }
+
+    public interface getMaterialModel_ModelResponse {
+        void onResponse(MaterialModel materialModel);
+
+        void onFailure(Throwable t);
+    }
+
+    public interface actionentrypermitrequest_ModelResponse {
+        void onResponse(MaterialModel entryPermitModel);
+
+        void onFailure(Throwable t);
+    }
+
+    public interface GetsubhierarchysResponse {
+        void onResponse(GetsubhierarchysModel getsubhierarchysModel);
+
+        void onFailure(Throwable t);
+    }
+
+    public interface SearchEmployeesResponse {
+        void onResponse(GetSearchEmployeesModel getSearchEmployeesModel);
+
+        void onFailure(Throwable t);
+    }
+
+    public interface SelectedId_listResponse {
+        void onResponse(GetdocumentsModel getdocumentsModel);
+
+        void onFailure(Throwable t);
+    }
+
+    public interface getworkingdays_ModelResponse {
+        void onResponse(WorkingDaysModal locationModel);
+
+        void onFailure(Throwable t);
+    }
 
 }

@@ -1,8 +1,20 @@
 package com.provizit.Services;
 
+import static com.provizit.Conversions.encrypt;
+
+import android.content.Context;
+
 import com.google.gson.JsonObject;
 import com.provizit.AdapterAndModel.BusySchedules.BusySchedulesModel;
+import com.provizit.AdapterAndModel.CompanyDetailsModel;
+import com.provizit.AdapterAndModel.GetSearchEmployeesModel;
+import com.provizit.AdapterAndModel.GetdocumentsModel;
+import com.provizit.AdapterAndModel.GetsubhierarchysModel;
 import com.provizit.AdapterAndModel.HostSlots.HostSlotsModel;
+import com.provizit.AdapterAndModel.MaterialModel;
+import com.provizit.AdapterAndModel.WorkPermitModal;
+import com.provizit.AdapterAndModel.WorkVisitTypeModel;
+import com.provizit.AdapterAndModel.WorkingDaysModal;
 import com.provizit.MVVM.RequestModels.ActionNotificationModelRequest;
 import com.provizit.MVVM.RequestModels.CheckSetupModelRequest;
 import com.provizit.MVVM.RequestModels.NotificationsStatusChangeModelRequest;
@@ -17,6 +29,7 @@ import com.provizit.Utilities.Inviteemodelclass;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
@@ -223,5 +236,69 @@ public interface API {
 
     @POST("company/actionbusySchedule")
     Call<BusySchedulesModel> actionbusySchedule(@Header("Authorization") String Bearer, @Header("DeviceId") String header, @Body JsonObject jsonBody);
+
+//    work and material
+    @GET("masters/getuserDetails")
+    Call<CompanyDetailsModel> getuserDetailsworkMeterial(@Header("Authorization") String Bearer, @Header("DeviceId") String header, @Query("type") String type);
+
+    @GET("workpermits/getworktypes")
+    Call<WorkVisitTypeModel> getworktypes(@Header("Authorization") String Bearer, @Header("DeviceId") String header, @Query("comp_id") String id);
+
+    @GET("workpermits/getworklocations")
+    Call<WorkVisitTypeModel> getworklocation(@Header("Authorization") String Bearer, @Header("DeviceId") String header, @Query("comp_id") String id);
+
+    @GET("workpermits/getworkpurposes")
+    Call<WorkVisitTypeModel> getworkpurposes(@Header("Authorization") String Bearer, @Header("DeviceId") String header, @Query("comp_id") String id);
+
+    @POST("workpermits/actionworkpermita")
+    Call<WorkVisitTypeModel> actionworkpermita(@Header("Authorization") String Bearer, @Header("DeviceId") String header, @Body JsonObject jsonBody);
+
+    @GET("entry/getrefdocuments")
+    Call<MaterialModel> getrefdocuments(@Header("Authorization") String Bearer, @Header("DeviceId") String header, @Query("comp_id") String id);
+
+    @GET("entry/getentrypurposes")
+    Call<MaterialModel> getentrypurposes(@Header("Authorization") String Bearer, @Header("DeviceId") String header, @Query("comp_id") String id);
+
+    @GET("entry/getexitpurposes")
+    Call<MaterialModel> getexitpurposes(@Header("Authorization") String Bearer, @Header("DeviceId") String header, @Query("comp_id") String id);
+
+    @GET("masters/getsubhierarchys")
+    Call<GetsubhierarchysModel> getsubhierarchysmaterial(@Header("Authorization") String Bearer, @Header("DeviceId") String header, @Query("comp_id") String comp_id, @Query("indexid") String indexid);
+
+    @GET("company/getsearchemployees")
+    Call<GetSearchEmployeesModel> getsearchemployeesmaterial(@Header("Authorization") String Bearer, @Header("DeviceId") String header, @Query("l_id") String l_id, @Query("h_id") String h_id, @Query("type") String type);
+
+    @POST("entry/actionentrypermitrequest")
+    Call<MaterialModel> actionentrypermitrequest(@Header("Authorization") String Bearer, @Header("DeviceId") String header, @Body JsonObject jsonBody);
+
+    @GET("company/getdocuments")
+    Call<GetdocumentsModel> getdocuments(@Header("Authorization") String Bearer, @Header("DeviceId") String header);
+
+    @GET("company/getworkingdays")
+    Call<WorkingDaysModal> getworkingdays(@Header("Authorization") String Bearer, @Header("DeviceId") String header, @Query("comp_id") String id);
+
+    @GET("workpermits/getworkpermits")
+    Call<Model1> getworkpermits(@Header("Authorization") String Bearer, @Header("DeviceId") String header, @Query("type") String type, @Query("emp_id") String emp_id, @Query("email") String email, @Query("start") String start, @Query("end") String end);
+
+    @GET("workpermits/getworkpermitapprovals")
+    Call<Model1> getworkpermitapprovals(@Header("Authorization") String Bearer, @Header("DeviceId") String header, @Query("type") String type, @Query("emp_id") String emp_id, @Query("email") String email, @Query("start") String start, @Query("end") String end);
+
+    @GET("workpermits/getworkpermitDetails")
+    Call<WorkPermitModal> getworkpermitDetails(@Header("Authorization") String Bearer, @Header("DeviceId") String header, @Query("id") String id);
+
+    @POST("workpermits/updateworkpermita")
+    Call<WorkPermitModal> updateworkpermita(@Header("Authorization") String Bearer, @Header("DeviceId") String header, @Body JsonObject jsonBody);
+
+    @GET("entry/getmaterialpermitapprovals")
+    Call<Model1> getmaterialpermitapprovals(@Header("Authorization") String Bearer, @Header("DeviceId") String header, @Query("type") String type, @Query("emp_id") String emp_id, @Query("start") String start, @Query("end") String end);
+
+    @GET("entry/getentrypermitdetails")
+    Call<WorkPermitModal> getentrypermitdetails(@Header("Authorization") String Bearer, @Header("DeviceId") String header, @Query("id") String id);
+
+    @PUT("entry/updatematerialpermit")
+    Call<WorkPermitModal> updatematerialpermit(@Header("Authorization") String Bearer, @Header("DeviceId") String header, @Body JsonObject jsonBody);
+
+    @GET("entry/getentrypermitrequests")
+    Call<Model1> getentrypermitrequests(@Header("Authorization") String Bearer, @Header("DeviceId") String header, @Query("type") String type, @Query("emp_id") String emp_id, @Query("email") String email, @Query("start") String start, @Query("end") String end);
 
 }

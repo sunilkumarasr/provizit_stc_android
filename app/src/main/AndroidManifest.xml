@@ -46,6 +46,18 @@
         tools:ignore="GoogleAppIndexingWarning,UnusedAttribute"
         tools:replace="allowBackup,supportsRtl">
         <activity
+            android:name=".Activities.MaterialPermitDetailsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.WorkPermitDetailsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.MaterialPermitSetUpActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.WorkPermitSetUpActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activities.SetupTrainingActivity"
             android:exported="false" />
         <activity
@@ -186,35 +198,35 @@
                     android:pathPrefix="/linkdetails"
                     android:scheme="https" />
             </intent-filter>
-        </activity>
-<!--        <activity-->
-<!--            android:name="com.microsoft.identity.client.BrowserTabActivity"-->
-<!--            android:exported="true">-->
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.VIEW" />-->
-
-<!--                <category android:name="android.intent.category.DEFAULT" />-->
-<!--                <category android:name="android.intent.category.BROWSABLE" />-->
-
-<!--                <data-->
-<!--                    android:host="com.provizit.ksa"-->
-<!--                    android:path="/RNy5oraIA7QxAEY9MB/Z5j/wWgo="-->
-<!--                    android:scheme="msauth" />-->
-<!--            </intent-filter>-->
-<!--        </activity>-->
-
-        <activity android:name="com.microsoft.identity.client.BrowserTabActivity"
+        </activity> <!-- <activity -->
+        <!-- android:name="com.microsoft.identity.client.BrowserTabActivity" -->
+        <!-- android:exported="true"> -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="android.intent.action.VIEW" /> -->
+        <!-- <category android:name="android.intent.category.DEFAULT" /> -->
+        <!-- <category android:name="android.intent.category.BROWSABLE" /> -->
+        <!-- <data -->
+        <!-- android:host="com.provizit.ksa" -->
+        <!-- android:path="/RNy5oraIA7QxAEY9MB/Z5j/wWgo=" -->
+        <!-- android:scheme="msauth" /> -->
+        <!-- </intent-filter> -->
+        <!-- </activity> -->
+        <activity
+            android:name="com.microsoft.identity.client.BrowserTabActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data
                     android:host="com.provizit.ksa"
                     android:path="/XOxiXP5sHpCTpS6+7FUGil5ZOLg="
                     android:scheme="msauth" />
             </intent-filter>
         </activity>
+
         <service
             android:name=".MyFirebaseMessagingService"
             android:exported="false">

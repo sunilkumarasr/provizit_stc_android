@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/rounded_top_corners"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="100dp"
+        android:layout_height="2dp"
+        android:background="@color/gray"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="10dp"
+        android:layout_gravity="center"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/addSubContractor"
+            android:layout_marginBottom="5dp"
+            android:textColor="@color/colorPrimary"
+            android:textSize="15sp"
+            style="@style/medium_font"/>
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/WorkPermitSubEmail"
+            style="@style/medium_font"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:hint="@string/email"
+            android:inputType="textEmailAddress"
+            android:textColorHint="#707070"
+            android:textSize="14sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <com.hbb20.CountryCodePicker
+                android:id="@+id/MaterialPermitCCP"
+                style="@style/medium_font"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                app:ccp_showFlag="true"
+                app:ccp_showNameCode="false"
+                app:ccp_textSize="14sp" />
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/MaterialPermitMobile"
+                style="@style/medium_font"
+                android:layout_width="0dp"
+                android:layout_height="45dp"
+                android:layout_marginEnd="5dp"
+                android:layout_weight="1"
+                android:hint="@string/mobile"
+                android:maxLength="10"
+                android:inputType="number"
+                android:textSize="14sp" />
+        </LinearLayout>
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/WorkPermitSubCompanyName"
+            style="@style/medium_font"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:hint="@string/CompanyName"
+            android:inputType="textEmailAddress"
+            android:textSize="14sp" />
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/WorkPermitSubName"
+            style="@style/medium_font"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:hint="@string/name"
+            android:inputType="textEmailAddress"
+            android:textSize="14sp" />
+        <Spinner
+            android:id="@+id/spinnerWorkPermitSubSelectID"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            style="@style/medium_font"
+            android:textSize="14sp" />
+        <!-- Underline -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/light_gray"/>
+        <Spinner
+            android:id="@+id/spinnerMaterialNationality"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            style="@style/medium_font"
+            android:textSize="14sp" />
+        <!-- Underline -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/light_gray"/>
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/WorkPermitSubIDNumber"
+            style="@style/medium_font"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:hint="@string/IDNumber"
+            android:textSize="14sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnSubmit"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="5dp"
+                android:layout_gravity="center_horizontal"
+                android:backgroundTint="@color/colorPrimary"
+                android:text="@string/Submit"
+                android:textColor="#fff"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:cornerRadius="5dp"
+                app:strokeColor="#414F6C"
+                app:strokeWidth="1dp" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnCancel"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:layout_marginStart="5dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@color/gray"
+                android:text="@string/cancel"
+                android:textColor="@color/colorPrimary"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:cornerRadius="5dp"
+                app:strokeColor="#414F6C"
+                app:strokeWidth="1dp" />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

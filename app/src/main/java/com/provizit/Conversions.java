@@ -11,9 +11,11 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.DecelerateInterpolator;
 import android.view.inputmethod.InputMethodManager;
+
 import com.provizit.Activities.ErrorActivity;
 import com.provizit.Services.DataManger;
 import com.provizit.Utilities.Agenda;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -21,6 +23,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
+
 import static android.content.Context.MODE_PRIVATE;
 
 public class Conversions {
@@ -39,9 +43,9 @@ public class Conversions {
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
-    public static void errroScreen(Activity activity,String error) {
+    public static void errroScreen(Activity activity, String error) {
         Intent intent = new Intent(activity, ErrorActivity.class);
-        intent.putExtra("error",error);
+        intent.putExtra("error", error);
         activity.startActivity(intent);
     }
 
@@ -77,7 +81,8 @@ public class Conversions {
 //
 //            byte[] ivBytes = new byte[16];
 //            random.nextBytes(ivBytes);
-////            SecretKeySpec skeySpec = new SecretKeySpec(key.getBytes("UTF-8"), "AES");
+
+    /// /            SecretKeySpec skeySpec = new SecretKeySpec(key.getBytes("UTF-8"), "AES");
 //            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5PADDING");
 //            cipher.init(Cipher.ENCRYPT_MODE, keySpec);
 //
@@ -91,7 +96,6 @@ public class Conversions {
 //        }
 //        return null;
 //    }
-
     public static AnimationSet animation() {
         Animation fadeIn = new AlphaAnimation(0, 1);
         fadeIn.setInterpolator(new DecelerateInterpolator()); //add this
@@ -148,6 +152,44 @@ public class Conversions {
         String time = simple.format(result) + "";
         return time;
     }
+
+    //    03 Sep 2025, 12:00 AM - 11:59 PM
+    public static String milliToDateTime(long startTimestampSec, long endTimestampSec) {
+        Locale locale = new Locale(DataManger.appLanguage);
+
+        // Convert seconds to milliseconds
+        long startMillis = startTimestampSec * 1000;
+        long endMillis = endTimestampSec * 1000;
+
+        // Format date and time
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy", locale);
+        SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm aa", locale); // or "HH:mm" for 24hr
+
+        String date = dateFormat.format(new Date(startMillis));
+        String startTime = timeFormat.format(new Date(startMillis));
+        String endTime = timeFormat.format(new Date(endMillis));
+
+        return date + ", " + startTime + " - " + endTime;
+    }
+
+
+    //    Sun 03 Sep 2025, 12:00 AM
+    public static String formatToFullDateTime(long timestampSec) {
+        Locale locale = new Locale(DataManger.appLanguage); // e.g., "en"
+        long millis = timestampSec * 1000;
+        SimpleDateFormat sdf = new SimpleDateFormat("EEE dd MMM yyyy, hh:mm a", locale);
+        sdf.setTimeZone(TimeZone.getTimeZone("UTC")); // Ensure it reads UTC time, not device time
+        return sdf.format(new Date(millis));
+    }
+//    Sun 03 Sep 2025,
+    public static String formatToFullDateonly(long timestampSec) {
+        Locale locale = new Locale(DataManger.appLanguage); // e.g., "en"
+        long millis = timestampSec * 1000;
+        SimpleDateFormat sdf = new SimpleDateFormat("EEE dd MMM yyyy, ", locale);
+        sdf.setTimeZone(TimeZone.getTimeZone("UTC")); // Ensure it reads UTC time, not device time
+        return sdf.format(new Date(millis));
+    }
+
 
     public static String dateToFormat(String normal_date) {
         //Mar 13, 2024
@@ -237,7 +279,7 @@ public class Conversions {
                 + "abcdefghijklmnopqrstuvxyz";
         StringBuilder sb = new StringBuilder(10);
         for (int i = 0; i < 10; i++) {
-            int index = (int) (AlphaNumericString.length()  * Math.random());
+            int index = (int) (AlphaNumericString.length() * Math.random());
             sb.append(AlphaNumericString.charAt(index));
         }
         return sb.toString() + current;

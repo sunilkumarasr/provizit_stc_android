@@ -1,4 +1,13 @@
 package com.provizit.Utilities;
+import com.provizit.AdapterAndModel.ContractorData;
+import com.provizit.AdapterAndModel.EmployeeData;
+import com.provizit.AdapterAndModel.MaterialDetailsModel;
+import com.provizit.AdapterAndModel.SubContractorData;
+import com.provizit.AdapterAndModel.SupplierDetailsModel;
+import com.provizit.AdapterAndModel.WorkLocationData;
+import com.provizit.AdapterAndModel.WorkPermitApproval;
+import com.provizit.AdapterAndModel.WorktypeData;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -28,12 +37,13 @@ public class CompanyData implements Serializable {
     private Boolean eview_status;
     private Boolean trd_access;
 
-
     private String total_counts;
     private VData vData;
     private String pointer,subject,approver_roleid;
     ArrayList<Invited> invites;
+
     EmpData employee;
+
     Room room,entry;
     private String e_time;
     private Boolean projector,screen,internet,telephone,speaker,active,pdfStatus,pslots;
@@ -41,6 +51,8 @@ public class CompanyData implements Serializable {
     private ArrayList<LocationData>address;
     private long date,start,end;
     private ArrayList<String> pic;
+    private ArrayList<Long> starts;
+    private ArrayList<Long> ends;
     private String e_pic;
     private String link;
     private String designation;
@@ -48,6 +60,28 @@ public class CompanyData implements Serializable {
     private CommonObject created_time;
     private CommonObject meetingrooms;
     private CategoryData categoryData;
+    private ContractorData contractor;
+    private ArrayList<ContractorData> contractorsData;
+    private ArrayList<SubContractorData> subcontractorsData;
+    private String c_empId;
+    private WorktypeData worktypeData;
+    private WorkLocationData worklocationData;
+    private ArrayList<WorkPermitApproval> workpermit_approval;
+    private LocationData locations_Data;
+    private String workpermit_id;
+    private String work_scope;
+    private String companyName;
+
+    //material
+    private EmployeeData employee_Data;
+    private boolean purpose_return;
+    private String supplier_name;
+    private String meterial_id;
+    private String approver;
+    private String ref_document;
+    private ArrayList<SupplierDetailsModel> supplier_details;
+    private ArrayList<MaterialDetailsModel> material_details;
+
     private CoordinatorData coordinatorData;
     private ArrayList<History> history;
     private CommonObject entrypoints;
@@ -225,6 +259,162 @@ public class CompanyData implements Serializable {
         this.categoryData = categoryData;
     }
 
+    public ContractorData getContractor() {
+        return contractor;
+    }
+
+    public void setContractor(ContractorData contractor) {
+        this.contractor = contractor;
+    }
+
+    public ArrayList<ContractorData> getContractorsData() {
+        return contractorsData;
+    }
+
+    public void setContractorsData(ArrayList<ContractorData> contractorsData) {
+        this.contractorsData = contractorsData;
+    }
+
+    public ArrayList<SubContractorData> getSubcontractorsData() {
+        return subcontractorsData;
+    }
+
+    public void setSubcontractorsData(ArrayList<SubContractorData> subcontractorsData) {
+        this.subcontractorsData = subcontractorsData;
+    }
+
+    public String getC_empId() {
+        return c_empId;
+    }
+
+    public void setC_empId(String c_empId) {
+        this.c_empId = c_empId;
+    }
+
+    public WorktypeData getWorktypeData() {
+        return worktypeData;
+    }
+
+    public void setWorktypeData(WorktypeData worktypeData) {
+        this.worktypeData = worktypeData;
+    }
+
+    public WorkLocationData getWorklocationData() {
+        return worklocationData;
+    }
+
+    public void setWorklocationData(WorkLocationData worklocationData) {
+        this.worklocationData = worklocationData;
+    }
+
+    public LocationData getLocations_Data() {
+        return locations_Data;
+    }
+
+    public void setLocations_Data(LocationData locations_Data) {
+        this.locations_Data = locations_Data;
+    }
+
+    public ArrayList<WorkPermitApproval> getWorkpermit_approval() {
+        return workpermit_approval;
+    }
+
+    public void setWorkpermit_approval(ArrayList<WorkPermitApproval> workpermit_approval) {
+        this.workpermit_approval = workpermit_approval;
+    }
+
+    public String getWorkpermit_id() {
+        return workpermit_id;
+    }
+
+    public void setWorkpermit_id(String workpermit_id) {
+        this.workpermit_id = workpermit_id;
+    }
+
+    public String getWork_scope() {
+        return work_scope;
+    }
+
+    public void setWork_scope(String work_scope) {
+        this.work_scope = work_scope;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
+    public EmployeeData getEmployee_Data() {
+        return employee_Data;
+    }
+
+    public void setEmployee_Data(EmployeeData employee_Data) {
+        this.employee_Data = employee_Data;
+    }
+
+    public boolean getPurpose_return() {
+        return purpose_return;
+    }
+
+    public void setPurpose_return(boolean purpose_return) {
+        this.purpose_return = purpose_return;
+    }
+
+    public String getSupplier_name() {
+        return supplier_name;
+    }
+
+    public void setSupplier_name(String supplier_name) {
+        this.supplier_name = supplier_name;
+    }
+
+    public String getMeterial_id() {
+        return meterial_id;
+    }
+
+    public void setMeterial_id(String meterial_id) {
+        this.meterial_id = meterial_id;
+    }
+
+    public String getApprover() {
+        return approver;
+    }
+
+    public void setApprover(String approver) {
+        this.approver = approver;
+    }
+
+    public String getRef_document() {
+        return ref_document;
+    }
+
+    public void setRef_document(String ref_document) {
+        this.ref_document = ref_document;
+    }
+
+    public void setPdfs(ArrayList<Pdfs> pdfs) {
+        this.pdfs = pdfs;
+    }
+
+    public ArrayList<MaterialDetailsModel> getMaterial_details() {
+        return material_details;
+    }
+
+    public void setMaterial_details(ArrayList<MaterialDetailsModel> material_details) {
+        this.material_details = material_details;
+    }
+
+    public ArrayList<SupplierDetailsModel> getSupplier_details() {
+        return supplier_details;
+    }
+
+    public void setSupplier_details(ArrayList<SupplierDetailsModel> supplier_details) {
+        this.supplier_details = supplier_details;
+    }
+
     public CoordinatorData getCoordinatorData() {
         return coordinatorData;
     }
@@ -255,6 +445,26 @@ public class CompanyData implements Serializable {
 
     public void setPic(ArrayList<String> pic) {
         this.pic = pic;
+    }
+
+    public void setHierarchys(CommonObject hierarchys) {
+        this.hierarchys = hierarchys;
+    }
+
+    public ArrayList<Long> getStarts() {
+        return starts;
+    }
+
+    public void setStarts(ArrayList<Long> starts) {
+        this.starts = starts;
+    }
+
+    public ArrayList<Long> getEnds() {
+        return ends;
+    }
+
+    public void setEnds(ArrayList<Long> ends) {
+        this.ends = ends;
     }
 
     public String getCompany() {

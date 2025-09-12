@@ -273,6 +273,8 @@ public class OtpActivity extends AppCompatActivity {
                     } else if (statuscode.equals(successcode)) {
                         CompanyData items = new CompanyData();
                         items = response.getItems();
+                        Preferences.saveStringValue(OtpActivity.this, Preferences.Comp_id, items.getComp_id());
+
                         SharedPreferences sharedPreferences1 = OtpActivity.this.getSharedPreferences("EGEMSS_DATA", MODE_PRIVATE);
                         editor1 = sharedPreferences1.edit();
                         editor1.putString("company_id", items.getComp_id());
@@ -344,6 +346,11 @@ public class OtpActivity extends AppCompatActivity {
                         boolean b3 = myDb.insertRole(items.getRoleDetails());
                         System.out.println("location" + empData.getLocation());
                         boolean b2 = myDb.insertTokenDetails("email", binding.email.getText().toString(), items.getLink(), 1);
+
+                        //workpermitPpprover
+                        Preferences.saveStringValue(getApplicationContext(), Preferences.workpermitPpprover, items.getEmpData().getWorkpermit_approver().toString());
+                        Preferences.saveStringValue(getApplicationContext(), Preferences.mPermitApproval, items.getEmpData().getMpermit_approval().toString());
+
 
                         //meetingroom Trd
                         Preferences.saveStringValue(getApplicationContext(), Preferences.trd_access, items.getEmpData().getTrd_access().toString());

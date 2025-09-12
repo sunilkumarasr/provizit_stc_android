@@ -18,6 +18,7 @@ public class CompanyDetails extends AsyncTask<String, Integer, String> {
     DatabaseHelper myDb;
     Context activity;
 
+
     public CompanyDetails(Context context) {
         activity = context;
     }
