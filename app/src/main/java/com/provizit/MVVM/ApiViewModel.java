@@ -117,6 +117,7 @@ public class ApiViewModel extends ViewModel {
     MutableLiveData<GetSearchEmployeesModel> getsearchemployeesmaterial_response = new MutableLiveData<>();
     MutableLiveData<GetdocumentsModel> getdocuments_response = new MutableLiveData<>();
     MutableLiveData<WorkingDaysModal> getworkingdays_response = new MutableLiveData<>();
+    MutableLiveData<CompanyDetailsModel> getuserDetails_response = new MutableLiveData<>();
 
     ApiRepository apiRepository;
 
@@ -1189,6 +1190,22 @@ public class ApiViewModel extends ViewModel {
 
     }
 
+    //suppliers
+    public void getuserDetails(Context context, String type) {
+        apiRepository.getuserDetails(new ApiRepository.getuserDetails_ModelResponse() {
+            @Override
+            public void onResponse(CompanyDetailsModel entryPermitModel) {
+                getuserDetails_response.postValue(entryPermitModel);
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                Log.e(TAG, "progress: " + t);
+            }
+        }, context, type);
+
+    }
+
 
     //Versions Response
     public LiveData<Model1> getVersions_response() {
@@ -1488,6 +1505,10 @@ public class ApiViewModel extends ViewModel {
 
     public LiveData<WorkingDaysModal> getworkingdays_response(){
         return getworkingdays_response;
+    }
+
+    public LiveData<CompanyDetailsModel> getuserDetails_response(){
+        return getuserDetails_response;
     }
 
 }

@@ -287,6 +287,7 @@ public class DataManger {
         Call<Model> call = apiService.getuserDetails(bearer,newEncrypt);
         call.enqueue((Callback<Model>) cb);
     }
+
     public void getInviteData(Callback<Model1> cb,Context context, String type, String usertype, String val) {
         API apiService = retrofitSecurity.create(API.class);
         String newEncrypt = encrypt(context,false);
@@ -690,7 +691,8 @@ public class DataManger {
         call.enqueue((Callback<GetSearchEmployeesModel>) cb);
     }
 
-    //Create work permit
+
+    //Create Material permit
     public void actionentrypermitrequest(Callback<MaterialModel> cb, Context context, JsonObject jsonObject) {
         API apiService = retrofit2.create(API.class);
         String newEncrypt = encrypt(context, false);
@@ -789,6 +791,14 @@ public class DataManger {
         String bearer = "Bearer" + newEncrypt;
         Call<Model1> call = apiService.getentrypermitrequests(bearer,newEncrypt,type,empID,email,start,end);
         call.enqueue((Callback<Model1>) cb);
+    }
+
+    public void getuserDetailssetUp(Callback<CompanyDetailsModel> cb, Context context, String Type) {
+        API apiService = retrofit2.create(API.class);
+        String newEncrypt = encrypt(context, false);
+        String bearer = "Bearer" + newEncrypt;
+        Call<CompanyDetailsModel> call = apiService.getuserDetailssetUp(bearer, newEncrypt, Type);
+        call.enqueue((Callback<CompanyDetailsModel>) cb);
     }
 
 }

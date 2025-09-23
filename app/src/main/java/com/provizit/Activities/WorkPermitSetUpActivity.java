@@ -407,9 +407,9 @@ public class WorkPermitSetUpActivity extends AppCompatActivity implements View.O
         }
         try {
             jsonObj_.put("worktype", workVisitType);
-            jsonObj_.put("c_empId", compId);
+            jsonObj_.put("c_empId", empData.getEmp_id());
             jsonObj_.put("sc_empId", "");
-            jsonObj_.put("comp_id", compId);
+            jsonObj_.put("comp_id", "");
             jsonObj_.put("work_scope", scopeOfWorkTextArea);
             jsonObj_.put("sc_name", "");
             jsonObj_.put("sc_email", "");
@@ -1037,7 +1037,6 @@ public class WorkPermitSetUpActivity extends AppCompatActivity implements View.O
         });
 
     }
-
     private void contractorBottomSheetDialogList() {
         View view = LayoutInflater.from(this).inflate(R.layout.bottom_sheet_layout_contractor_list, null);
 

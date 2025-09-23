@@ -501,8 +501,8 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
                         //change
                         flot1.setVisibility(View.VISIBLE);
                         flot2.setVisibility(View.VISIBLE);
-                        flot3.setVisibility(View.GONE);
-                        flot4.setVisibility(View.GONE);
+                        flot3.setVisibility(View.VISIBLE);
+                        flot4.setVisibility(View.VISIBLE);
                         flotMain.startAnimation(tabRotateForward);
                         flot1.startAnimation(favOpen);
                         flot2.startAnimation(favOpen);
@@ -533,8 +533,8 @@ public class UpcomingMeetingsNewFragment extends Fragment implements View.OnClic
                     } else {
                         flot1.setVisibility(GONE);
                         flot2.setVisibility(View.VISIBLE);
-                        flot3.setVisibility(View.GONE);
-                        flot4.setVisibility(View.GONE);
+                        flot3.setVisibility(View.VISIBLE);
+                        flot4.setVisibility(View.VISIBLE);
                         flotMain.startAnimation(tabRotateForward);
                         flot1.startAnimation(favOpen);
                         flot2.startAnimation(favOpen);

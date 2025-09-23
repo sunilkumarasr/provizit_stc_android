@@ -35,6 +35,7 @@
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:hint="@string/email"
+            android:singleLine="true"
             android:inputType="textEmailAddress"
             android:textSize="14sp" />
         <LinearLayout
@@ -53,12 +54,12 @@
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/workPermitMobile"
                 style="@style/medium_font"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="45dp"
-                android:layout_marginRight="5dp"
+                android:layout_marginEnd="5dp"
                 android:layout_weight="1"
                 android:hint="@string/mobile"
-                android:maxLength="10"
+                android:singleLine="true"
                 android:inputType="number"
                 android:textSize="14sp" />
         </LinearLayout>
@@ -68,12 +69,14 @@
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:hint="@string/CompanyName"
+            android:singleLine="true"
             android:textSize="14sp" />
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/WorkPermitName"
             style="@style/medium_font"
             android:layout_width="match_parent"
             android:layout_height="45dp"
+            android:singleLine="true"
             android:hint="@string/name"
             android:textSize="14sp" />
         <Spinner
@@ -104,6 +107,7 @@
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:hint="@string/IDNumber"
+            android:singleLine="true"
             android:textColorHint="#707070"
             android:textSize="14sp" />
 

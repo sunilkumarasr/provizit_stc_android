@@ -326,6 +326,9 @@ public class LoginMicrosoftADActivity extends AppCompatActivity implements View.
         if (v.getId() == R.id.next) {
             AnimationSet animations = Conversions.animation();
             v.startAnimation(animations);
+
+            ViewController.hideKeyboard(LoginMicrosoftADActivity.this);
+
             if (ViewController.isEmailValid(binding.editEmail.getText().toString())) {
                 //api mvvm
                 CheckSetupModelRequest checkSetupModelRequest = new CheckSetupModelRequest(binding.editEmail.getText().toString().trim());

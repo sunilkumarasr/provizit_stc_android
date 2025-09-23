@@ -301,4 +301,9 @@ public interface API {
     @GET("entry/getentrypermitrequests")
     Call<Model1> getentrypermitrequests(@Header("Authorization") String Bearer, @Header("DeviceId") String header, @Query("type") String type, @Query("emp_id") String emp_id, @Query("email") String email, @Query("start") String start, @Query("end") String end);
 
+
+    @GET("masters/getuserDetails")
+    Call<CompanyDetailsModel> getuserDetailssetUp(@Header("Authorization") String Bearer, @Header("DeviceId") String header, @Query("type") String type);
+
+
 }

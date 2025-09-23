@@ -1404,6 +1404,25 @@ public class ApiRepository {
         }, context, comp_id);
     }
 
+    public void getuserDetails(getuserDetails_ModelResponse logresponse, Context context, String type) {
+        DataManger dataManger = DataManger.getDataManager();
+        dataManger.getuserDetailssetUp(new Callback<CompanyDetailsModel>() {
+            @Override
+            public void onResponse(Call<CompanyDetailsModel> call, Response<CompanyDetailsModel> response) {
+                if (response.isSuccessful()) {
+                    logresponse.onResponse(response.body());
+                } else {
+                    logresponse.onFailure(new Throwable(response.message()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CompanyDetailsModel> call, Throwable t) {
+                logresponse.onFailure(new Throwable(t));
+            }
+        }, context, type);
+    }
+
 
     public interface ModelResponse{
         void onResponse(Model loginResponse);
@@ -1514,5 +1533,13 @@ public class ApiRepository {
 
         void onFailure(Throwable t);
     }
+
+    public interface getuserDetails_ModelResponse {
+        void onResponse(CompanyDetailsModel locationModel);
+
+        void onFailure(Throwable t);
+    }
+
+
 
 }

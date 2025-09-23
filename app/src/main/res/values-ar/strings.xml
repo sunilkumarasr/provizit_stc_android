@@ -349,6 +349,13 @@
     <string name="SubContractorDetails">تفاصيل المقاول الفرعي</string>
     <string name="SubContractorDetailsOptional">ذیلی ٹھیکیدار کی تفصیلات (اختیاری)</string>
 
+
+    <string name="nameAndDescription">الاسم والوصف</string>
+    <string name="serialNo">الرقم التسلسلي</string>
+    <string name="quantity">الكمية</string>
+    <string name="Add">شامل کریں</string>
+
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 

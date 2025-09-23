@@ -14,10 +14,10 @@ import com.provizit.Utilities.SubContractor;
 import java.util.List;
 
 public class MaterialPermitDetailsAdapter extends RecyclerView.Adapter<MaterialPermitDetailsAdapter.ViewHolder> {
-    private List<MaterialDetailsModel> subContractorList;
+    private List<MaterialDetailsModel> materialDetailsModelList;
 
     public MaterialPermitDetailsAdapter(List<MaterialDetailsModel> list) {
-        this.subContractorList = list;
+        this.materialDetailsModelList = list;
     }
 
     @NonNull
@@ -30,7 +30,7 @@ public class MaterialPermitDetailsAdapter extends RecyclerView.Adapter<MaterialP
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        MaterialDetailsModel materialDetailsModel = subContractorList.get(position);
+        MaterialDetailsModel materialDetailsModel = materialDetailsModelList.get(position);
         holder.txtDesignation.setText(materialDetailsModel.getDescription());
         holder.txtSerialNumber.setText(materialDetailsModel.getSerial_num());
         holder.txtQuantity.setText(materialDetailsModel.getQuantity()+"");
@@ -39,7 +39,7 @@ public class MaterialPermitDetailsAdapter extends RecyclerView.Adapter<MaterialP
 
     @Override
     public int getItemCount() {
-        return subContractorList.size();
+        return materialDetailsModelList.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
