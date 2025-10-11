@@ -264,12 +264,14 @@ public class WorkPermitDetailsActivity extends AppCompatActivity {
 
                         //Contractors list
                         if (!model.getItems().getContractorsData().isEmpty()) {
+                            binding.linearContractor.setVisibility(View.VISIBLE);
                             binding.txtContractorCount.setText(model.getItems().getContractorsData().size()+"");
                             contractorList.addAll(model.getItems().getContractorsData());
                         }
 
                         //subcontractors list
                         if (!model.getItems().getSubcontractorsData().isEmpty()) {
+                            binding.linearSubContractor.setVisibility(View.VISIBLE);
                             binding.txtSubContractorCount.setText(model.getItems().getSubcontractorsData().size()+"");
                             subContractorList.addAll(model.getItems().getSubcontractorsData());
                         }

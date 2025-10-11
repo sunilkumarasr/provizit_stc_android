@@ -379,7 +379,7 @@ public class MaterialPermitSetUpActivity extends AppCompatActivity implements Vi
             jsonObj_.put("vehicle_type", "");
             jsonObj_.put("emp_id", empData.getEmp_id());
             jsonObj_.put("comp_id", compId);
-            jsonObj_.put("location", "");
+            jsonObj_.put("location", empData.getLocation());
             JsonParser jsonParser = new JsonParser();
             gsonObject = (JsonObject) jsonParser.parse(jsonObj_.toString());
             System.out.println("createjsongsonObject::" + gsonObject);
@@ -895,7 +895,6 @@ public class MaterialPermitSetUpActivity extends AppCompatActivity implements Vi
                 public void onNothingSelected(AdapterView<?> parent) {
                 }
             });
-
 
         });
     }

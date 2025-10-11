@@ -67,7 +67,6 @@
                         android:id="@+id/permitID"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="4252"
                         android:textSize="16sp"
                         android:textColor="@color/black"
                         style="@style/medium_font"/>
@@ -249,6 +248,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:visibility="gone"
                     android:id="@+id/linearContractor"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -277,6 +277,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:visibility="gone"
                     android:id="@+id/linearSubContractor"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

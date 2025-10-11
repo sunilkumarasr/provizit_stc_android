@@ -7,7 +7,8 @@
     android:layout_marginTop="5dp"
     android:layout_marginEnd="5dp"
     android:layout_marginStart="5dp"
-    android:layout_marginBottom="5dp">
+    android:layout_marginBottom="5dp"
+    app:cardElevation="3dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,58 +19,96 @@
             android:id="@+id/txtName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/SubContractor"
-            android:textColor="@color/gray"
-            android:textSize="16sp"
+            android:text="@string/name"
+            android:textColor="@color/colorPrimary"
+            android:textSize="14sp"
             android:singleLine="true"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:orientation="vertical">
-            <TextView
-                android:id="@+id/txtEmail"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:src="@drawable/mail_icon"
+                    android:layout_gravity="center_vertical"
+                    app:tint="@color/gray"/>
+                <TextView
+                    android:id="@+id/txtEmail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginStart="5dp"
+                    android:text="@string/email"
+                    android:textColor="@color/gray"
+                    android:textSize="12sp"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/email"
-                android:textColor="@color/black"
-                android:textSize="14sp"/>
-            <TextView
-                android:id="@+id/txtMobile"
-                android:layout_width="wrap_content"
+                android:layout_marginTop="5dp">
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:src="@drawable/phone_icon"
+                    android:layout_gravity="center_vertical"
+                    app:tint="@color/gray"/>
+                <TextView
+                    android:id="@+id/txtMobile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginStart="5dp"
+                    android:text="@string/mobile"
+                    android:textColor="@color/gray"
+                    android:textSize="12sp"/>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:text="@string/mobile"
-                android:textColor="@color/black"
-                android:textSize="14sp"/>
-            <TextView
-                android:id="@+id/txtSelectId"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:textColor="@color/black"
-                android:textSize="14sp"/>
+                android:layout_marginTop="5dp">
+                <TextView
+                    android:id="@+id/txtSelectId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/gray"
+                    android:textSize="12sp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:textColor="@color/gray"
+                    android:textSize="12sp"
+                    android:text="-"/>
+                <TextView
+                    android:id="@+id/txtIDNumber"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="12sp"/>
+            </LinearLayout>
             <TextView
                 android:id="@+id/txtNational"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:textColor="@color/black"
-                android:textSize="14sp"/>
-            <TextView
-                android:id="@+id/txtIDNumber"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:textColor="@color/black"
-                android:textSize="14sp"/>
+                android:layout_marginTop="5dp"
+                android:textColor="@color/gray"
+                android:textSize="12sp"/>
             <TextView
                 android:id="@+id/txtAction"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:textColor="@color/black"
-                android:textSize="14sp"/>
+                android:layout_marginTop="5dp"
+                android:textColor="@color/gray"
+                android:textSize="12sp"/>
+
         </LinearLayout>
 
     </LinearLayout>

@@ -267,12 +267,14 @@ public class MaterialPermitDetailsActivity extends AppCompatActivity {
 
                         //Material
                         if (!model.getItems().getMaterial_details().isEmpty()) {
+                            binding.linearMaterialDetails.setVisibility(View.VISIBLE);
                             binding.txtMaterialDetailsCount.setText(model.getItems().getMaterial_details().size() + "");
                             materialDetailsList.addAll(model.getItems().getMaterial_details());
                         }
 
                         //Supplier
                         if (!model.getItems().getSupplier_details().isEmpty()) {
+                            binding.linearSupplierDetails.setVisibility(View.VISIBLE);
                             binding.txtSupplierDetailsCount.setText(model.getItems().getSupplier_details().size() + "");
                             suppliersDetailsList.addAll(model.getItems().getSupplier_details());
                         }
@@ -300,7 +302,6 @@ public class MaterialPermitDetailsActivity extends AppCompatActivity {
                         String toDate = Conversions.millitodateD((model.getItems().getEnd() + Conversions.timezone()) * 1000);
                         binding.txtFrom.setText(fromDate);
                         binding.txtTo.setText(toDate);
-                        binding.txtApprovalStatus.setText(MaterialPermitDetailsActivity.this.getString(R.string.WaitingForApproval));
 
                         if (model.getItems().getStatus()==2){
                             binding.permitStatus.setVisibility(View.VISIBLE);
@@ -332,8 +333,6 @@ public class MaterialPermitDetailsActivity extends AppCompatActivity {
                             }
 
                         }
-
-
 
                     }
                 }

@@ -540,12 +540,12 @@
                         android:layout_height="wrap_content">
                         <TextView
                             android:id="@+id/txtWorkPermitName"
-                            android:layout_width="match_parent"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             style="@style/medium_font"
                             android:singleLine="true"
-                            android:text="Name"
+                            android:text="@string/name"
                             android:textColor="@color/colorPrimary"
                             android:textSize="10sp" />
                         <TextView
@@ -574,7 +574,7 @@
                             android:textColor="@color/colorPrimary"
                             style="@style/medium_font"
                             android:textSize="10sp"
-                            android:text="Work / Visit Type :" />
+                            android:text="@string/WorVisitType" />
                         <TextView
                             android:id="@+id/txtWorkType"
                             android:layout_width="wrap_content"
@@ -596,7 +596,7 @@
                             android:textColor="@color/colorPrimary"
                             style="@style/medium_font"
                             android:textSize="10sp"
-                            android:text="When :" />
+                            android:text="@string/When" />
                         <TextView
                             android:id="@+id/txtFrom"
                             android:layout_width="wrap_content"
@@ -729,7 +729,7 @@
                                     android:textColor="@color/colorPrimary"
                                     style="@style/medium_font"
                                     android:textSize="10sp"
-                                    android:text="Process Type:" />
+                                    android:text="@string/ProcessType" />
                                 <TextView
                                     android:id="@+id/txtMaterialType"
                                     android:layout_width="wrap_content"
@@ -751,7 +751,7 @@
                                     android:textColor="@color/colorPrimary"
                                     style="@style/medium_font"
                                     android:textSize="10sp"
-                                    android:text="Ref Document:" />
+                                    android:text="@string/RefDocument" />
                                 <TextView
                                     android:id="@+id/txtMaterialRefDocument"
                                     android:layout_width="wrap_content"
@@ -792,7 +792,7 @@
                             android:textColor="@color/colorPrimary"
                             style="@style/medium_font"
                             android:textSize="10sp"
-                            android:text="Purpose:" />
+                            android:text="@string/Purpose" />
                         <TextView
                             android:id="@+id/txtMaterialPurpose"
                             android:layout_width="wrap_content"
@@ -815,7 +815,7 @@
                             android:textColor="@color/colorPrimary"
                             style="@style/medium_font"
                             android:textSize="10sp"
-                            android:text="When:" />
+                            android:text="@string/When" />
                         <TextView
                             android:id="@+id/txtMaterialFrom"
                             android:layout_width="wrap_content"

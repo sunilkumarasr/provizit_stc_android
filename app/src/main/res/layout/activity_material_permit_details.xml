@@ -50,7 +50,25 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:padding="8dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/PermitID"
+                        style="@style/regular_font"
+                        android:textColor="@color/gray"/>
+
+                    <TextView
+                        android:id="@+id/txtPermitID"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="*******"
+                        android:textSize="16sp"
+                        android:textColor="@color/black"
+                        style="@style/medium_font"/>
+
                     <TextView
                         android:id="@+id/txtProcessType"
                         style="@style/medium_font"
@@ -101,30 +119,10 @@
                     android:orientation="vertical"
                     android:padding="8dp"
                     android:background="#FFFFFF">
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:textSize="13sp"
-                            android:text="@string/PermitID" />
-                        <TextView
-                            android:id="@+id/txtPermitID"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="****"
-                            android:textColor="@color/colorPrimary"
-                            android:textSize="13sp"
-                            style="@style/regular_font"/>
-                    </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp">
+                        android:layout_height="wrap_content">
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -248,36 +246,36 @@
                             style="@style/regular_font"/>
                     </LinearLayout>
 
-
                 </LinearLayout>
 
                 <!-- Work / Visit Details -->
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/ApprovalStatus"
-                    android:background="@drawable/round_light_gray"
-                    android:padding="11dp"
-                    style="@style/medium_font"
-                    android:layout_marginTop="10dp"
-                    android:textColor="@color/colorPrimary"/>
+<!--                <TextView-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="@string/ApprovalStatus"-->
+<!--                    android:background="@drawable/round_light_gray"-->
+<!--                    android:padding="11dp"-->
+<!--                    style="@style/medium_font"-->
+<!--                    android:layout_marginTop="10dp"-->
+<!--                    android:textColor="@color/colorPrimary"/>-->
+
+<!--                <LinearLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:padding="8dp">-->
+<!--                    <TextView-->
+<!--                        android:id="@+id/txtApprovalStatus"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_weight="1"-->
+<!--                        android:text="****"-->
+<!--                        android:textColor="@color/colorPrimary"-->
+<!--                        android:textSize="13sp"-->
+<!--                        style="@style/medium_font"/>-->
+<!--                </LinearLayout>-->
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="8dp">
-                    <TextView
-                        android:id="@+id/txtApprovalStatus"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="****"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="13sp"
-                        style="@style/medium_font"/>
-                </LinearLayout>
-
-                <LinearLayout
+                    android:visibility="gone"
                     android:id="@+id/linearMaterialDetails"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -306,6 +304,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:visibility="gone"
                     android:id="@+id/linearSupplierDetails"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
