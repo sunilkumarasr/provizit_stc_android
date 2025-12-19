@@ -72,6 +72,8 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
+
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.gson.Gson;
 import com.provizit.AdapterAndModel.ContactsList;
@@ -1729,6 +1731,9 @@ public class SetupMeetingActivity extends AppCompatActivity {
 
         apiViewModel.pdfupload_response().observe(SetupMeetingActivity.this, response -> {
             if (response != null) {
+
+            }else {
+                Toast.makeText(SetupMeetingActivity.this, "Upload failed Invalid PDF " , Toast.LENGTH_LONG).show();
             }
         });
 
@@ -3535,16 +3540,10 @@ public class SetupMeetingActivity extends AppCompatActivity {
     }
 
     protected void pickPdf() {
-//        Intent intent = new Intent();
-//        intent.setAction(Intent.ACTION_GET_CONTENT);
-//        intent.setType("application/pdf");
-//        startActivityForResult(intent, 9811);
-
         Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
         intent.setType("application/pdf");
         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
         startActivityForResult(intent, 9811);
-
     }
 
     @Override
@@ -3587,19 +3586,28 @@ public class SetupMeetingActivity extends AppCompatActivity {
 //                    } else if (uriString.startsWith("file://")) {
 //                    }
                     if (data != null) {
-                        // Handle multiple files
                         if (data.getClipData() != null) {
                             int count = data.getClipData().getItemCount();
                             for (int i = 0; i < count; i++) {
                                 Uri fileUri = data.getClipData().getItemAt(i).getUri();
-                                processFile(fileUri); // Process each file
+
+                                if (isPdfFile(fileUri)) {
+                                    processFile(fileUri);
+                                } else {
+                                    Toast.makeText(this, "Only PDF files are allowed", Toast.LENGTH_SHORT).show();
+                                }
                             }
                         } else if (data.getData() != null) {
-                            // Handle single file
                             Uri fileUri = data.getData();
-                            processFile(fileUri);
+
+                            if (isPdfFile(fileUri)) {
+                                processFile(fileUri);
+                            } else {
+                                Toast.makeText(this, "Only PDF files are allowed", Toast.LENGTH_SHORT).show();
+                            }
                         }
                     }
+
                 }
                 break;
         }
@@ -3611,6 +3619,26 @@ public class SetupMeetingActivity extends AppCompatActivity {
             getContactDetails(contactUri);
 
         }
+    }
+
+    private boolean isPdfFile(Uri uri) {
+        // Check MIME type (most reliable)
+        String mimeType = getContentResolver().getType(uri);
+        if ("application/pdf".equals(mimeType)) {
+            return true;
+        }
+
+        // Fallback to extension check
+        String path = FileUtilsClass.getRealPath(this, uri);
+        if (path == null || path.isEmpty()) {
+            path = FileUtilsClass.getFilePathFromURI(this, uri);
+        }
+
+        if (path != null) {
+            return path.toLowerCase().endsWith(".pdf");
+        }
+
+        return false;
     }
 
     private void processFile(Uri fileUri) {

@@ -3,8 +3,6 @@ package com.provizit.Fragments;
 import static android.content.Context.NOTIFICATION_SERVICE;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
-import static com.provizit.Conversions.milliToDateTime;
-
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.NotificationManager;

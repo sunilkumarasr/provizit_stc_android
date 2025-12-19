@@ -35,7 +35,6 @@ import java.util.regex.Pattern;
 
 public class ViewController {
 
-
     // private static Dialog dialog;
     private static ProgressDialog dialog;
 

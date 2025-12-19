@@ -43,6 +43,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.reflect.TypeToken;
 import com.hbb20.CountryCodePicker;
 import com.provizit.AdapterAndModel.ContractorAdapter;
 import com.provizit.AdapterAndModel.GetSearchEmployees;
@@ -54,6 +55,7 @@ import com.provizit.AdapterAndModel.MaterialDetailsSet;
 import com.provizit.AdapterAndModel.MaterialItemsList;
 import com.provizit.AdapterAndModel.MaterialPermitDetailsAdapter;
 import com.provizit.AdapterAndModel.MaterialPermitDetailsSetUpAdapter;
+import com.provizit.AdapterAndModel.NationalityStaticFile;
 import com.provizit.AdapterAndModel.SupplierDetails;
 import com.provizit.AdapterAndModel.SupplierDetailsAdapter;
 import com.provizit.AdapterAndModel.SupplierDetailsModel;
@@ -74,6 +76,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.Type;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -561,19 +566,42 @@ public class MaterialPermitSetUpActivity extends AppCompatActivity implements Vi
             ArrayList<Getdocuments> DocumentsList = dModel.getItems();
             ArrayList<String> NationalityNamesList = new ArrayList<>();
 
-            for (Getdocuments doc : DocumentsList) {
-                // Ensure this document is active
-                if (doc.getActive()) {
+//            api side
+//            for (Getdocuments doc : DocumentsList) {
+//                // Ensure this document is active
+//                if (doc.getActive()) {
+//
+//                    // Check if this document has a list of nationalities
+//                    if (doc.getNationlities() != null && !doc.getNationlities().isEmpty()) {
+//                        for (Getnationality nationality : doc.getNationlities()) {
+//                            if (nationality.getActive()) {
+//                                NationalityNamesList.add(nationality.getName());
+//                            }
+//                        }
+//                    }
+//                }
+//            }
 
-                    // Check if this document has a list of nationalities
-                    if (doc.getNationlities() != null && !doc.getNationlities().isEmpty()) {
-                        for (Getnationality nationality : doc.getNationlities()) {
-                            if (nationality.getActive()) {
-                                NationalityNamesList.add(nationality.getName());
-                            }
-                        }
-                    }
+
+            //raw file
+            try {
+                InputStream is = getResources().openRawResource(R.raw.nationalities);
+                int size = is.available();
+                byte[] buffer = new byte[size];
+                is.read(buffer);
+                is.close();
+                String json = new String(buffer, "UTF-8");
+                // Parse JSON to List<Nationality>
+                Gson gson = new Gson();
+                Type listType = new TypeToken<List<NationalityStaticFile>>() {}.getType();
+                List<NationalityStaticFile> nationalityList = gson.fromJson(json, listType);
+                // Add to your document
+                for (NationalityStaticFile national : nationalityList) {
+                    Log.e("nationality", national.getName());
+                    NationalityNamesList.add(national.getName());
                 }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
 
             // Adapter for Nationality

@@ -935,8 +935,13 @@ public class WorkPermitSetUpActivity extends AppCompatActivity implements View.O
             // Prepare list for spinner
             for (Getdocuments doc : documentsList) {
                 if (doc.getActive()) {
-                    activeDocuments.add(doc); // keep full object
-                    selectIDNames.add(doc.getName());
+                    if (!doc.getCommon() && !doc.getNationlities().isEmpty()) {
+                        activeDocuments.add(doc); // keep full object
+                        selectIDNames.add(doc.getName());
+                    }else if (doc.getCommon()){
+                        activeDocuments.add(doc); // keep full object
+                        selectIDNames.add(doc.getName());
+                    }
                 }
             }
 
@@ -977,9 +982,11 @@ public class WorkPermitSetUpActivity extends AppCompatActivity implements View.O
 
                     //Update nationality spinner
                     nationalityNames.clear();
-                    for (Getnationality nationality : selectedDoc.getNationlities()) {
-                        if (nationality.getActive()) {
-                            nationalityNames.add(nationality.getName());
+                    if (selectedDoc.getNationlities() != null) {
+                        for (Getnationality nationality : selectedDoc.getNationlities()) {
+                            if (nationality.getActive()) {
+                                nationalityNames.add(nationality.getName());
+                            }
                         }
                     }
 

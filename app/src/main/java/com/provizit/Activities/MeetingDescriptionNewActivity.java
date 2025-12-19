@@ -952,6 +952,9 @@ public class MeetingDescriptionNewActivity extends AppCompatActivity {
             @Override
             public void onChanged(JsonObject response) {
                 if (response != null) {
+
+                }else {
+                    Toast.makeText(MeetingDescriptionNewActivity.this, "Upload failed Invalid PDF " , Toast.LENGTH_LONG).show();
                 }
             }
         });

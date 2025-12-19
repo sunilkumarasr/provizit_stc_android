@@ -23,7 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:text="SupplierName"
+            android:text="@string/SupplierName"
             android:textColor="@color/colorPrimary"
             android:textSize="14sp"/>
         <androidx.appcompat.widget.AppCompatEditText
@@ -33,6 +33,7 @@
             android:layout_height="45dp"
             android:hint="@string/SupplierName"
             android:inputType="text"
+            android:singleLine="true"
             android:textColorHint="#707070"
             android:textSize="14sp" />
         <TextView
@@ -47,6 +48,7 @@
             style="@style/medium_font"
             android:layout_width="match_parent"
             android:layout_height="45dp"
+            android:singleLine="true"
             android:hint="Enter Email"
             android:inputType="textEmailAddress"
             android:textColorHint="#707070"
@@ -63,6 +65,7 @@
             style="@style/medium_font"
             android:layout_width="match_parent"
             android:layout_height="45dp"
+            android:singleLine="true"
             android:hint="@string/name"
             android:inputType="text"
             android:textColorHint="#707070"
@@ -94,8 +97,9 @@
                 android:layout_height="45dp"
                 android:layout_marginRight="5dp"
                 android:layout_weight="1"
-                android:hint="Enter Mobile"
+                android:hint="@string/mobile"
                 android:maxLength="10"
+                android:singleLine="true"
                 android:inputType="number"
                 android:textColorHint="#707070"
                 android:textSize="14sp" />
@@ -113,6 +117,7 @@
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:hint="@string/IDNumber"
+            android:singleLine="true"
             android:textColorHint="#707070"
             android:textSize="14sp" />
         <TextView
@@ -146,6 +151,7 @@
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:hint="Vehicle Number"
+            android:singleLine="true"
             android:textColorHint="#707070"
             android:textSize="14sp" />
         <TextView
@@ -161,6 +167,7 @@
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:hint="@string/VehicleType"
+            android:singleLine="true"
             android:textColorHint="#707070"
             android:textSize="14sp" />
 
