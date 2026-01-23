@@ -1,13 +1,16 @@
 package com.provizit.Utilities;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Contractor {
 
     public String name;
     public String company;
-    public String companyName;
     public String id_type;
     public String id_name;
     public String nationality;
+    public List<String> nationalities;
     public String id_number;
     public String email;
     public String mobile;
@@ -16,16 +19,16 @@ public class Contractor {
     public boolean common_nation;
     public boolean disabledStatus;
 
-    public Contractor(String name, String company, String companyName, String id_type, String id_name,
-                      String nationality, String id_number, String email, String mobile,
+    public Contractor(String name, String company, String id_type, String id_name,
+                      String nationality,  List<String> nationalities, String id_number, String email, String mobile,
                       MobileData mobileData, String performing_work, boolean common_nation,
                       boolean disabledStatus) {
         this.name = name;
         this.company = company;
-        this.companyName = companyName;
         this.id_type = id_type;
         this.id_name = id_name;
         this.nationality = nationality;
+        this.nationalities = nationalities;
         this.id_number = id_number;
         this.email = email;
         this.mobile = mobile;
@@ -41,10 +44,10 @@ public class Contractor {
         return "Contractor{" +
                 "name='" + name + '\'' +
                 ", company='" + company + '\'' +
-                ", companyName='" + companyName + '\'' +
                 ", id_type='" + id_type + '\'' +
                 ", id_name='" + id_name + '\'' +
                 ", nationality='" + nationality + '\'' +
+                new ArrayList<>() +   // ← empty array
                 ", id_number='" + id_number + '\'' +
                 ", email='" + email + '\'' +
                 ", mobile='" + mobile + '\'' +

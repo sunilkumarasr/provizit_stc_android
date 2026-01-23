@@ -13,6 +13,7 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.inputmethod.InputMethodManager;
 
 import com.provizit.Activities.ErrorActivity;
+import com.provizit.Config.Preferences;
 import com.provizit.Services.DataManger;
 import com.provizit.Utilities.Agenda;
 
@@ -51,6 +52,9 @@ public class Conversions {
 
     public static String encrypt(Context context, Boolean isAdmin) {
 
+        String compId = Preferences.loadStringValue(context, Preferences.Comp_id, "");
+
+
         AESUtil aesUtil = new AESUtil(context);
         Calendar calendar = Calendar.getInstance();
         if (isAdmin) {
@@ -58,7 +62,7 @@ public class Conversions {
         } else {
             if (context != null) {
                 SharedPreferences sharedPreferences1 = context.getSharedPreferences("EGEMSS_DATA", MODE_PRIVATE);
-                return aesUtil.encrypt(sharedPreferences1.getString("company_id", null) + "_" + ((calendar.getTimeInMillis() / 1000) - Conversions.timezone() - 60), "egems_2013_grms_2017_provizit_2020");
+                return aesUtil.encrypt(compId + "_" + ((calendar.getTimeInMillis() / 1000) - Conversions.timezone() - 60), "egems_2013_grms_2017_provizit_2020");
             }
             return "";
         }

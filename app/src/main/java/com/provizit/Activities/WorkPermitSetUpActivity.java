@@ -22,6 +22,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -109,8 +110,10 @@ public class WorkPermitSetUpActivity extends AppCompatActivity implements View.O
     String scopeOfWorkTextArea = "";
 
     //Date
-    Calendar fromDateCalendar = Calendar.getInstance();
-    Calendar toDateCalendar = Calendar.getInstance();
+    Calendar fromDateCalendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+
+    Calendar toDateCalendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+
     String fromSelectDate = "";
     String toSelectDate = "";
     String fromDateTimeStamp = "";
@@ -127,6 +130,8 @@ public class WorkPermitSetUpActivity extends AppCompatActivity implements View.O
 
     ApiViewModel apiViewModel;
 
+    String contractorCompName = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -136,6 +141,8 @@ public class WorkPermitSetUpActivity extends AppCompatActivity implements View.O
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.setStatusBarColor(ContextCompat.getColor(WorkPermitSetUpActivity.this, R.color.colorPrimary));
+
+
 
         inits();
     }
@@ -163,28 +170,43 @@ public class WorkPermitSetUpActivity extends AppCompatActivity implements View.O
         StartAndEndTimeList(true);
 
 
-        //current Date
-        Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-        String currentDate = dateFormat.format(calendar.getTime());
-        fromSelectDate =currentDate;
+        //current Date from
+        fromDateCalendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        int fromYear  = fromDateCalendar.get(Calendar.YEAR);
+        int fromMonth = fromDateCalendar.get(Calendar.MONTH);
+        int fromDay   = fromDateCalendar.get(Calendar.DAY_OF_MONTH);
+        //date
+        fromSelectDate = fromDay + "/" + (fromMonth + 1) + "/" + fromYear;
         binding.txtFromDate.setText(fromSelectDate);
+        //(12:00 AM UTC)
+        fromDateCalendar.set(Calendar.HOUR_OF_DAY, 0);
+        fromDateCalendar.set(Calendar.MINUTE, 0);
+        fromDateCalendar.set(Calendar.SECOND, 0);
+        fromDateCalendar.set(Calendar.MILLISECOND, 0);
+         //timestamp (seconds)
+        long fromtimestamp = fromDateCalendar.getTimeInMillis() / 1000;
+        fromDateTimeStamp = String.valueOf(fromtimestamp);
+        Log.e("fromTimestampUTC", fromDateTimeStamp);
+
+
         //toDate
-        toDateCalendar = (Calendar) calendar.clone();
-        toSelectDate = currentDate;
+        toDateCalendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        int year  = toDateCalendar.get(Calendar.YEAR);
+        int month = toDateCalendar.get(Calendar.MONTH);
+        int day   = toDateCalendar.get(Calendar.DAY_OF_MONTH);
+        toSelectDate = day + "/" + (month + 1) + "/" + year;
         binding.txtToDate.setText(toSelectDate);
-        //timeStamp
-        try {
-            SimpleDateFormat sd = new SimpleDateFormat("d/MM/yyyy", Locale.getDefault());
-            sd.setTimeZone(TimeZone.getTimeZone("UTC")); // Ensure UTC if you want exact UNIX time
-            Date date = sd.parse(fromSelectDate);
-            long timestamp = date.getTime() / 1000;
-            fromDateTimeStamp = timestamp+"";
-            toDateTimeStamp = timestamp+"";
-            Log.e("fromtimestamp",timestamp+"");
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
+        //(11:59:59 PM UTC)
+        toDateCalendar.set(Calendar.HOUR_OF_DAY, 23);
+        toDateCalendar.set(Calendar.MINUTE, 59);
+        toDateCalendar.set(Calendar.SECOND, 59);
+        toDateCalendar.set(Calendar.MILLISECOND, 999);
+        // Save calendar reference if needed
+        toDateCalendar = (Calendar) toDateCalendar.clone();
+        //timestamp (seconds)
+        long timestamp = toDateCalendar.getTimeInMillis() / 1000;
+        toDateTimeStamp = String.valueOf(timestamp);
+        Log.e("toTimestampUTC", toDateTimeStamp);
 
 
         binding.checkBox24HR.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -296,10 +318,10 @@ public class WorkPermitSetUpActivity extends AppCompatActivity implements View.O
                 } else if (binding.txtToDate.getText().toString().equalsIgnoreCase("")) {
                     Toast.makeText(getApplicationContext(), "Please Select To Date", Toast.LENGTH_SHORT).show();
                 } else {
+
                     JsonObject json = createWorkPermitSubmit();
                     apiViewModel.actionworkpermita(getApplicationContext(), json);
                     ViewController.ShowProgressBar(WorkPermitSetUpActivity.this);
-
 
                 }
                 break;
@@ -361,7 +383,7 @@ public class WorkPermitSetUpActivity extends AppCompatActivity implements View.O
         //company name
         String companyName = "";
         if (!contractorList.isEmpty()) {
-            companyName = contractorList.get(0).companyName;
+            companyName = contractorCompName;
         } else if (!subContractorList.isEmpty()) {
             companyName = subContractorList.get(0).companyName;
         }
@@ -416,8 +438,8 @@ public class WorkPermitSetUpActivity extends AppCompatActivity implements View.O
             jsonObj_.put("sc_mobileData", "");
             jsonObj_.put("sc_mobile", "");
             jsonObj_.put("work_loc", placeOfWorkVisitType);
-            jsonObj_.put("d_start", fromDateTimeStamp);
-            jsonObj_.put("d_end", toDateTimeStamp);
+            jsonObj_.put("d_start", Long.parseLong(fromDateTimeStamp));
+            jsonObj_.put("d_end", Long.parseLong(toDateTimeStamp));
             jsonObj_.put("t_start", fromSelectTime);
             jsonObj_.put("t_end", toSelectTime);
             jsonObj_.put("sc_perwork", "");
@@ -443,7 +465,6 @@ public class WorkPermitSetUpActivity extends AppCompatActivity implements View.O
             e.printStackTrace();
         }
         return gsonObject;
-
     }
 
     //Spinners List Set
@@ -617,29 +638,32 @@ public class WorkPermitSetUpActivity extends AppCompatActivity implements View.O
 
         DatePickerDialog datePickerDialog = new DatePickerDialog(this,
                 (view, year, month, dayOfMonth) -> {
+
+                    //UTC Calendar to avoid timezone issues
+                    fromDateCalendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
                     fromDateCalendar.set(year, month, dayOfMonth);
+
+                    //(12:00 AM UTC)
+                    fromDateCalendar.set(Calendar.HOUR_OF_DAY, 0);
+                    fromDateCalendar.set(Calendar.MINUTE, 0);
+                    fromDateCalendar.set(Calendar.SECOND, 0);
+                    fromDateCalendar.set(Calendar.MILLISECOND, 0);
+
+                    //date
                     fromSelectDate = dayOfMonth + "/" + (month + 1) + "/" + year;
                     binding.txtFromDate.setText(fromSelectDate);
 
-                    //timeStamp
-                    try {
-                        SimpleDateFormat sd = new SimpleDateFormat("d/MM/yyyy", Locale.getDefault());
-                        sd.setTimeZone(TimeZone.getTimeZone("UTC")); // Ensure UTC if you want exact UNIX time
-                        Date date = sd.parse(fromSelectDate);
-                        long timestamp = date.getTime() / 1000;
-                        fromDateTimeStamp = timestamp+"";
-                        Log.e("fromtimestamp",timestamp+"");
-                    } catch (ParseException e) {
-                        throw new RuntimeException(e);
-                    }
-
+                    //timestamp (seconds)
+                    long timestamp = fromDateCalendar.getTimeInMillis() / 1000;
+                    fromDateTimeStamp = String.valueOf(timestamp);
+                    Log.e("fromTimestampUTC", fromDateTimeStamp);
 
                     // Reset To Date
                     binding.txtToDate.setText("");
                     binding.txtToDate.setHint("To");
                     toDateCalendar = (Calendar) fromDateCalendar.clone();
 
-                    //currentDate
+                    // currentDate logic
                     SimpleDateFormat sdf = new SimpleDateFormat("d/M/yyyy", Locale.getDefault());
                     String currentDate = sdf.format(Calendar.getInstance().getTime());
                     if (currentDate.equalsIgnoreCase(fromSelectDate)) {
@@ -665,30 +689,38 @@ public class WorkPermitSetUpActivity extends AppCompatActivity implements View.O
             Toast.makeText(this, "Please select From Date first", Toast.LENGTH_SHORT).show();
             return;
         }
+
         DatePickerDialog datePickerDialog = new DatePickerDialog(this,
                 (view, year, month, dayOfMonth) -> {
+
+                    toDateCalendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+
+                    // Set selected date
                     toDateCalendar.set(year, month, dayOfMonth);
+
+                    //Set END of day (11:59:59 PM)
+                    toDateCalendar.set(Calendar.HOUR_OF_DAY, 23);
+                    toDateCalendar.set(Calendar.MINUTE, 59);
+                    toDateCalendar.set(Calendar.SECOND, 59);
+                    toDateCalendar.set(Calendar.MILLISECOND, 999);
+
+                    // UI date
                     toSelectDate = dayOfMonth + "/" + (month + 1) + "/" + year;
                     binding.txtToDate.setText(toSelectDate);
 
-                    //timeStamp
-                    try {
-                        SimpleDateFormat sd = new SimpleDateFormat("d/MM/yyyy", Locale.getDefault());
-                        sd.setTimeZone(TimeZone.getTimeZone("UTC")); // Ensure UTC if you want exact UNIX time
-                        Date date = sd.parse(toSelectDate);
-                        long timestamp = date.getTime() / 1000;
-                        toDateTimeStamp = timestamp+"";
-                        Log.e("fromtimestamp",timestamp+"");
-                    } catch (ParseException e) {
-                        throw new RuntimeException(e);
-                    }
+                    // UNIX timestamp (seconds)
+                    long timestamp = toDateCalendar.getTimeInMillis() / 1000;
+                    toDateTimeStamp = String.valueOf(timestamp);
+
+                    Log.e("toTimestamp", toDateTimeStamp);
 
                 },
                 toDateCalendar.get(Calendar.YEAR),
                 toDateCalendar.get(Calendar.MONTH),
                 toDateCalendar.get(Calendar.DAY_OF_MONTH)
         );
-        // Set minimum date to fromDate
+
+        // Minimum date = from date
         datePickerDialog.getDatePicker().setMinDate(fromDateCalendar.getTimeInMillis());
         datePickerDialog.show();
     }
@@ -811,8 +843,8 @@ public class WorkPermitSetUpActivity extends AppCompatActivity implements View.O
         Spinner spinnerSelectID = view.findViewById(R.id.spinnerSelectID);
         Spinner spinnerNationality = view.findViewById(R.id.spinnerNationality);
         EditText WorkPermitIDNumber = view.findViewById(R.id.WorkPermitIDNumber);
-        MaterialButton btnSubmit = view.findViewById(R.id.btnSubmit);
-        MaterialButton btnCancel = view.findViewById(R.id.btnCancel);
+        CardView btnSubmit = view.findViewById(R.id.btnSubmit);
+        CardView btnCancel = view.findViewById(R.id.btnCancel);
 
 
         BottomSheetDialog dialog = new BottomSheetDialog(this);
@@ -824,7 +856,6 @@ public class WorkPermitSetUpActivity extends AppCompatActivity implements View.O
         workPermitCCP.setDefaultCountryUsingPhoneCode(Integer.parseInt("+966"));
         workPermitCCP.setCountryForNameCode("+966");
 
-
         if (!subContractorList.isEmpty()){
             WorkPermitCompanyName.setText(subContractorList.get(0).companyName);
             WorkPermitCompanyName.setClickable(false);
@@ -833,7 +864,7 @@ public class WorkPermitSetUpActivity extends AppCompatActivity implements View.O
         }
 
         if (!contractorList.isEmpty()){
-            WorkPermitCompanyName.setText(contractorList.get(0).companyName);
+            WorkPermitCompanyName.setText(contractorList.get(0).company);
             WorkPermitCompanyName.setClickable(false);
             WorkPermitCompanyName.setFocusable(false);
             WorkPermitCompanyName.setFocusableInTouchMode(false);
@@ -871,6 +902,11 @@ public class WorkPermitSetUpActivity extends AppCompatActivity implements View.O
                 } else if (idNumber.equalsIgnoreCase("")) {
                     Toast.makeText(getApplicationContext(), "Enter ID Number", Toast.LENGTH_SHORT).show();
                 } else {
+
+                    if (contractorCompName.equalsIgnoreCase("")){
+                        contractorCompName = companyName;
+                    }
+
                     String number = workPermitMobile.getText().toString();
                     String internationalNumber = workPermitCCP.getSelectedCountryCodeWithPlus() + workPermitMobile.getText().toString();
                     String nationalNumber = "0"+workPermitMobile.getText().toString();
@@ -897,10 +933,10 @@ public class WorkPermitSetUpActivity extends AppCompatActivity implements View.O
                     Contractor scontractor = new Contractor(
                             name,
                             "",
-                            companyName,
                             idType,
                             id_name,
                             nationality,
+                            new ArrayList<>(),
                             idNumber,
                             email,
                             "",
@@ -1101,7 +1137,7 @@ public class WorkPermitSetUpActivity extends AppCompatActivity implements View.O
         MaterialPermitCCP.setCountryForNameCode("+966");
 
         if (!contractorList.isEmpty()){
-            WorkPermitSubCompanyName.setText(contractorList.get(0).companyName);
+            WorkPermitSubCompanyName.setText(contractorList.get(0).company);
             WorkPermitSubCompanyName.setClickable(false);
             WorkPermitSubCompanyName.setFocusable(false);
             WorkPermitSubCompanyName.setFocusableInTouchMode(false);

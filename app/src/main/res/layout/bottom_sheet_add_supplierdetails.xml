@@ -98,7 +98,7 @@
                 android:layout_marginRight="5dp"
                 android:layout_weight="1"
                 android:hint="@string/mobile"
-                android:maxLength="10"
+                android:maxLength="15"
                 android:singleLine="true"
                 android:inputType="number"
                 android:textColorHint="#707070"

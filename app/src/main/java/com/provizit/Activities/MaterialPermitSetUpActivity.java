@@ -108,8 +108,8 @@ public class MaterialPermitSetUpActivity extends AppCompatActivity implements Vi
     List<SupplierDetails> supplierDetailsList = new ArrayList<>();
 
     //Date
-    Calendar fromDateCalendar = Calendar.getInstance();
-    Calendar toDateCalendar = Calendar.getInstance();
+    Calendar fromDateCalendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+    Calendar toDateCalendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
     String fromSelectDate = "";
     String toSelectDate = "";
     String fromDateTimeStamp = "";
@@ -201,28 +201,44 @@ public class MaterialPermitSetUpActivity extends AppCompatActivity implements Vi
         });
 
 
-        //current Date
-        Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-        String currentDate = dateFormat.format(calendar.getTime());
-        fromSelectDate =currentDate;
+        //current Date from
+        fromDateCalendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        int fromYear  = fromDateCalendar.get(Calendar.YEAR);
+        int fromMonth = fromDateCalendar.get(Calendar.MONTH);
+        int fromDay   = fromDateCalendar.get(Calendar.DAY_OF_MONTH);
+        //date
+        fromSelectDate = fromDay + "/" + (fromMonth + 1) + "/" + fromYear;
         binding.txtFromDate.setText(fromSelectDate);
+        //(12:00 AM UTC)
+        fromDateCalendar.set(Calendar.HOUR_OF_DAY, 0);
+        fromDateCalendar.set(Calendar.MINUTE, 0);
+        fromDateCalendar.set(Calendar.SECOND, 0);
+        fromDateCalendar.set(Calendar.MILLISECOND, 0);
+        //timestamp (seconds)
+        long fromtimestamp = fromDateCalendar.getTimeInMillis() / 1000;
+        fromDateTimeStamp = String.valueOf(fromtimestamp);
+        Log.e("fromTimestampUTC", fromDateTimeStamp);
+
+
         //toDate
-        toDateCalendar = (Calendar) calendar.clone();
-        toSelectDate = currentDate;
+        toDateCalendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        int year  = toDateCalendar.get(Calendar.YEAR);
+        int month = toDateCalendar.get(Calendar.MONTH);
+        int day   = toDateCalendar.get(Calendar.DAY_OF_MONTH);
+        toSelectDate = day + "/" + (month + 1) + "/" + year;
         binding.txtToDate.setText(toSelectDate);
-        //timeStamp
-        try {
-            SimpleDateFormat sd = new SimpleDateFormat("d/MM/yyyy", Locale.getDefault());
-            sd.setTimeZone(TimeZone.getTimeZone("UTC")); // Ensure UTC if you want exact UNIX time
-            Date date = sd.parse(fromSelectDate);
-            long timestamp = date.getTime() / 1000;
-            fromDateTimeStamp = timestamp+"";
-            toDateTimeStamp = timestamp+"";
-            Log.e("fromtimestamp",timestamp+"");
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
+        //(11:59:59 PM UTC)
+        toDateCalendar.set(Calendar.HOUR_OF_DAY, 23);
+        toDateCalendar.set(Calendar.MINUTE, 59);
+        toDateCalendar.set(Calendar.SECOND, 59);
+        toDateCalendar.set(Calendar.MILLISECOND, 999);
+        // Save calendar reference if needed
+        toDateCalendar = (Calendar) toDateCalendar.clone();
+        //timestamp (seconds)
+        long timestamp = toDateCalendar.getTimeInMillis() / 1000;
+        toDateTimeStamp = String.valueOf(timestamp);
+        Log.e("toTimestampUTC", toDateTimeStamp);
+
 
         //Spinners List Set
         SpinnersListApis();
@@ -280,8 +296,7 @@ public class MaterialPermitSetUpActivity extends AppCompatActivity implements Vi
                         RefDocItem = binding.EditSpinnerRefDoc.getText().toString();
                     }
                 }
-
-
+                
                 if (supplierDetailsList.isEmpty()) {
                     Toast.makeText(getApplicationContext(), "Add Supplier Details", Toast.LENGTH_SHORT).show();
                 }else if (binding.txtFromDate.getText().toString().equalsIgnoreCase("")) {
@@ -350,8 +365,8 @@ public class MaterialPermitSetUpActivity extends AppCompatActivity implements Vi
         try {
             jsonObj_.put("formtype", "insert");
             jsonObj_.put("type", EntryType);
-            jsonObj_.put("start", fromDateTimeStamp);
-            jsonObj_.put("end", toDateTimeStamp);
+            jsonObj_.put("start", Long.parseLong(fromDateTimeStamp));
+            jsonObj_.put("end", Long.parseLong(toDateTimeStamp));
 
             if (EntryType.equalsIgnoreCase("1")){
                 jsonObj_.put("ref_document", RefDocItem);
@@ -626,29 +641,31 @@ public class MaterialPermitSetUpActivity extends AppCompatActivity implements Vi
 
     }
 
-
     //from Date
     private void showFromDatePicker() {
         final Calendar calendar = Calendar.getInstance();
 
         DatePickerDialog datePickerDialog = new DatePickerDialog(this,
                 (view, year, month, dayOfMonth) -> {
+
+                    //UTC Calendar to avoid timezone issues
+                    fromDateCalendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
                     fromDateCalendar.set(year, month, dayOfMonth);
+
+                    //(12:00 AM UTC)
+                    fromDateCalendar.set(Calendar.HOUR_OF_DAY, 0);
+                    fromDateCalendar.set(Calendar.MINUTE, 0);
+                    fromDateCalendar.set(Calendar.SECOND, 0);
+                    fromDateCalendar.set(Calendar.MILLISECOND, 0);
+
+                    //date
                     fromSelectDate = dayOfMonth + "/" + (month + 1) + "/" + year;
                     binding.txtFromDate.setText(fromSelectDate);
 
-                    //timeStamp
-                    try {
-                        SimpleDateFormat sd = new SimpleDateFormat("d/MM/yyyy", Locale.getDefault());
-                        sd.setTimeZone(TimeZone.getTimeZone("UTC")); // Ensure UTC if you want exact UNIX time
-                        Date date = sd.parse(fromSelectDate);
-                        long timestamp = date.getTime() / 1000;
-                        fromDateTimeStamp = timestamp+"";
-                        Log.e("fromtimestamp",timestamp+"");
-                    } catch (ParseException e) {
-                        throw new RuntimeException(e);
-                    }
-
+                    //timestamp (seconds)
+                    long timestamp = fromDateCalendar.getTimeInMillis() / 1000;
+                    fromDateTimeStamp = String.valueOf(timestamp);
+                    Log.e("fromTimestampUTC", fromDateTimeStamp);
 
                     // Reset To Date
                     binding.txtToDate.setText("");
@@ -667,6 +684,7 @@ public class MaterialPermitSetUpActivity extends AppCompatActivity implements Vi
         datePickerDialog.show();
     }
 
+
     //To Date
     private void showToDatePicker() {
         if (toSelectDate.equalsIgnoreCase("Select From Date")) {
@@ -675,21 +693,27 @@ public class MaterialPermitSetUpActivity extends AppCompatActivity implements Vi
         }
         DatePickerDialog datePickerDialog = new DatePickerDialog(this,
                 (view, year, month, dayOfMonth) -> {
+
+                    toDateCalendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+
+                    // Set selected date
                     toDateCalendar.set(year, month, dayOfMonth);
+
+                    //Set END of day (11:59:59 PM)
+                    toDateCalendar.set(Calendar.HOUR_OF_DAY, 23);
+                    toDateCalendar.set(Calendar.MINUTE, 59);
+                    toDateCalendar.set(Calendar.SECOND, 59);
+                    toDateCalendar.set(Calendar.MILLISECOND, 999);
+
+                    // UI date
                     toSelectDate = dayOfMonth + "/" + (month + 1) + "/" + year;
                     binding.txtToDate.setText(toSelectDate);
 
-                    //timeStamp
-                    try {
-                        SimpleDateFormat sd = new SimpleDateFormat("d/MM/yyyy", Locale.getDefault());
-                        sd.setTimeZone(TimeZone.getTimeZone("UTC")); // Ensure UTC if you want exact UNIX time
-                        Date date = sd.parse(toSelectDate);
-                        long timestamp = date.getTime() / 1000;
-                        toDateTimeStamp = timestamp+"";
-                        Log.e("fromtimestamp",timestamp+"");
-                    } catch (ParseException e) {
-                        throw new RuntimeException(e);
-                    }
+                    // UNIX timestamp (seconds)
+                    long timestamp = toDateCalendar.getTimeInMillis() / 1000;
+                    toDateTimeStamp = String.valueOf(timestamp);
+
+                    Log.e("toTimestamp", toDateTimeStamp);
 
                 },
                 toDateCalendar.get(Calendar.YEAR),

@@ -17,11 +17,11 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp"
         android:orientation="vertical">
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
             android:layout_weight="1"
             android:text="@string/ContractorDetails"
             android:layout_marginBottom="5dp"
@@ -34,119 +34,186 @@
             style="@style/medium_font"
             android:layout_width="match_parent"
             android:layout_height="45dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
             android:hint="@string/email"
             android:singleLine="true"
             android:inputType="textEmailAddress"
+            android:background="@null"
             android:textSize="14sp" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:background="@color/card_hash"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
             android:orientation="horizontal">
             <com.hbb20.CountryCodePicker
                 android:id="@+id/workPermitCCP"
                 style="@style/medium_font"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="45dp"
+                android:gravity="center_vertical"
                 android:layout_gravity="center_vertical"
                 app:ccp_showFlag="true"
                 app:ccp_showNameCode="false"
                 app:ccp_textSize="14sp" />
+            <View
+                android:layout_width="0.2dp"
+                android:layout_height="30dp"
+                android:background="@color/hash"
+                android:layout_gravity="center_vertical"/>
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/workPermitMobile"
                 style="@style/medium_font"
                 android:layout_width="0dp"
                 android:layout_height="45dp"
                 android:layout_marginEnd="5dp"
+                android:layout_marginStart="5dp"
                 android:layout_weight="1"
+                android:maxLength="15"
                 android:hint="@string/mobile"
                 android:singleLine="true"
                 android:inputType="number"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:background="@null"/>
         </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:background="@color/card_hash"/>
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/WorkPermitCompanyName"
             style="@style/medium_font"
             android:layout_width="match_parent"
             android:layout_height="45dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
             android:hint="@string/CompanyName"
             android:singleLine="true"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:background="@null"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:background="@color/card_hash"/>
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/WorkPermitName"
             style="@style/medium_font"
             android:layout_width="match_parent"
             android:layout_height="45dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
             android:singleLine="true"
             android:hint="@string/name"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:background="@null"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:background="@color/card_hash"/>
         <Spinner
             android:id="@+id/spinnerSelectID"
             android:layout_width="match_parent"
             android:layout_height="45dp"
+            android:layout_marginStart="6dp"
+            android:layout_marginEnd="6dp"
             style="@style/medium_font"
             android:textSize="14sp" />
         <!-- Underline -->
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/light_gray"/>
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:background="@color/card_hash"/>
         <Spinner
             android:id="@+id/spinnerNationality"
             android:layout_width="match_parent"
             android:layout_height="45dp"
+            android:layout_marginStart="6dp"
+            android:layout_marginEnd="6dp"
             style="@style/medium_font"
             android:textSize="14sp" />
         <!-- Underline -->
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/light_gray"/>
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:background="@color/card_hash"/>
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/WorkPermitIDNumber"
             style="@style/medium_font"
             android:layout_width="match_parent"
             android:layout_height="45dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
             android:hint="@string/IDNumber"
             android:singleLine="true"
             android:textColorHint="#707070"
+            android:background="@null"
             android:textSize="14sp" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:background="@color/card_hash"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-            <com.google.android.material.button.MaterialButton
+            <androidx.cardview.widget.CardView
                 android:id="@+id/btnSubmit"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="45dp"
                 android:layout_weight="1"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginStart="15dp"
                 android:layout_marginEnd="5dp"
-                android:layout_gravity="center_horizontal"
-                android:backgroundTint="@color/colorPrimary"
-                android:text="@string/Submit"
-                android:textColor="#fff"
-                android:textSize="14sp"
-                android:textStyle="bold"
-                app:cornerRadius="5dp"
-                app:strokeColor="#414F6C"
-                app:strokeWidth="1dp" />
-            <com.google.android.material.button.MaterialButton
+                app:cardBackgroundColor="@color/colorPrimary"
+                app:cardCornerRadius="5dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/Submit"
+                    android:textColor="@color/white"
+                    android:textSize="15sp"/>
+            </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView
                 android:id="@+id/btnCancel"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="45dp"
                 android:layout_weight="1"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
                 android:layout_marginStart="5dp"
-                android:layout_gravity="center_horizontal"
-                android:background="@color/gray"
-                android:text="@string/cancel"
-                android:textColor="@color/colorPrimary"
-                android:textSize="14sp"
-                android:textStyle="bold"
-                app:cornerRadius="5dp"
-                app:strokeColor="#414F6C"
-                app:strokeWidth="1dp" />
+                android:layout_marginEnd="15dp"
+                app:cardBackgroundColor="@color/card_hash"
+                app:cardCornerRadius="5dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/cancel"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="15sp"/>
+            </androidx.cardview.widget.CardView>
         </LinearLayout>
 
 
