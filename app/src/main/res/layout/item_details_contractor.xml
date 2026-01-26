@@ -19,6 +19,7 @@
             android:id="@+id/txtName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            style="@style/regular_font"
             android:text="@string/name"
             android:textColor="@color/colorPrimary"
             android:textSize="14sp"
@@ -43,6 +44,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="5dp"
                     android:layout_marginStart="5dp"
+                    style="@style/regular_font"
                     android:text="@string/email"
                     android:textColor="@color/gray"
                     android:textSize="12sp"/>
@@ -61,6 +63,7 @@
                     android:id="@+id/txtMobile"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    style="@style/regular_font"
                     android:layout_marginEnd="5dp"
                     android:layout_marginStart="5dp"
                     android:text="@string/mobile"
@@ -77,6 +80,7 @@
                     android:id="@+id/txtSelectId"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    style="@style/regular_font"
                     android:textColor="@color/gray"
                     android:textSize="12sp"/>
                 <TextView
@@ -92,12 +96,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/colorPrimary"
+                    style="@style/regular_font"
                     android:textSize="12sp"/>
             </LinearLayout>
             <TextView
                 android:id="@+id/txtNational"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                style="@style/regular_font"
                 android:layout_marginTop="5dp"
                 android:textColor="@color/gray"
                 android:textSize="12sp"/>
@@ -105,6 +111,7 @@
                 android:id="@+id/txtAction"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                style="@style/regular_font"
                 android:layout_marginTop="5dp"
                 android:textColor="@color/gray"
                 android:textSize="12sp"/>

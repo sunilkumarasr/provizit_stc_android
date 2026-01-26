@@ -22,6 +22,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                style="@style/regular_font"
                 android:text="@string/name"
                 android:textSize="13sp"/>
             <TextView
@@ -31,16 +32,19 @@
                 android:layout_marginEnd="5dp"
                 android:layout_marginStart="5dp"
                 android:textColor="@color/black"
+                style="@style/medium_font"
                 android:textSize="14sp"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
             android:layout_gravity="center_vertical">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/CompanyName"
+                style="@style/regular_font"
                 android:textSize="13sp"/>
             <TextView
                 android:id="@+id/txtCompanyName"
@@ -49,16 +53,19 @@
                 android:layout_marginEnd="5dp"
                 android:layout_marginStart="5dp"
                 android:textColor="@color/black"
+                style="@style/medium_font"
                 android:textSize="14sp"/>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
             android:layout_gravity="center_vertical">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                style="@style/regular_font"
                 android:text="@string/mobile"
                 android:textSize="13sp"/>
             <TextView
@@ -68,17 +75,20 @@
                 android:layout_marginEnd="5dp"
                 android:layout_marginStart="5dp"
                 android:textColor="@color/black"
+                style="@style/medium_font"
                 android:textSize="14sp"/>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
             android:layout_gravity="center_vertical">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="ID Type"
+                style="@style/regular_font"
+                android:text="@string/IDType"
                 android:textSize="13sp"/>
             <TextView
                 android:id="@+id/txtIDType"
@@ -87,16 +97,19 @@
                 android:layout_marginEnd="5dp"
                 android:layout_marginStart="5dp"
                 android:textColor="@color/black"
+                style="@style/medium_font"
                 android:textSize="14sp"/>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
             android:layout_gravity="center_vertical">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                style="@style/regular_font"
                 android:text="@string/nationality_r"
                 android:textSize="13sp"/>
             <TextView
@@ -106,16 +119,19 @@
                 android:layout_marginEnd="5dp"
                 android:layout_marginStart="5dp"
                 android:textColor="@color/black"
+                style="@style/medium_font"
                 android:textSize="14sp"/>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
             android:layout_gravity="center_vertical">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                style="@style/regular_font"
                 android:text="@string/IDNumber"
                 android:textSize="13sp"/>
             <TextView
@@ -125,6 +141,7 @@
                 android:layout_marginEnd="5dp"
                 android:layout_marginStart="5dp"
                 android:textColor="@color/black"
+                style="@style/medium_font"
                 android:textSize="14sp"/>
         </LinearLayout>
 

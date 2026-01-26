@@ -7,11 +7,11 @@
     android:orientation="vertical">
 
     <View
-        android:layout_width="100dp"
+        android:layout_width="50dp"
         android:layout_height="2dp"
         android:background="@color/gray"
         android:layout_marginTop="15dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="15dp"
         android:layout_gravity="center"/>
 
     <LinearLayout
@@ -24,7 +24,7 @@
             android:gravity="center_horizontal"
             android:layout_weight="1"
             android:text="@string/ContractorDetails"
-            android:layout_marginBottom="5dp"
+            android:layout_marginBottom="10dp"
             android:textColor="@color/colorPrimary"
             android:textSize="15sp"
             style="@style/medium_font"/>
@@ -96,7 +96,7 @@
             android:layout_height="45dp"
             android:layout_marginStart="15dp"
             android:layout_marginEnd="15dp"
-            android:hint="@string/CompanyName"
+            android:hint="@string/Companyname"
             android:singleLine="true"
             android:textSize="14sp"
             android:background="@null"/>
@@ -127,10 +127,10 @@
             android:id="@+id/spinnerSelectID"
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:layout_marginStart="6dp"
-            android:layout_marginEnd="6dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
             style="@style/medium_font"
-            android:textSize="14sp" />
+            android:textSize="14sp"/>
         <!-- Underline -->
         <View
             android:layout_width="match_parent"
@@ -142,8 +142,8 @@
             android:id="@+id/spinnerNationality"
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:layout_marginStart="6dp"
-            android:layout_marginEnd="6dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
             style="@style/medium_font"
             android:textSize="14sp" />
         <!-- Underline -->
@@ -175,6 +175,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="20dp"
             android:orientation="horizontal">
             <androidx.cardview.widget.CardView
                 android:id="@+id/btnSubmit"

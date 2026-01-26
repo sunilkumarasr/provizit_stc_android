@@ -1,7 +1,6 @@
 package com.provizit.Activities;
 
 import static android.view.View.GONE;
-
 import android.app.DatePickerDialog;
 import android.content.BroadcastReceiver;
 import android.content.Intent;
@@ -58,15 +57,12 @@ import com.provizit.databinding.ActivityWorkPermitSetUpBinding;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Type;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
@@ -1115,7 +1111,7 @@ public class WorkPermitSetUpActivity extends AppCompatActivity implements View.O
         View view = LayoutInflater.from(this).inflate(R.layout.bottom_sheet_layout_subcontractor, null);
 
 
-        MaterialButton btnCancel = view.findViewById(R.id.btnCancel);
+
         EditText WorkPermitSubEmail = view.findViewById(R.id.WorkPermitSubEmail);
         CountryCodePicker MaterialPermitCCP = view.findViewById(R.id.MaterialPermitCCP);
         EditText MaterialPermitMobile = view.findViewById(R.id.MaterialPermitMobile);
@@ -1124,7 +1120,8 @@ public class WorkPermitSetUpActivity extends AppCompatActivity implements View.O
         Spinner spinnerWorkPermitSubSelectID = view.findViewById(R.id.spinnerWorkPermitSubSelectID);
         Spinner spinnerMaterialNationality = view.findViewById(R.id.spinnerMaterialNationality);
         EditText WorkPermitSubIDNumber = view.findViewById(R.id.WorkPermitSubIDNumber);
-        Button btnSubmit = view.findViewById(R.id.btnSubmit);
+        CardView btnSubmit = view.findViewById(R.id.btnSubmit);
+        CardView btnCancel = view.findViewById(R.id.btnCancel);
 
 
         BottomSheetDialog dialog = new BottomSheetDialog(this);

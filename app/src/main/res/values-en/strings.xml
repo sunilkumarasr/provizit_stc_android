@@ -287,6 +287,7 @@
     <string name="WorkPermitInformation">Work Permit Information</string>
     <string name="contractor">Contractor</string>
     <string name="IDNumber">ID Number</string>
+    <string name="IDType">ID Type</string>
     <string name="Submit">Submit</string>
     <string name="addSubContractor">Add Sub-Contractor(Optional)</string>
     <string name="addContractor">Add Contractor</string>
@@ -340,6 +341,9 @@
     <string name="WaitingForApproval">Waiting for approval</string>
     <string name="ApprovalStatus">Approval Status</string>
     <string name="PermitID">Permit ID</string>
+    <string name="Companyname">Company Name</string>
+    <string name="Suppliername">Supplier Name</string>
+    <string name="Vehicletype">Vehicle Type</string>
 
 
     <string name="WorkVisitPermit">Work / Visit Permit</string>

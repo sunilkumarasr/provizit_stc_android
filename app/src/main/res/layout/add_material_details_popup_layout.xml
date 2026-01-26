@@ -1,97 +1,132 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/rounded_top_corners"
     android:orientation="vertical">
 
     <View
-        android:layout_width="100dp"
+        android:layout_width="50dp"
         android:layout_height="2dp"
-        android:background="@color/gray"
+        android:layout_gravity="center"
         android:layout_marginTop="15dp"
-        android:layout_marginBottom="10dp"
-        android:layout_gravity="center"/>
+        android:layout_marginBottom="15dp"
+        android:background="@color/gray" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp"
         android:orientation="vertical">
+
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/EditName"
             style="@style/medium_font"
             android:layout_width="match_parent"
             android:layout_height="45dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:background="@null"
             android:hint="@string/nameAndDescription"
             android:inputType="text"
+            android:textColor="@color/text_color"
             android:textColorHint="#707070"
             android:textSize="14sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:background="@color/card_hash" />
+
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/EditSerialNo"
             style="@style/medium_font"
             android:layout_width="match_parent"
             android:layout_height="45dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:background="@null"
             android:hint="@string/serialNo"
             android:inputType="text"
+            android:textColor="@color/text_color"
             android:textColorHint="#707070"
-            android:textSize="14sp"/>
+            android:textSize="14sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:background="@color/card_hash" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="45dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
             android:orientation="horizontal">
+
             <TextView
                 android:id="@+id/txtQuantity"
+                style="@style/medium_font"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="3dp"
                 android:layout_weight="1"
                 android:text="1"
-                style="@style/medium_font"
-                android:textSize="14sp"/>
+                android:textSize="14sp" />
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:orientation="horizontal">
+
                 <LinearLayout
                     android:id="@+id/linearDecrement"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:orientation="vertical"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
                     android:layout_gravity="center"
+                    android:background="@drawable/min_remove"
                     android:gravity="center"
-                    android:background="@drawable/min_remove">
+                    android:orientation="vertical">
+
                     <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_width="15dp"
-                        android:layout_height="15dp"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
                         android:src="@drawable/minimize_ic"
-                        app:tint="@color/white"/>
+                        app:tint="@color/white" />
                 </LinearLayout>
+
                 <TextView
                     android:id="@+id/cartQty"
+                    style="@style/medium_font"
                     android:layout_width="wrap_content"
                     android:layout_height="20dp"
+                    android:layout_gravity="center_vertical"
                     android:layout_marginStart="5dp"
                     android:layout_marginEnd="5dp"
-                    android:text="1"
                     android:gravity="center"
-                    android:textSize="14sp"/>
+                    android:text="1"
+                    android:textSize="16sp" />
+
                 <LinearLayout
                     android:id="@+id/linearIncrement"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:orientation="vertical"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
                     android:layout_gravity="center"
+                    android:background="@drawable/min_remove"
                     android:gravity="center"
-                    android:background="@drawable/min_remove">
+                    android:orientation="vertical">
+
                     <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_width="15dp"
-                        android:layout_height="15dp"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
                         android:src="@drawable/plus_ic"
-                        app:tint="@color/white"/>
+                        app:tint="@color/white" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -100,22 +135,31 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/light_gray"/>
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:background="@color/card_hash" />
 
-        <com.google.android.material.button.MaterialButton
+        <androidx.cardview.widget.CardView
             android:id="@+id/btnAdd"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:layout_marginTop="20dp"
-            android:backgroundTint="@color/colorPrimary"
-            android:text="@string/Add"
-            android:textColor="#fff"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            app:cornerRadius="5dp"
-            app:strokeColor="#414F6C"
-            app:strokeWidth="1dp" />
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginBottom="15dp"
+            android:layout_weight="1"
+            app:cardBackgroundColor="@color/colorPrimary"
+            app:cardCornerRadius="5dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/Add"
+                android:textColor="@color/white"
+                android:textSize="15sp" />
+        </androidx.cardview.widget.CardView>
+
     </LinearLayout>
 
 

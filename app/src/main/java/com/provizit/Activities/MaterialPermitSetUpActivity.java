@@ -31,6 +31,7 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -195,6 +196,7 @@ public class MaterialPermitSetUpActivity extends AppCompatActivity implements Vi
                     binding.viewRef.setVisibility(GONE);
                     binding.spinnerRefDoc.setVisibility(GONE);
                     binding.EditSpinnerRefDoc.setVisibility(GONE);
+                    binding.vRef.setVisibility(GONE);
                     SpinnersListApis();
                 }
             }
@@ -433,7 +435,7 @@ public class MaterialPermitSetUpActivity extends AppCompatActivity implements Vi
         Spinner spinnerNationality = dialogView.findViewById(R.id.spinnerNationality);
         EditText EditVehicleNumber = dialogView.findViewById(R.id.EditVehicleNumber);
         EditText EditVehicleType = dialogView.findViewById(R.id.EditVehicleType);
-        Button btnSubmit = dialogView.findViewById(R.id.btnSubmit);
+        CardView btnSubmit = dialogView.findViewById(R.id.btnSubmit);
 
         CCP.setDefaultCountryUsingPhoneCode(Integer.parseInt("+966"));
         CCP.setCountryForNameCode("+966");
@@ -756,9 +758,11 @@ public class MaterialPermitSetUpActivity extends AppCompatActivity implements Vi
                     if (RefDocItem.equalsIgnoreCase("Others")) {
                         StatusEditspinnerRefDoc = "true";
                         binding.EditSpinnerRefDoc.setVisibility(View.VISIBLE);
+                        binding.vRef.setVisibility(View.VISIBLE);
                     } else {
                         StatusEditspinnerRefDoc = "";
                         binding.EditSpinnerRefDoc.setVisibility(GONE);
+                        binding.vRef.setVisibility(GONE);
                     }
                 }
 
@@ -970,7 +974,7 @@ public class MaterialPermitSetUpActivity extends AppCompatActivity implements Vi
         TextView cartQty = dialogView.findViewById(R.id.cartQty);
         LinearLayout linearIncrement = dialogView.findViewById(R.id.linearIncrement);
         TextView txtQuantity = dialogView.findViewById(R.id.txtQuantity);
-        Button btnAdd = dialogView.findViewById(R.id.btnAdd);
+        CardView btnAdd = dialogView.findViewById(R.id.btnAdd);
 
         counter = 1;
 

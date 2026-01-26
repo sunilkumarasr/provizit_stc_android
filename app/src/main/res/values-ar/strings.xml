@@ -287,6 +287,7 @@
     <string name="WorkPermitInformation">معلومات تصريح العمل</string>
     <string name="contractor">مقاول</string>
     <string name="IDNumber">شناختی نمبر</string>
+    <string name="IDType">نوع الهوية</string>
     <string name="Submit">جمع کریں</string>
     <string name="addSubContractor">إضافة مقاول فرعي (اختياري)</string>
     <string name="addContractor">إضافة مقاول</string>
@@ -339,8 +340,9 @@
     <string name="WaitingForApproval">في انتظار الموافقة</string>
     <string name="ApprovalStatus">حالة الموافقة</string>
     <string name="PermitID">معرّف التصريح</string>
-
-
+    <string name="Companyname">اسم الشركة</string>
+    <string name="Suppliername">اسم المورد</string>
+    <string name="Vehicletype">نوع المركبة</string>
 
 
     <string name="WorkVisitPermit">ورک / وزٹ پرمٹ</string>
