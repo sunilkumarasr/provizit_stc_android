@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AlphaAnimation;
@@ -28,6 +29,10 @@ import java.util.TimeZone;
 
 import static android.content.Context.MODE_PRIVATE;
 
+import static com.provizit.Services.DataManger.getDataManager;
+
+import androidx.annotation.RequiresApi;
+
 public class Conversions {
 
     private static Locale locale;
@@ -50,24 +55,42 @@ public class Conversions {
         activity.startActivity(intent);
     }
 
+    //old
+//    public static String encrypt(Context context, Boolean isAdmin) {
+//
+//        String compId = Preferences.loadStringValue(context, Preferences.Comp_id, "");
+//
+//
+//        AESUtil aesUtil = new AESUtil(context);
+//        Calendar calendar = Calendar.getInstance();
+//        if (isAdmin) {
+//            return aesUtil.encrypt("admin_" + ((calendar.getTimeInMillis() / 1000) - Conversions.timezone() - 60), "egems_2013_grms_2017_provizit_2020");
+//        } else {
+//            if (context != null) {
+//                SharedPreferences sharedPreferences1 = context.getSharedPreferences("EGEMSS_DATA", MODE_PRIVATE);
+//                return aesUtil.encrypt(compId + "_" + ((calendar.getTimeInMillis() / 1000) - Conversions.timezone() - 60), "egems_2013_grms_2017_provizit_2020");
+//            }
+//            return "";
+//        }
+//
+//    }
+
+
     public static String encrypt(Context context, Boolean isAdmin) {
-
         String compId = Preferences.loadStringValue(context, Preferences.Comp_id, "");
-
-
-        AESUtil aesUtil = new AESUtil(context);
         Calendar calendar = Calendar.getInstance();
-        if (isAdmin) {
-            return aesUtil.encrypt("admin_" + ((calendar.getTimeInMillis() / 1000) - Conversions.timezone() - 60), "egems_2013_grms_2017_provizit_2020");
-        } else {
-            if (context != null) {
-                SharedPreferences sharedPreferences1 = context.getSharedPreferences("EGEMSS_DATA", MODE_PRIVATE);
-                return aesUtil.encrypt(compId + "_" + ((calendar.getTimeInMillis() / 1000) - Conversions.timezone() - 60), "egems_2013_grms_2017_provizit_2020");
-            }
-            return "";
-        }
+        String username  ="admin";
+        Integer password = (int) ((calendar.getTimeInMillis() / 1000) - 100);
 
+        System.out.println("Subhashboora "+ password);
+        if (!isAdmin){
+            username  = compId;
+        }
+        return getDataManager().getEncryptedValueWithParams(username,password+"");
     }
+
+
+
 
 //    public static String encrypt() {
 //        Calendar calendar = Calendar.getInstance();
