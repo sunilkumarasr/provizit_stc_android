@@ -1,9 +1,10 @@
 package com.provizit.Services;
 
+import static com.provizit.Conversions.encrypt;
+
 import android.content.Context;
-import android.os.Build;
 import android.util.Log;
-import androidx.annotation.RequiresApi;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
@@ -19,7 +20,6 @@ import com.provizit.AdapterAndModel.MaterialModel;
 import com.provizit.AdapterAndModel.WorkPermitModal;
 import com.provizit.AdapterAndModel.WorkVisitTypeModel;
 import com.provizit.AdapterAndModel.WorkingDaysModal;
-import com.provizit.Config.Preferences;
 import com.provizit.Conversions;
 import com.provizit.MVVM.RequestModels.ActionNotificationModelRequest;
 import com.provizit.MVVM.RequestModels.CheckSetupModelRequest;
@@ -31,9 +31,6 @@ import com.provizit.MVVM.RequestModels.UpdatePwdModelRequest;
 import com.provizit.Services.AppointmentDetails.AppointmentDetailsModel;
 import com.provizit.Services.Notifications.Notifications_model;
 import com.provizit.Utilities.Inviteemodelclass;
-import org.json.JSONException;
-import org.json.JSONObject;
-import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -49,17 +46,14 @@ public class DataManger {
 
 //    public static final String ROOT_URL1 = "https://devapi.provizit.com/provizit/resources/";
 //    public static final String ROOT_URL1 = "http://95.177.171.127:8080/provizit/resources/";
-//    public static final String ROOT_URL1 = "https://liveapi.provizit.com/provizit/resources/";
-    public static final String ROOT_URL1 = "https://liveapi.provizit.com/secureapi/resources/";
+    public static final String ROOT_URL1 = "https://liveapi.provizit.com/provizit/resources/";
 
+//    public static final String ROOT_URL1 = "http://192.168.1.6:4200/provizit/resources/";
+//    public static final String ROOT_URL1 = "https://stcapi.provizit.com/provizit/resources/";
     public static final String IMAGE_URL = "https://provizit.com";
-
-    CryptoService cryptoService;
-
     public static String appLanguage = "en";
     private static DataManger dataManager;
     private Retrofit retrofit1,retrofit2,retrofitSecurity;
-    private static final String BEARER = "Bearer ";
     private DataManger() {
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -75,6 +69,7 @@ public class DataManger {
         httpClient1.readTimeout(120, TimeUnit.SECONDS);
         httpClient1.writeTimeout(120, TimeUnit.SECONDS);
         httpClient1.addInterceptor(logging1);
+
 
         HttpLoggingInterceptor loggingSecurity = new HttpLoggingInterceptor();
         loggingSecurity.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -119,57 +114,10 @@ public class DataManger {
         return "";
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public String getEncryptedValueWithParams(String key, String value) {
-        cryptoService = new CryptoService();
-        JSONObject obj = new JSONObject();
-        try {
-            obj.put("username", key);
-            obj.put("password", value);
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
-        }
-        return cryptoService.encrypt(obj.toString());
-    }
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public static String encrypt(Context context, Boolean isAdmin) {
-
-        String compId = Preferences.loadStringValue(context, Preferences.Comp_id, "");
-        Calendar calendar = Calendar.getInstance();
-
-        long timestamp = (calendar.getTimeInMillis() / 1000)
-                - Conversions.timezone()
-                - 60;
-
-        String data;
-
-        if (isAdmin) {
-            data = "admin_" + timestamp;
-        } else {
-            data = compId + "_" + timestamp;
-        }
-
-        return getDataManager().getEncryptedValueWithParams(data, "");
-    }
-//    @RequiresApi(api = Build.VERSION_CODES.O)
-//    public static String encrypt(Context context, Boolean isAdmin) {
-//        String compId = Preferences.loadStringValue(context, Preferences.Comp_id, "");
-//        Calendar calendar = Calendar.getInstance();
-//        Integer timestamp = (int) ((calendar.getTimeInMillis() / 1000) - 100);
-//        String username;
-//        String password = String.valueOf(timestamp);
-//        if (isAdmin) {
-//            username = "admin_";
-//        } else {
-//            username = compId;
-//        }
-//        return getDataManager().getEncryptedValueWithParams(username, password);
-//    }
-
     public void iresend(Callback<Model> cb, Context context, JsonObject data) {
         API apiService = retrofitSecurity.create(API.class);
         String newEncrypt = encrypt(context,false);
-        String bearer = BEARER + newEncrypt;
+        String bearer = "Bearer" + newEncrypt;
         Call<Model> call = apiService.iresend(bearer,newEncrypt,data);
         call.enqueue((Callback<Model>) cb);
     }
@@ -177,14 +125,14 @@ public class DataManger {
     public void qrindex(Callback<String> cb, Context context, QrIndexModelRequest qrIndexModelRequest) {
         API apiService = retrofit1.create(API.class);
         String newEncrypt = encrypt(context,false);
-        String bearer = BEARER + newEncrypt;
+        String bearer = "Bearer" + newEncrypt;
         Call<String> call = apiService.qrindex(bearer,newEncrypt,qrIndexModelRequest);
         call.enqueue((Callback<String>) cb);
     }
     public void pdfupload(Callback<JsonObject> cb, Context context, MultipartBody.Part file , RequestBody key, RequestBody cid) {
         API apiService = retrofit1.create(API.class);
         String newEncrypt = encrypt(context,false);
-        String bearer = BEARER + newEncrypt;
+        String bearer = "Bearer" + newEncrypt;
         Call<JsonObject> call = apiService.pdfupload(file,key,cid);
         call.enqueue((Callback<JsonObject>) cb);
     }
@@ -192,14 +140,14 @@ public class DataManger {
     public void checkuser(Callback<Model1> cb, Context context,String type, String usertype, String val) {
         API apiService = retrofitSecurity.create(API.class);
         String newEncrypt = encrypt(context,false);
-        String bearer = BEARER + newEncrypt;
+        String bearer = "Bearer" + newEncrypt;
         Call<Model1> call = apiService.checkuser(bearer,newEncrypt,type, usertype, val);
         call.enqueue((Callback<Model1>) cb);
     }
     public void userLogin(Callback<Model> cb, Context context,JsonObject data) {
         API apiService = retrofitSecurity.create(API.class);
         String newEncrypt = encrypt(context,false);
-        String bearer = BEARER + newEncrypt;
+        String bearer = "Bearer" + newEncrypt;
         Call<Model> call = apiService.getuserLogin(bearer,newEncrypt,data);
         call.enqueue((Callback<Model>) cb);
     }
@@ -208,7 +156,7 @@ public class DataManger {
         API apiService = retrofitSecurity.create(API.class);
         String newEncrypt = encrypt(context,false);
         System.out.println("getVersions "+newEncrypt);
-        String bearer = BEARER + newEncrypt;
+        String bearer = "Bearer" + newEncrypt;
         Call<Model1> call = apiService.getVersions(bearer,newEncrypt);
         call.enqueue((Callback<Model1>) cb);
     }
@@ -217,7 +165,7 @@ public class DataManger {
         API apiService = retrofitSecurity.create(API.class);
         String newEncrypt = encrypt(context,false);
         System.out.println("checkSetup "+newEncrypt);
-        String bearer = BEARER + newEncrypt;
+        String bearer = "Bearer" + newEncrypt;
         Log.e(TAG, "checkSetup:newEncrypt "+newEncrypt );
         Log.e(TAG, "checkSetup:bearer "+bearer );
         Call<Model> call = apiService.checkSetup(bearer,newEncrypt,data);
@@ -228,7 +176,7 @@ public class DataManger {
         API apiService = retrofitSecurity.create(API.class);
         String newEncrypt = encrypt(context,false);
         System.out.println("appuserlogin "+newEncrypt);
-        String bearer = BEARER + newEncrypt;
+        String bearer = "Bearer" + newEncrypt;
         Log.e(TAG, "appuserlogin:newEncrypt "+newEncrypt );
         Log.e(TAG, "appuserlogin:bearer "+bearer );
         Call<Model> call = apiService.appuserlogin(bearer,newEncrypt,jsonObject);
@@ -239,7 +187,7 @@ public class DataManger {
         API apiService = retrofitSecurity.create(API.class);
         String newEncrypt = encrypt(context,false);
         System.out.println("userADlogin "+newEncrypt);
-        String bearer = BEARER + newEncrypt;
+        String bearer = "Bearer" + newEncrypt;
         Log.e(TAG, "userADlogin:newEncrypt "+newEncrypt );
         Log.e(TAG, "userADlogin:bearer "+bearer );
         Log.e("jsonObjectJJ",jsonObject.get("id").toString());
@@ -250,21 +198,21 @@ public class DataManger {
     public void otpsendemail(Callback<Model> cb, Context context, OtpSendEmaiModelRequest otpSendEmaiModelRequest) {
         API apiService = retrofitSecurity.create(API.class);
         String newEncrypt = encrypt(context,false);
-        String bearer = BEARER + newEncrypt;
+        String bearer = "Bearer" + newEncrypt;
         Call<Model> call = apiService.otpsendemail(bearer,newEncrypt,otpSendEmaiModelRequest);
         call.enqueue((Callback<Model>) cb);
     }
     public void setuplogin(Callback<Model> cb, Context context, SetUpLoginModelRequest setUpLoginModelRequest) {
         API apiService = retrofitSecurity.create(API.class);
         String newEncrypt = encrypt(context,false);
-        String bearer = BEARER + newEncrypt;
+        String bearer = "Bearer" + newEncrypt;
         Call<Model> call = apiService.setuplogin(bearer,newEncrypt,setUpLoginModelRequest);
         call.enqueue((Callback<Model>) cb);
     }
     public void updatepwd(Callback<Model> cb, Context context, UpdatePwdModelRequest updatePwdModelRequest) {
         API apiService = retrofitSecurity.create(API.class);
         String newEncrypt = encrypt(context,false);
-        String bearer = BEARER + newEncrypt;
+        String bearer = "Bearer" + newEncrypt;
         Call<Model> call = apiService.updatepwd(bearer,newEncrypt,updatePwdModelRequest);
         call.enqueue((Callback<Model>) cb);
     }
@@ -272,7 +220,7 @@ public class DataManger {
     public void getazureaddetails(Callback<Model> cb, Context context, String camp_id) {
         API apiService = retrofitSecurity.create(API.class);
         String newEncrypt = encrypt(context,false);
-        String bearer = BEARER + newEncrypt;
+        String bearer = "Bearer" + newEncrypt;
         Call<Model> call = apiService.getazureaddetails(bearer,newEncrypt,camp_id);
         call.enqueue((Callback<Model>) cb);
     }
@@ -280,7 +228,7 @@ public class DataManger {
     public void actionmeetings(Callback<Model> cb, Context context,JsonObject data) {
         API apiService = retrofit2.create(API.class);
         String newEncrypt = encrypt(context,false);
-        String bearer = BEARER + newEncrypt;
+        String bearer = "Bearer" + newEncrypt;
         Call<Model> call = apiService.actionmeetings(bearer,newEncrypt,data);
         call.enqueue((Callback<Model>) cb);
     }
@@ -288,7 +236,7 @@ public class DataManger {
     public void actionmeetings_total_count(Callback<TotalModelCount> cb, Context context,JsonObject data) {
         API apiService = retrofit2.create(API.class);
         String newEncrypt = encrypt(context,false);
-        String bearer = BEARER + newEncrypt;
+        String bearer = "Bearer" + newEncrypt;
         Call<TotalModelCount> call = apiService.actionmeetings_total_count(bearer,newEncrypt,data);
         call.enqueue((Callback<TotalModelCount>) cb);
     }
@@ -296,7 +244,7 @@ public class DataManger {
     public void actioncheckinout(Callback<Model> cb, Context context,JsonObject data) {
         API apiService = retrofitSecurity.create(API.class);
         String newEncrypt = encrypt(context,false);
-        String bearer = BEARER + newEncrypt;
+        String bearer = "Bearer" + newEncrypt;
         Call<Model> call = apiService.actioncheckinout(bearer,newEncrypt,data);
         call.enqueue((Callback<Model>) cb);
     }
@@ -304,7 +252,7 @@ public class DataManger {
     public void actionEmployees(Callback<Model> cb, Context context,JsonObject data) {
         API apiService = retrofitSecurity.create(API.class);
         String newEncrypt = encrypt(context,false);
-        String bearer = BEARER + newEncrypt;
+        String bearer = "Bearer" + newEncrypt;
         Call<Model> call = apiService.actionEmployees(bearer,newEncrypt,data);
         call.enqueue((Callback<Model>) cb);
     }
@@ -312,7 +260,7 @@ public class DataManger {
     public void updatemeetings(Callback<Model> cb, Context context,JsonObject data) {
         API apiService = retrofitSecurity.create(API.class);
         String newEncrypt = encrypt(context,false);
-        String bearer = BEARER + newEncrypt;
+        String bearer = "Bearer" + newEncrypt;
         Call<Model> call = apiService.updatemeetings(bearer,newEncrypt,data);
         call.enqueue((Callback<Model>) cb);
     }
@@ -320,7 +268,7 @@ public class DataManger {
     public void reschedulemeeting(Callback<Model> cb, Context context,JsonObject data) {
         API apiService = retrofitSecurity.create(API.class);
         String newEncrypt = encrypt(context,false);
-        String bearer = BEARER + newEncrypt;
+        String bearer = "Bearer" + newEncrypt;
         Call<Model> call = apiService.reschedulemeeting(bearer,newEncrypt,data);
         call.enqueue((Callback<Model>) cb);
     }
@@ -328,14 +276,14 @@ public class DataManger {
     public void addcovisitor(Callback<Model> cb,Context context, JsonObject data) {
         API apiService = retrofitSecurity.create(API.class);
         String newEncrypt = encrypt(context,false);
-        String bearer = BEARER + newEncrypt;
+        String bearer = "Bearer" + newEncrypt;
         Call<Model> call = apiService.addcovisitor(bearer,newEncrypt,data);
         call.enqueue((Callback<Model>) cb);
     }
     public void getuserDetails(Callback<Model> cb, Context context) {
         API apiService = retrofitSecurity.create(API.class);
         String newEncrypt = encrypt(context,false);
-        String bearer = BEARER + newEncrypt;
+        String bearer = "Bearer" + newEncrypt;
         Call<Model> call = apiService.getuserDetails(bearer,newEncrypt);
         call.enqueue((Callback<Model>) cb);
     }
@@ -343,28 +291,28 @@ public class DataManger {
     public void getInviteData(Callback<Model1> cb,Context context, String type, String usertype, String val) {
         API apiService = retrofitSecurity.create(API.class);
         String newEncrypt = encrypt(context,false);
-        String bearer = BEARER + newEncrypt;
+        String bearer = "Bearer" + newEncrypt;
         Call<Model1> call = apiService.getInviteData(bearer,newEncrypt,type,usertype,val);
         call.enqueue((Callback<Model1>) cb);
     }
     public void getemployeeformdetails(Callback<Inviteemodelclass> cb, Context context) {
         API apiService = retrofitSecurity.create(API.class);
         String newEncrypt = encrypt(context,false);
-        String bearer = BEARER + newEncrypt;
+        String bearer = "Bearer" + newEncrypt;
         Call<Inviteemodelclass> call = apiService.getemployeeformdetails(bearer,newEncrypt);
         call.enqueue((Callback<Inviteemodelclass>) cb);
     }
     public void getEmployeeDetails(Callback<JsonObject> cb, Context context, String id) {
         API apiService = retrofitSecurity.create(API.class);
         String newEncrypt = encrypt(context,false);
-        String bearer = BEARER + newEncrypt;
+        String bearer = "Bearer" + newEncrypt;
         Call<JsonObject> call = apiService.getEmployeeDetails(bearer,newEncrypt,id);
         call.enqueue((Callback<JsonObject>) cb);
     }
     public void getamenities(Callback<Inviteemodelclass> cb, Context context) {
         API apiService = retrofitSecurity.create(API.class);
         String newEncrypt = encrypt(context,false);
-        String bearer = BEARER + newEncrypt;
+        String bearer = "Bearer" + newEncrypt;
         Call<Inviteemodelclass> call = apiService.getamenities(bearer,newEncrypt);
         call.enqueue((Callback<Inviteemodelclass>) cb);
     }
@@ -372,7 +320,7 @@ public class DataManger {
     public void getTrainingTitles(Callback<Model1> cb, Context context) {
         API apiService = retrofitSecurity.create(API.class);
         String newEncrypt = encrypt(context,false);
-        String bearer = BEARER + newEncrypt;
+        String bearer = "Bearer" + newEncrypt;
         Call<Model1> call = apiService.getTrainingTitles(bearer,newEncrypt);
         call.enqueue((Callback<Model1>) cb);
     }
@@ -380,28 +328,28 @@ public class DataManger {
     public void getmeetingrooms(Callback<Model1> cb, Context context, String location) {
         API apiService = retrofitSecurity.create(API.class);
         String newEncrypt = encrypt(context,false);
-        String bearer = BEARER + newEncrypt;
+        String bearer = "Bearer" + newEncrypt;
         Call<Model1> call = apiService.getmeetingrooms(bearer,newEncrypt,location);
         call.enqueue((Callback<Model1>) cb);
     }
     public void actionnotification(Callback<Model> cb, Context context, ActionNotificationModelRequest actionNotificationModelRequest) {
         API apiService = retrofitSecurity.create(API.class);
         String newEncrypt = encrypt(context,false);
-        String bearer = BEARER + newEncrypt;
+        String bearer = "Bearer" + newEncrypt;
         Call<Model> call = apiService.actionnotification(bearer,newEncrypt,actionNotificationModelRequest);
         call.enqueue((Callback<Model>) cb);
     }
     public void getentrypoints(Callback<Model1> cb,Context context, String location) {
         API apiService = retrofitSecurity.create(API.class);
         String newEncrypt = encrypt(context,false);
-        String bearer = BEARER + newEncrypt;
+        String bearer = "Bearer" + newEncrypt;
         Call<Model1> call = apiService.getentrypoints(bearer,newEncrypt,location);
         call.enqueue((Callback<Model1>) cb);
     }
     public void gethostslots(Callback<HostSlotsModel> cb, Context context, String type, String emp_id, String email, Long start, Long end) {
         API apiService = retrofitSecurity.create(API.class);
         String newEncrypt = encrypt(context,false);
-        String bearer = BEARER + newEncrypt;
+        String bearer = "Bearer" + newEncrypt;
         Call<HostSlotsModel> call = apiService.gethostslots(bearer,newEncrypt,type,emp_id,email,start,end);
         call.enqueue((Callback<HostSlotsModel>) cb);
     }
@@ -409,7 +357,7 @@ public class DataManger {
     public void getuserslotdetails(Callback<Model> cb, Context context,String id,String comp_id) {
         API apiService = retrofitSecurity.create(API.class);
         String newEncrypt = encrypt(context,false);
-        String bearer = BEARER + newEncrypt;
+        String bearer = "Bearer" + newEncrypt;
         Call<Model> call = apiService.getuserslotdetails(bearer,newEncrypt,id,comp_id);
         call.enqueue((Callback<Model>) cb);
     }
@@ -417,7 +365,7 @@ public class DataManger {
     public void getrmslots(Callback<Model1> cb, Context context,String type,Long start, Long end,String rm_id) {
         API apiService = retrofitSecurity.create(API.class);
         String newEncrypt = encrypt(context,false);
-        String bearer = BEARER + newEncrypt;
+        String bearer = "Bearer" + newEncrypt;
         Call<Model1> call = apiService.getrmslots(bearer,newEncrypt,type,start,end,rm_id);
         call.enqueue((Callback<Model1>) cb);
     }
@@ -425,21 +373,21 @@ public class DataManger {
     public void getmrmslots(Callback<Model1> cb, Context context,String type,Long start, Long end,String l_id) {
         API apiService = retrofitSecurity.create(API.class);
         String newEncrypt = encrypt(context,false);
-        String bearer = BEARER + newEncrypt;
+        String bearer = "Bearer" + newEncrypt;
         Call<Model1> call = apiService.getmrmslots(bearer,newEncrypt,type,start,end,l_id);
         call.enqueue((Callback<Model1>) cb);
     }
     public void getmeetingdetails(Callback<Model> cb, Context context, String id) {
         API apiService = retrofitSecurity.create(API.class);
         String newEncrypt = encrypt(context,false);
-        String bearer = BEARER + newEncrypt;
+        String bearer = "Bearer" + newEncrypt;
         Call<Model> call = apiService.getmeetingdetails(bearer,newEncrypt,id);
         call.enqueue((Callback<Model>) cb);
     }
     public void getmeetings(Callback<Model1> cb,Context context,String type, String emp_id,String start,String end) {
         API apiService = retrofitSecurity.create(API.class);
         String newEncrypt = encrypt(context,false);
-        String bearer = BEARER + newEncrypt;
+        String bearer = "Bearer" + newEncrypt;
         Call<Model1> call = apiService.getmeetings(bearer,newEncrypt,type,emp_id,start,end);
         call.enqueue((Callback<Model1>) cb);
     }
@@ -459,7 +407,7 @@ public class DataManger {
     public void getvisitorslist(Callback<Model1> cb, Context context,String l_id,String id,String type, String maintype,String newmaintype) {
         API apiService = retrofitSecurity.create(API.class);
         String newEncrypt = encrypt(context,false);
-        String bearer = BEARER + newEncrypt;
+        String bearer = "Bearer" + newEncrypt;
         Call<Model1> call = apiService.getvisitorslist(bearer,newEncrypt,l_id,id,type,maintype,newmaintype);
         call.enqueue((Callback<Model1>) cb);
     }
@@ -467,7 +415,7 @@ public class DataManger {
     public void gethistorydetails(Callback<Model> cb, Context context,String id,String comp_id) {
         API apiService = retrofitSecurity.create(API.class);
         String newEncrypt = encrypt(context,false);
-        String bearer = BEARER + newEncrypt;
+        String bearer = "Bearer" + newEncrypt;
         Call<Model> call = apiService.gethistorydetails(bearer,newEncrypt,id,comp_id);
         call.enqueue((Callback<Model>) cb);
     }
@@ -484,7 +432,7 @@ public class DataManger {
     public void getoappointments(Callback<Model1> cb, Context context,String l_id,String type, String h_id,String emp_id) {
         API apiService = retrofitSecurity.create(API.class);
         String newEncrypt = encrypt(context,false);
-        String bearer = BEARER + newEncrypt;
+        String bearer = "Bearer" + newEncrypt;
         Call<Model1> call = apiService.getoappointments(bearer,newEncrypt,l_id,type,h_id,emp_id);
         call.enqueue((Callback<Model1>) cb);
     }
@@ -492,7 +440,7 @@ public class DataManger {
     public void getappointmentsdetails(Callback<AppointmentDetailsModel> cb, Context context, String id) {
         API apiService = retrofitSecurity.create(API.class);
         String newEncrypt = encrypt(context,false);
-        String bearer = BEARER + newEncrypt;
+        String bearer = "Bearer" + newEncrypt;
         Call<AppointmentDetailsModel> call = apiService.getappointmentsdetails(bearer,newEncrypt,id);
         call.enqueue((Callback<AppointmentDetailsModel>) cb);
     }
@@ -500,7 +448,7 @@ public class DataManger {
     public void updateappointment(Callback<Model> cb, Context context, JsonObject jsonObject) {
         API apiService = retrofitSecurity.create(API.class);
         String newEncrypt = encrypt(context,false);
-        String bearer = BEARER + newEncrypt;
+        String bearer = "Bearer" + newEncrypt;
         Call<Model> call = apiService.updateappointment(bearer,newEncrypt,jsonObject);
         call.enqueue((Callback<Model>) cb);
     }
@@ -508,7 +456,7 @@ public class DataManger {
     public void getmeetingrequests(Callback<Model1> cb, Context context,String type, String emp_id,String start,String end) {
         API apiService = retrofitSecurity.create(API.class);
         String newEncrypt = encrypt(context,false);
-        String bearer = BEARER + newEncrypt;
+        String bearer = "Bearer" + newEncrypt;
         Call<Model1> call = apiService.getmeetingrequests(bearer,newEncrypt,type,emp_id,start,end);
         call.enqueue((Callback<Model1>) cb);
     }
@@ -516,7 +464,7 @@ public class DataManger {
     public void getemployeeslots(Callback<Model1> cb, Context context,String id, String l_id,String Purpose,String emp_id,String type,Long Start,Long End,Long date) {
         API apiService = retrofitSecurity.create(API.class);
         String newEncrypt = encrypt(context,false);
-        String bearer = BEARER + newEncrypt;
+        String bearer = "Bearer" + newEncrypt;
         Call<Model1> call = apiService.getemployeeslots(bearer,newEncrypt,id,l_id,Purpose,emp_id,type,Start,End,date);
         call.enqueue((Callback<Model1>) cb);
     }
@@ -524,7 +472,7 @@ public class DataManger {
     public void getmeetingroomapprovals(Callback<Model1> cb, Context context,String type, String emp_id, String l_id, String h_id, String start,String end) {
         API apiService = retrofitSecurity.create(API.class);
         String newEncrypt = encrypt(context,false);
-        String bearer = BEARER + newEncrypt;
+        String bearer = "Bearer" + newEncrypt;
         Call<Model1> call = apiService.getmeetingroomapprovals(bearer,newEncrypt,type,emp_id,l_id,h_id,start,end);
         call.enqueue((Callback<Model1>) cb);
     }
@@ -532,7 +480,7 @@ public class DataManger {
     public void getoutlookappointments(Callback<Model1> cb, Context context,String type, String email, String start, String end, String companyID) {
         API apiService = retrofitSecurity.create(API.class);
         String newEncrypt = encrypt(context,false);
-        String bearer = BEARER + newEncrypt;
+        String bearer = "Bearer" + newEncrypt;
         Call<Model1> call = apiService.getoutlookappointments(bearer,newEncrypt,type,email,start,end,companyID);
         call.enqueue((Callback<Model1>) cb);
     }
@@ -540,7 +488,7 @@ public class DataManger {
     public void getmeetingapprovals(Callback<Model1> cb, Context context,String type, String emp_id, String role_id, String l_id, String h_id,String start,String end) {
         API apiService = retrofitSecurity.create(API.class);
         String newEncrypt = encrypt(context,false);
-        String bearer = BEARER + newEncrypt;
+        String bearer = "Bearer" + newEncrypt;
         Call<Model1> call = apiService.getmeetingapprovals(bearer,newEncrypt,type,emp_id,role_id,l_id,h_id,start,end);
         call.enqueue((Callback<Model1>) cb);
     }
@@ -548,7 +496,7 @@ public class DataManger {
     public void getsubhierarchys(Callback<Model1> cb,Context context,String indexid) {
         API apiService = retrofitSecurity.create(API.class);
         String newEncrypt = encrypt(context,false);
-        String bearer = BEARER + newEncrypt;
+        String bearer = "Bearer" + newEncrypt;
         Call<Model1> call = apiService.getsubhierarchys(bearer,newEncrypt,indexid);
         call.enqueue((Callback<Model1>) cb);
     }
@@ -556,7 +504,7 @@ public class DataManger {
     public void getsearchemployees(Callback<Model1> cb, Context context, String l_id, String h_id) {
         API apiService = retrofitSecurity.create(API.class);
         String newEncrypt = encrypt(context,false);
-        String bearer = BEARER + newEncrypt;
+        String bearer = "Bearer" + newEncrypt;
         Call<Model1> call = apiService.getsearchemployees(bearer,newEncrypt,l_id,h_id);
         call.enqueue((Callback<Model1>) cb);
     }
@@ -564,7 +512,7 @@ public class DataManger {
     public void readorunread(Callback<Model> cb, Context context,JsonObject jsonObject) {
         API apiService = retrofitSecurity.create(API.class);
         String newEncrypt = encrypt(context,false);
-        String bearer = BEARER + newEncrypt;
+        String bearer = "Bearer" + newEncrypt;
         Call<Model> call = apiService.readorunread(bearer,newEncrypt,jsonObject);
         call.enqueue((Callback<Model>) cb);
     }
@@ -572,7 +520,7 @@ public class DataManger {
     public void reportsList(Callback<Model1> cb, Context context,String type, String l_id, String h_id, String emp_id, String from, String to) {
         API apiService = retrofitSecurity.create(API.class);
         String newEncrypt = encrypt(context,false);
-        String bearer = BEARER + newEncrypt;
+        String bearer = "Bearer" + newEncrypt;
         Call<Model1> call = apiService.reportsList(bearer,newEncrypt,type, l_id, h_id,emp_id,from,to);
         call.enqueue((Callback<Model1>) cb);
     }
@@ -580,7 +528,7 @@ public class DataManger {
     public void getnotifications(Callback<Notifications_model> cb, Context context, String comp_id, String email) {
         API apiService = retrofitSecurity.create(API.class);
         String newEncrypt = encrypt(context,false);
-        String bearer = BEARER + newEncrypt;
+        String bearer = "Bearer" + newEncrypt;
         Call<Notifications_model> call = apiService.getnotifications(bearer,newEncrypt,comp_id, email);
         call.enqueue((Callback<Notifications_model>) cb);
     }
@@ -588,7 +536,7 @@ public class DataManger {
     public void notificationsStatus_Change(Callback<Model> cb, Context context, NotificationsStatusChangeModelRequest notificationsStatusChangeModelRequest) {
         API apiService = retrofitSecurity.create(API.class);
         String newEncrypt = encrypt(context,false);
-        String bearer = BEARER + newEncrypt;
+        String bearer = "Bearer" + newEncrypt;
         Call<Model> call = apiService.notificationsStatus_Change(bearer,newEncrypt,notificationsStatusChangeModelRequest);
         call.enqueue((Callback<Model>) cb);
     }
@@ -596,7 +544,7 @@ public class DataManger {
     public void getcategories(Callback<Model1> cb, Context context, String id) {
         API apiService = retrofitSecurity.create(API.class);
         String newEncrypt = encrypt(context,false);
-        String bearer = BEARER + newEncrypt;
+        String bearer = "Bearer" + newEncrypt;
         Call<Model1> call = apiService.getcategories(bearer,newEncrypt,id);
         call.enqueue((Callback<Model1>) cb);
     }
@@ -604,7 +552,7 @@ public class DataManger {
     public void getpslotcategories(Callback<Model1> cb, Context context, String comp_id) {
         API apiService = retrofitSecurity.create(API.class);
         String newEncrypt = encrypt(context,false);
-        String bearer = BEARER + newEncrypt;
+        String bearer = "Bearer" + newEncrypt;
         Call<Model1> call = apiService.getpslotcategories(bearer,newEncrypt,comp_id);
         call.enqueue((Callback<Model1>) cb);
     }
@@ -612,7 +560,7 @@ public class DataManger {
     public void getcatlots(Callback<Model1> cb, Context context, String id, String l_id, String cat_id, Long start, Long end) {
         API apiService = retrofitSecurity.create(API.class);
         String newEncrypt = encrypt(context,false);
-        String bearer = BEARER + newEncrypt;
+        String bearer = "Bearer" + newEncrypt;
         Call<Model1> call = apiService.getcatlots(bearer,newEncrypt,id,l_id,cat_id,start,end);
         call.enqueue((Callback<Model1>) cb);
     }
@@ -620,7 +568,7 @@ public class DataManger {
     public void gettimepslots(Callback<Model1> cb, Context context, String id, String l_id, String lot_id, String cat_id,String type, Long start, Long end) {
         API apiService = retrofitSecurity.create(API.class);
         String newEncrypt = encrypt(context,false);
-        String bearer = BEARER + newEncrypt;
+        String bearer = "Bearer" + newEncrypt;
         Call<Model1> call = apiService.gettimepslots(bearer,newEncrypt,id,l_id,lot_id,cat_id,type,start,end);
         call.enqueue((Callback<Model1>) cb);
     }
@@ -629,7 +577,7 @@ public class DataManger {
     public void getpslots(Callback<Model1> cb, Context context, String cat_id,String lot_id,String start,String end) {
         API apiService = retrofitSecurity.create(API.class);
         String newEncrypt = encrypt(context,false);
-        String bearer = BEARER + newEncrypt;
+        String bearer = "Bearer" + newEncrypt;
         Call<Model1> call = apiService.getpslots(bearer,newEncrypt,cat_id,lot_id,start,end);
         call.enqueue((Callback<Model1>) cb);
     }
@@ -637,7 +585,7 @@ public class DataManger {
     public void getEmployees(Callback<Model1> cb, Context context, String comp_id) {
         API apiService = retrofitSecurity.create(API.class);
         String newEncrypt = encrypt(context,false);
-        String bearer = BEARER + newEncrypt;
+        String bearer = "Bearer" + newEncrypt;
         Call<Model1> call = apiService.getEmployees(bearer,newEncrypt,comp_id);
         call.enqueue((Callback<Model1>) cb);
     }
@@ -645,7 +593,7 @@ public class DataManger {
     public void getbusyScheduledetails(Callback<BusySchedulesModel> cb, Context context, String comp_id, String emp_id, String type) {
         API apiService = retrofitSecurity.create(API.class);
         String newEncrypt = encrypt(context,false);
-        String bearer = BEARER + newEncrypt;
+        String bearer = "Bearer" + newEncrypt;
         Call<BusySchedulesModel> call = apiService.getbusyScheduledetails(bearer,newEncrypt,comp_id,emp_id,type);
         call.enqueue((Callback<BusySchedulesModel>) cb);
     }
@@ -653,7 +601,7 @@ public class DataManger {
     public void actionbusySchedule(Callback<BusySchedulesModel> cb, Context context, JsonObject jsonObject) {
         API apiService = retrofitSecurity.create(API.class);
         String newEncrypt = encrypt(context,false);
-        String bearer = BEARER + newEncrypt;
+        String bearer = "Bearer" + newEncrypt;
         Call<BusySchedulesModel> call = apiService.actionbusySchedule(bearer,newEncrypt,jsonObject);
         call.enqueue((Callback<BusySchedulesModel>) cb);
     }
@@ -661,7 +609,7 @@ public class DataManger {
     public void getuserDetailsworkMeterial(Callback<CompanyDetailsModel> cb, Context context, String Type) {
         API apiService = retrofit2.create(API.class);
         String newEncrypt = encrypt(context, false);
-        String bearer = BEARER  + newEncrypt;
+        String bearer = "Bearer"  + newEncrypt;
         Call<CompanyDetailsModel> call = apiService.getuserDetailsworkMeterial(bearer, newEncrypt, Type);
         call.enqueue((Callback<CompanyDetailsModel>) cb);
     }
@@ -669,7 +617,7 @@ public class DataManger {
     public void getworktypes(Callback<WorkVisitTypeModel> cb, Context context, String comp_id) {
         API apiService = retrofit2.create(API.class);
         String newEncrypt = encrypt(context, false);
-        String bearer = BEARER + newEncrypt;
+        String bearer = "Bearer" + newEncrypt;
         Call<WorkVisitTypeModel> call = apiService.getworktypes(bearer, newEncrypt, comp_id);
         call.enqueue((Callback<WorkVisitTypeModel>) cb);
     }
@@ -677,7 +625,7 @@ public class DataManger {
     public void getworklocation(Callback<WorkVisitTypeModel> cb, Context context, String comp_id) {
         API apiService = retrofit2.create(API.class);
         String newEncrypt = encrypt(context, false);
-        String bearer = BEARER + newEncrypt;
+        String bearer = "Bearer" + newEncrypt;
         Call<WorkVisitTypeModel> call = apiService.getworklocation(bearer, newEncrypt, comp_id);
         call.enqueue((Callback<WorkVisitTypeModel>) cb);
     }
@@ -685,7 +633,7 @@ public class DataManger {
     public void getworkpurposes(Callback<WorkVisitTypeModel> cb, Context context, String comp_id) {
         API apiService = retrofit2.create(API.class);
         String newEncrypt = encrypt(context, false);
-        String bearer = BEARER + newEncrypt;
+        String bearer = "Bearer" + newEncrypt;
         Call<WorkVisitTypeModel> call = apiService.getworkpurposes(bearer, newEncrypt, comp_id);
         call.enqueue((Callback<WorkVisitTypeModel>) cb);
     }
@@ -694,7 +642,7 @@ public class DataManger {
     public void actionworkpermita(Callback<WorkVisitTypeModel> cb, Context context, JsonObject jsonObject) {
         API apiService = retrofit2.create(API.class);
         String newEncrypt = encrypt(context, false);
-        String bearer = BEARER + newEncrypt;
+        String bearer = "Bearer" + newEncrypt;
         JsonObject data = new JsonObject();
         JsonParser jsonParser = new JsonParser();
         data = (JsonObject) jsonParser.parse(jsonObject.toString());
@@ -706,7 +654,7 @@ public class DataManger {
     public void getrefdocuments(Callback<MaterialModel> cb, Context context, String comp_id) {
         API apiService = retrofit2.create(API.class);
         String newEncrypt = encrypt(context, false);
-        String bearer = BEARER + newEncrypt;
+        String bearer = "Bearer" + newEncrypt;
         Call<MaterialModel> call = apiService.getrefdocuments(bearer, newEncrypt, comp_id);
         call.enqueue((Callback<MaterialModel>) cb);
     }
@@ -714,7 +662,7 @@ public class DataManger {
     public void getentrypurposes(Callback<MaterialModel> cb, Context context, String comp_id) {
         API apiService = retrofit2.create(API.class);
         String newEncrypt = encrypt(context, false);
-        String bearer =BEARER + newEncrypt;
+        String bearer = "Bearer" + newEncrypt;
         Call<MaterialModel> call = apiService.getentrypurposes(bearer, newEncrypt, comp_id);
         call.enqueue((Callback<MaterialModel>) cb);
     }
@@ -722,7 +670,7 @@ public class DataManger {
     public void getexitpurposes(Callback<MaterialModel> cb, Context context, String comp_id) {
         API apiService = retrofit2.create(API.class);
         String newEncrypt = encrypt(context, false);
-        String bearer = BEARER + newEncrypt;
+        String bearer = "Bearer" + newEncrypt;
         Call<MaterialModel> call = apiService.getexitpurposes(bearer, newEncrypt, comp_id);
         call.enqueue((Callback<MaterialModel>) cb);
     }
@@ -730,7 +678,7 @@ public class DataManger {
     public void getsubhierarchysmaterial(Callback<GetsubhierarchysModel> cb, Context context, String comp_id, String indexid) {
         API apiService = retrofit2.create(API.class);
         String newEncrypt = encrypt(context, false);
-        String bearer = BEARER + newEncrypt;
+        String bearer = "Bearer" + newEncrypt;
         Call<GetsubhierarchysModel> call = apiService.getsubhierarchysmaterial(bearer, newEncrypt, comp_id, indexid);
         call.enqueue((Callback<GetsubhierarchysModel>) cb);
     }
@@ -738,7 +686,7 @@ public class DataManger {
     public void getsearchemployeesmaterial(Callback<GetSearchEmployeesModel> cb, Context context, String l_id, String h_id, String type) {
         API apiService = retrofit2.create(API.class);
         String newEncrypt = encrypt(context, false);
-        String bearer = BEARER + newEncrypt;
+        String bearer = "Bearer" + newEncrypt;
         Call<GetSearchEmployeesModel> call = apiService.getsearchemployeesmaterial(bearer, newEncrypt, l_id, h_id, type);
         call.enqueue((Callback<GetSearchEmployeesModel>) cb);
     }
@@ -748,7 +696,7 @@ public class DataManger {
     public void actionentrypermitrequest(Callback<MaterialModel> cb, Context context, JsonObject jsonObject) {
         API apiService = retrofit2.create(API.class);
         String newEncrypt = encrypt(context, false);
-        String bearer = BEARER + newEncrypt;
+        String bearer = "Bearer" + newEncrypt;
         JsonObject data = new JsonObject();
         JsonParser jsonParser = new JsonParser();
         data = (JsonObject) jsonParser.parse(jsonObject.toString());
@@ -760,7 +708,7 @@ public class DataManger {
     public void getdocuments(Callback<GetdocumentsModel> cb, Context context) {
         API apiService = retrofit2.create(API.class);
         String newEncrypt = encrypt(context, false);
-        String bearer = BEARER +  newEncrypt;
+        String bearer = "Bearer" +  newEncrypt;
         Call<GetdocumentsModel> call = apiService.getdocuments(bearer, newEncrypt);
         call.enqueue((Callback<GetdocumentsModel>) cb);
     }
@@ -769,7 +717,7 @@ public class DataManger {
     public void getworkingdays(Callback<WorkingDaysModal> cb, Context context, String comp_id) {
         API apiService = retrofit2.create(API.class);
         String newEncrypt = encrypt(context, false);
-        String bearer = BEARER + newEncrypt;
+        String bearer = "Bearer" + newEncrypt;
         Call<WorkingDaysModal> call = apiService.getworkingdays(bearer, newEncrypt, comp_id);
         call.enqueue((Callback<WorkingDaysModal>) cb);
     }
@@ -777,7 +725,7 @@ public class DataManger {
     public void getworkpermits(Callback<Model1> cb, Context context,String type,String empID, String email,String start,String end) {
         API apiService = retrofitSecurity.create(API.class);
         String newEncrypt = encrypt(context,false);
-        String bearer = BEARER + newEncrypt;
+        String bearer = "Bearer" + newEncrypt;
         Call<Model1> call = apiService.getworkpermits(bearer,newEncrypt,type,empID,email,start,end);
         call.enqueue((Callback<Model1>) cb);
     }
@@ -785,7 +733,7 @@ public class DataManger {
     public void getworkpermitapprovals(Callback<Model1> cb, Context context,String type,String empID, String email,String start,String end) {
         API apiService = retrofitSecurity.create(API.class);
         String newEncrypt = encrypt(context,false);
-        String bearer = BEARER + newEncrypt;
+        String bearer = "Bearer" + newEncrypt;
         Call<Model1> call = apiService.getworkpermitapprovals(bearer,newEncrypt,type,empID,email,start,end);
         call.enqueue((Callback<Model1>) cb);
     }
@@ -793,7 +741,7 @@ public class DataManger {
     public void getworkpermitDetails(Callback<WorkPermitModal> cb, Context context, String id) {
         API apiService = retrofitSecurity.create(API.class);
         String newEncrypt = encrypt(context,false);
-        String bearer = BEARER + newEncrypt;
+        String bearer = "Bearer" + newEncrypt;
         Call<WorkPermitModal> call = apiService.getworkpermitDetails(bearer,newEncrypt,id);
         call.enqueue((Callback<WorkPermitModal>) cb);
     }
@@ -801,7 +749,7 @@ public class DataManger {
     public void updateworkpermita(Callback<WorkPermitModal> cb, Context context, JsonObject jsonObject) {
         API apiService = retrofit2.create(API.class);
         String newEncrypt = encrypt(context, false);
-        String bearer = BEARER + newEncrypt;
+        String bearer = "Bearer" + newEncrypt;
         JsonObject data = new JsonObject();
         JsonParser jsonParser = new JsonParser();
         data = (JsonObject) jsonParser.parse(jsonObject.toString());
@@ -813,7 +761,7 @@ public class DataManger {
     public void getmaterialpermitapprovals(Callback<Model1> cb, Context context,String type,String empID,String start,String end) {
         API apiService = retrofitSecurity.create(API.class);
         String newEncrypt = encrypt(context,false);
-        String bearer = BEARER + newEncrypt;
+        String bearer = "Bearer" + newEncrypt;
         Call<Model1> call = apiService.getmaterialpermitapprovals(bearer,newEncrypt,type,empID,start,end);
         call.enqueue((Callback<Model1>) cb);
     }
@@ -821,7 +769,7 @@ public class DataManger {
     public void getentrypermitdetails(Callback<WorkPermitModal> cb, Context context, String id) {
         API apiService = retrofitSecurity.create(API.class);
         String newEncrypt = encrypt(context,false);
-        String bearer = BEARER + newEncrypt;
+        String bearer = "Bearer" + newEncrypt;
         Call<WorkPermitModal> call = apiService.getentrypermitdetails(bearer,newEncrypt,id);
         call.enqueue((Callback<WorkPermitModal>) cb);
     }
@@ -829,7 +777,7 @@ public class DataManger {
     public void updatematerialpermit(Callback<WorkPermitModal> cb, Context context, JsonObject jsonObject) {
         API apiService = retrofit2.create(API.class);
         String newEncrypt = encrypt(context, false);
-        String bearer = BEARER + newEncrypt;
+        String bearer = "Bearer" + newEncrypt;
         JsonObject data = new JsonObject();
         JsonParser jsonParser = new JsonParser();
         data = (JsonObject) jsonParser.parse(jsonObject.toString());
@@ -840,7 +788,7 @@ public class DataManger {
     public void getentrypermitrequests(Callback<Model1> cb, Context context,String type,String empID, String email,String start,String end) {
         API apiService = retrofitSecurity.create(API.class);
         String newEncrypt = encrypt(context,false);
-        String bearer = BEARER + newEncrypt;
+        String bearer = "Bearer" + newEncrypt;
         Call<Model1> call = apiService.getentrypermitrequests(bearer,newEncrypt,type,empID,email,start,end);
         call.enqueue((Callback<Model1>) cb);
     }
@@ -848,10 +796,9 @@ public class DataManger {
     public void getuserDetailssetUp(Callback<CompanyDetailsModel> cb, Context context, String Type) {
         API apiService = retrofit2.create(API.class);
         String newEncrypt = encrypt(context, false);
-        String bearer = BEARER + newEncrypt;
+        String bearer = "Bearer" + newEncrypt;
         Call<CompanyDetailsModel> call = apiService.getuserDetailssetUp(bearer, newEncrypt, Type);
         call.enqueue((Callback<CompanyDetailsModel>) cb);
     }
-
 
 }

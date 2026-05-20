@@ -1,5 +1,9 @@
 package com.provizit.Services;
 
+import static com.provizit.Conversions.encrypt;
+
+import android.content.Context;
+
 import com.google.gson.JsonObject;
 import com.provizit.AdapterAndModel.BusySchedules.BusySchedulesModel;
 import com.provizit.AdapterAndModel.CompanyDetailsModel;
@@ -21,9 +25,11 @@ import com.provizit.MVVM.RequestModels.UpdatePwdModelRequest;
 import com.provizit.Services.AppointmentDetails.AppointmentDetailsModel;
 import com.provizit.Services.Notifications.Notifications_model;
 import com.provizit.Utilities.Inviteemodelclass;
+
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
